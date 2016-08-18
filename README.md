@@ -72,7 +72,7 @@ Then run migrations:
 
 ### Traits and Contracts
 
-Add `Gerardojbaez/LaraPlans/Traits/PlanSubscriber` trait and `Gerardojbaez/LaraPlans/Contracts/PlanSubscriberInterface` contract to your `User` model.
+Add `Gerardojbaez\LaraPlans\Traits\PlanSubscriber` trait and `Gerardojbaez\LaraPlans\Contracts\PlanSubscriberInterface` contract to your `User` model.
 
 See the following example:
 
