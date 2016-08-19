@@ -8,16 +8,23 @@ use Gerardojbaez\LaraPlans\Exceptions\InvalidIntervalException;
 class Period
 {
     /**
-     * Map supported intervals to the appropriate
-     * computation method.
+     * The interval constants.
+     */
+    const DAY = 'day';
+    const WEEK = 'week';
+    const MONTH = 'month';
+    const YEAR = 'year';
+
+    /**
+     * Map Interval to Carbon methods.
      *
      * @var array
      */
     protected static $intervalMapping = [
-        'day' => 'addDays',
-        'week' => 'addWeeks',
-        'month' => 'addMonths',
-        'year' => 'addYears',
+        self::DAY => 'addDays',
+        self::WEEK => 'addWeeks',
+        self::MONTH => 'addMonths',
+        self::YEAR => 'addYears',
     ];
 
     /**
@@ -145,7 +152,7 @@ class Period
      */
     protected function calculate()
     {
-        $method = $this->getComputationMethod();
+        $method = $this->getMethod();
         $start = clone($this->start);
         $this->end = $start->$method($this->interval_count);
     }
@@ -155,7 +162,7 @@ class Period
      *
      * @return string
      */
-    protected function getComputationMethod()
+    protected function getMethod()
     {
         return self::$intervalMapping[$this->interval];
     }
