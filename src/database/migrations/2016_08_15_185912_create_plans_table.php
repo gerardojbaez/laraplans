@@ -16,7 +16,7 @@ class CreatePlansTable extends Migration
         {
             $table->increments('id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('code')->unique();
             $table->decimal('price', 7, 2)->default('0.00');
             $table->string('interval')->default('month');
