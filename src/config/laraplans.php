@@ -51,8 +51,8 @@ return [
     | Features
     |--------------------------------------------------------------------------
     |
-    | The heart of the package. Here you will specify all features available
-    | for your plans and also a definitio for each one (if any).
+    | The heart of this package. Here you will specify all features available
+    | for your plans.
     |
     */
     'features' => [
