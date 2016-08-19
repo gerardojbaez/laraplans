@@ -91,7 +91,12 @@ class Period
      */
     public static function getAllIntervals()
     {
-        return array_keys(self::$intervalMapping);
+        $intervals = [];
+
+        foreach (array_keys(self::$intervalMapping) as $interval)
+            $intervals[$interval] = trans('laraplans::messages.'.$interval);
+
+        return $intervals;
     }
 
     /**

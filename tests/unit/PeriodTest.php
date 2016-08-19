@@ -16,6 +16,22 @@ class PeriodTest extends TestCase
     protected $startDate = '2016-08-18 13:55:09';
 
     /**
+     * Can get all intervals with translations.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_get_all_intervals_with_translations()
+    {
+        $intervals = Period::getAllIntervals();
+        $this->assertEquals('Month', $intervals['month']);
+
+        \App::setLocale('es');
+        $intervals = Period::getAllIntervals();
+        $this->assertEquals('Mes', $intervals['month']);
+    }
+
+    /**
      * Can calculate a daily period.
      *
      * @test

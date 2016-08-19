@@ -17,6 +17,8 @@ class LaraPlansServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laraplans');
+
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
@@ -24,6 +26,10 @@ class LaraPlansServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/laraplans.php' => config_path('laraplans.php')
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../lang' => resource_path('lang/vendor/laraplans'),
+       ]);
     }
 
     /**
