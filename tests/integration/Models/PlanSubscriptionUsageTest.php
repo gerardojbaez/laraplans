@@ -32,7 +32,7 @@ class PlanSubscriptionUsageTest extends TestCase
         ]);
 
         $plan->features()->saveMany([
-            new PlanFeature(['name' => '50 Listings', 'code' => 'listings_per_month', 'value' => 50]),
+            new PlanFeature(['code' => 'listings_per_month', 'value' => 50]),
         ]);
 
         $user = User::create([

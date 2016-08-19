@@ -16,7 +16,6 @@ class CreatePlanFeaturesTable extends Migration
         {
             $table->increments('id');
             $table->integer('plan_id')->unsigned();
-            $table->string('name');
             $table->string('code');
             $table->string('value');
             $table->smallInteger('sort_order')->nullable();

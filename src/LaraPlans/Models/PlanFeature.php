@@ -17,7 +17,6 @@ class PlanFeature extends Model implements PlanFeatureInterface
      */
     protected $fillable = [
         'plan_id',
-        'name',
         'code',
         'value',
         'sort_order'

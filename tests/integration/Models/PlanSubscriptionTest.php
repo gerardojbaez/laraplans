@@ -49,10 +49,10 @@ class PlanSubscriptionTest extends TestCase
         ]);
 
         $this->plan->features()->saveMany([
-            new PlanFeature(['name' => '50 Listings', 'code' => 'listings_per_month', 'value' => 50]),
-            new PlanFeature(['name' => '10 Pictures per listing', 'code' => 'pictures_per_listing', 'value' => 10]),
-            new PlanFeature(['name' => '30 Days Duration', 'code' => 'listing_duration_days', 'value' => 30]),
-            new PlanFeature(['name' => 'Listing Title in Bold', 'code' => 'listing_title_bold', 'value' => 'N']),
+            new PlanFeature(['code' => 'listings_per_month', 'value' => 50]),
+            new PlanFeature(['code' => 'pictures_per_listing', 'value' => 10]),
+            new PlanFeature(['code' => 'listing_duration_days', 'value' => 30]),
+            new PlanFeature(['code' => 'listing_title_bold', 'value' => 'N']),
         ]);
 
         $this->user = User::create([
@@ -344,7 +344,7 @@ class PlanSubscriptionTest extends TestCase
         ]);
 
         $newPlan->features()->saveMany([
-            new PlanFeature(['name' => 'Listing Title in Bold', 'code' => 'listing_title_bold', 'value' => 'Y']),
+            new PlanFeature(['code' => 'listing_title_bold', 'value' => 'Y']),
         ]);
 
         // Change plan

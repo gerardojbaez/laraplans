@@ -112,10 +112,10 @@ $freePlan = Plan::create([
 ]);
 
 $freePlan->features()->saveMany([
-    new PlanFeature(['name' => '50 Listings', 'code' => 'listings_per_month', 'value' => 50, 'sort_order' => 1]),
-    new PlanFeature(['name' => '10 Pictures', 'code' => 'pictures_per_listing', 'value' => 10, 'sort_order' => 5]),
-    new PlanFeature(['name' => '30 Days Duration', 'code' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10]),
-    new PlanFeature(['name' => '5 Pictures per Listing', 'code' => 'pictures_per_listing', 'value' => 5, 'sort_order' => 15])
+    new PlanFeature(['code' => 'listings_per_month', 'value' => 50, 'sort_order' => 1]),
+    new PlanFeature(['code' => 'pictures_per_listing', 'value' => 10, 'sort_order' => 5]),
+    new PlanFeature(['code' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10]),
+    new PlanFeature(['code' => 'pictures_per_listing', 'value' => 5, 'sort_order' => 15])
 ]);
 ```
 
