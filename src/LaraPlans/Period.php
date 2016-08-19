@@ -78,6 +78,16 @@ class Period
     }
 
     /**
+     * Get all available intervals.
+     *
+     * @return array
+     */
+    public static function getAllIntervals()
+    {
+        return array_keys(self::$intervalMapping);
+    }
+
+    /**
      * Get start date.
      *
      * @return string
