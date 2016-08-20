@@ -2,6 +2,7 @@
 
 namespace Gerardojbaez\LaraPlans\Models;
 
+use Gerardojbaez\LaraPlans\Period;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
 
@@ -72,6 +73,27 @@ class Plan extends Model implements PlanInterface
     public function subscriptions()
     {
         return $this->hasMany(config('laraplans.models.plan_subscription'));
+    }
+
+    /**
+     * Get Interval Name
+     *
+     * @return mixed string|null
+     */
+    public function getIntervalNameAttribute()
+    {
+        $intervals = Period::getAllIntervals();
+        return (isset($intervals[$this->interval]) ? $intervals[$this->interval] : null);
+    }
+
+    /**
+     * Get Interval Description
+     *
+     * @return string
+     */
+    public function getIntervalDescriptionAttribute()
+    {
+        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
     }
 
     /**

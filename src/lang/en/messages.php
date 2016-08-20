@@ -4,5 +4,12 @@ return [
     'day' => 'Day',
     'week' => 'Week',
     'month' => 'Month',
-    'year' => 'Year'
+    'year' => 'Year',
+
+    'interval_description' => [
+        'day' => 'Daily|Every :count Days',
+        'week' => 'Weekly|Every :count Weeks',
+        'month' => 'Monthly|Every :count Months',
+        'year' => 'Anual|Every :count Years',
+    ],
 ];

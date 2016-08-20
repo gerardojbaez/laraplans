@@ -2,6 +2,7 @@
 
 namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
 
+use Gerardojbaez\LaraPlans\Period;
 use Gerardojbaez\LaraPlans\Tests\TestCase;
 use Gerardojbaez\LaraPlans\Models\Plan;
 use Gerardojbaez\LaraPlans\Models\PlanFeature;
@@ -37,6 +38,43 @@ class PlanTest extends TestCase
 
         $this->assertEquals('Pro', $plan->name);
         $this->assertEquals(3, $plan->features->count());
+    }
+
+    /**
+     * Can get interval translated name.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_get_interval_translated_name()
+    {
+        $plan = new Plan([
+            'interval' => 'month',
+        ]);
+
+        $expected = Period::getAllIntervals()['month'];
+
+        $this->assertEquals($expected, $plan->intervalName);
+    }
+
+    /**
+     * Can get interval description.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_get_interval_description()
+    {
+        $plan = new Plan([
+            'interval' => 'month',
+            'interval_count' => 1
+        ]);
+
+        \App::setLocale('en');
+        $this->assertEquals('Monthly', $plan->intervalDescription);
+
+        \App::setLocale('es');
+        $this->assertEquals('Mensual', $plan->intervalDescription);
     }
 
     /**
