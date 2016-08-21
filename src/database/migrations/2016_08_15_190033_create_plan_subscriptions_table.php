@@ -17,7 +17,6 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('plan_id')->unsigned();
-            $table->string('status');
             $table->timestamp('trial_end')->nullable();
             $table->timestamp('current_period_end')->nullable();
             $table->timestamp('current_period_start')->nullable();

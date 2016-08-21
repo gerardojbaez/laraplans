@@ -78,48 +78,69 @@ class PlanSubscriptionTest extends TestCase
     }
 
     /**
-     * Can subscribe user to a plan.
-     *
-     * @test
-     * @return void
-     */
-    public function status_is_the_same_as_in_config_file_when_not_set_manually()
-    {
-        $this->assertEquals(config('laraplans.default_subscription_status'), $this->subscription->status);
-    }
-
-    /**
      * Can check if subscription is active.
      *
      * @test
      * @return void
      */
-    public function it_can_check_if_is_active()
+    public function it_is_active()
     {
-        // For a subscription to be active, the following must be TRUE:
-        // - Subscription status is set to active.
-        // - AND Subscription trial_end is in the future OR null.
-        // - OR Subscription current_period_end is in the future.
+        $this->assertTrue($this->subscription->isActive());
+        $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
+    }
 
-        $subscription = $this->subscription;
-        $pastDate = (new Carbon)->subDay(); // Date is in the past by 1 day...
+    /**
+     * Can check if subscription is canceled.
+     *
+     * @test
+     * @return void
+     */
+    public function it_is_canceled()
+    {
+        // Cancel subscription at period end...
+        $this->subscription->cancel();
 
-        $this->assertTrue($subscription->isActive());
+        $this->assertFalse($this->subscription->isCanceled());
+        $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
-        $canceled = $subscription;
-        $canceled->status = 'canceled';
+        // Cancel subscription immediately...
+        $this->subscription->cancel(true);
 
-        $this->assertFalse($canceled->isActive());
+        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
+    }
 
-        $trialEnded = $subscription;
-        $trialEnded->trial_end = $pastDate;
+    /**
+     * Can check if subscription is trialling.
+     *
+     * @test
+     * @return void
+     */
+    public function it_is_trialling()
+    {
+        $this->subscription->trial_end = (new Carbon)->subDay();
+        $this->subscription->setNewPeriod('month', 1, (new Carbon)->subMonths(2));
+        $this->assertFalse($this->subscription->isActive());
+        $this->assertEquals(PlanSubscription::STATUS_ENDED, $this->subscription->status);
 
-        $this->assertFalse($trialEnded->isActive());
+        $this->subscription->trial_end = $this->subscription->trial_end->addDays(2);
+        $this->assertTrue($this->subscription->isActive());
+        $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
+    }
 
-        $periodEnded = $subscription;
-        $periodEnded->current_period_end = $pastDate;
+    /**
+     * Can check if subscription has ended.
+     *
+     * @test
+     * @return void
+     */
+    public function period_ended()
+    {
+        $this->subscription->trial_end = null;
+        $this->subscription->setNewPeriod('month', 1, (new Carbon)->subMonths(2));
 
-        $this->assertFalse($periodEnded->isActive());
+        $this->assertFalse($this->subscription->isActive());
+        $this->assertEquals(PlanSubscription::STATUS_ENDED, $this->subscription->status);
     }
 
     /**
@@ -207,7 +228,6 @@ class PlanSubscriptionTest extends TestCase
             'plan_id' => factory(Plan::class)->create([
                 'interval' => 'month'
             ])->id,
-            'status' => 'active',
             'trial_end' => (new Carbon)->subMonth(),
             'current_period_start' => (new Carbon)->subMonths(2),
             'current_period_end' => (new Carbon)->subMonth(),

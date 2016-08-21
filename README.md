@@ -18,8 +18,9 @@ SaaS style recurring plans for Laravel 5.2.
     - [Check plan limitations](#check-plan-limitations)
     - [Record Feature Usage](#record-feature-usage)
     - [Clear User Subscription Usage](#clear-user-subscription-usage)
-    - [Check if User Subscription is Active](#check-if-user-subscription-is-active)
+    - [Check User Subscription Status](#check-user-subscription-status)
     - [Renew User Subscription](#renew-user-subscription)
+    - [Cancel Subscription](#cancel-subscription)
     - [Get User Subscription](#get-user-subscription)
     - [Get User Subscription Plan](#get-user-subscription-plan)
     - [Plan Model Scopes](#plan-model-scopes)
@@ -191,13 +192,13 @@ $user = Auth::user();
 $user->planSubscription->clearUsage();
 ```
 
-### Check if User Subscription is Active
+### Check User Subscription Status
 
-For a subscription to be considered active the following must be _true_:
+For a subscription to be considered active one of the following must be _true_:
 
-- Subscription `status` is set to `active`.
-- `AND` Subscription `trial_end` is in the future `OR` `null`.
-- `OR` Subscription `current_period_end` is in the future.
+- Subscription `canceled_at` is `null` or in the future.
+- Subscription `trial_end` is in the future.
+- Subscription `current_period_end` is in the future.
 
 ```php
 <?php
@@ -207,6 +208,13 @@ use Auth;
 $user = Auth::user();
 $user->planSubscription->isActive();
 
+// Alternatively you can use the following:
+$user->planSubscription->isCanceled();
+$user->planSubscription->isTrialling();
+$user->planSubscription->periodEnded();
+
+// Get the subscription status
+$user->planSubscription->status; // (active|canceled|ended)
 ```
 
 ### Renew User Subscription
@@ -223,6 +231,22 @@ $user->planSubscription->setNewPeriod()->save();
 $user->planSubscription->setNewPeriod()->clearUsage()->save();
 ```
 
+### Cancel Subscription
+
+```php
+<?php
+
+use Auth;
+
+$user = Auth::user();
+
+// Cancel At Period End
+$user->planSubscription->cancel();
+
+// Cancel Immediately
+$user->planSubscription->cancel(true);
+```
+
 ### Get User Subscription
 
 ```php
@@ -235,7 +259,7 @@ $user->planSubscription;
 
 // Get Subscription details
 $user->planSubscription->plan;
-$user->planSubscription->status; // active
+$user->planSubscription->status; // (active|canceled|ended)
 $user->planSubscription->trial_end; // null|date
 $user->planSubscription->current_period_start; // date
 $user->planSubscription->current_period_end; // date
@@ -291,9 +315,6 @@ $subscriptions = PlanSubscription::byPlan($plan_id)->get();
 // Get subscription by user:
 $subscription = PlanSubscription::byUser($user_id)->first();
 
-// Get subscriptions by status:
-$subscriptions = PlanSubscription::byStatus('active')->get();
-
 // Get subscriptions with trial ending in 3 days:
 $subscriptions = PlanSubscription::FindEndingTrial(3)->get();
 
@@ -322,11 +343,10 @@ For more details take a look to each model and the `Gerardojbaez\LaraPlans\Trait
 
 ## Config File
 
-You can configure what models to use, list of positive words, default subscription status and the list of features your app and your plans will use.
+You can configure what models to use, list of positive words and the list of features your app and your plans will use.
 
 Definitions:
 - **Positive Words**: Are used to tell if a particular feature is _enabled_. E.g., if the feature `listing_title_bold` has the value `Y` (_Y_ is one of the positive words) then, that means it's enabled.
-- **Default Subscription Status**: The status to be used when a subscription is created and the status isn't provided.
-- **Features**: List of features by their codes that your app and plans will use.
+- **Features**: List of features that your app and plans will use.
 
 Take a look to the `config/laraplans.php` config file for more details.

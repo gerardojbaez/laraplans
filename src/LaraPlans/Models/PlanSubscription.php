@@ -18,6 +18,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     use BelongsToPlan;
 
     /**
+     * Subscription statuses
+     */
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_ENDED = 'ended';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -25,7 +32,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     protected $fillable = [
         'user_id',
         'plan_id',
-        'status',
         'trial_end',
         'current_period_end',
         'current_period_start',
@@ -53,17 +59,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
 
         static::saving(function($model)
         {
-            // Set model status if isn't set
-            if (!$model->status)
-                $model->status = config('laraplans.default_subscription_status');
-
             // Set period if isn't set
             if (!$model->current_period_start OR !$model->current_period_start)
                 $model->setNewPeriod();
-
-            // Set canceled_at date
-            if ($model->status == 'canceled' AND !$model->canceled_at)
-                $model->canceled_at = $model->freshTimestamp();
         });
     }
 
@@ -88,25 +86,93 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Get status attribute.
+     *
+     * @return string
+     */
+    public function getStatusAttribute()
+    {
+        if ($this->isActive())
+            return self::STATUS_ACTIVE;
+
+        if ($this->isCanceled())
+            return self::STATUS_CANCELED;
+
+        if ($this->periodEnded())
+            return self::STATUS_ENDED;
+    }
+
+    /**
      * Check if subscription is active.
      *
      * @return bool
      */
     public function isActive()
     {
-        // Subscription status isn't active
-        if ($this->status !== 'active')
+        if ($this->isCanceled())
             return false;
 
-        // Subscription trial is active
-        if (!is_null($this->trial_end) AND $this->trial_end->isFuture())
+        if ($this->isTrialling())
             return true;
 
-        // Subscription current period is active
-        if ($this->current_period_end->isFuture())
+        if ($this->periodEnded())
+            return false;
+
+        return true;
+    }
+
+    /**
+     * Check if subscription period has ended.
+     *
+     * @return bool
+     */
+    public function periodEnded()
+    {
+        if ($this->current_period_end->isToday() OR $this->current_period_end->isPast())
             return true;
 
         return false;
+    }
+
+    /**
+     * Check if subscription is trialling.
+     *
+     * @return bool
+     */
+    public function isTrialling()
+    {
+        if (!is_null($this->trial_end) AND $this->trial_end->isFuture())
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Check if subscription is canceled.
+     *
+     * @return bool
+     */
+    public function isCanceled()
+    {
+        if (is_null($this->canceled_at))
+            return false;
+
+        return ($this->canceled_at->isToday() OR $this->canceled_at->isPast());
+    }
+
+    /**
+     * Cancel subscription.
+     * @param  bool $at_period_end
+     * @return $this
+     */
+    public function cancel($immediately = false)
+    {
+        if ($immediately)
+            $this->canceled_at = new Carbon;
+        else
+            $this->canceled_at = $this->current_period_end;
+
+        return $this;
     }
 
     /**
@@ -327,16 +393,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     function scopeByUser($query, $user_id)
     {
         return $query->where('user_id', $user_id);
-    }
-
-    /**
-     * Find subscription by status.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeByStatus($query, $status)
-    {
-        return $query->whereStatus($status);
     }
 
     /**

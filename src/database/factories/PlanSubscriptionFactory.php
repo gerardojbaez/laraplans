@@ -8,6 +8,5 @@ $factory->define(PlanSubscription::class, function (Faker\Generator $faker) {
     return [
         'user_id' => factory(User::class)->create()->id,
         'plan_id' => factory(Plan::class)->create()->id,
-        'status' => $faker->randomElement(['active','canceled'])
     ];
 });
