@@ -162,6 +162,28 @@ class PlanSubscriptionTest extends TestCase
     }
 
     /**
+     * Can record reduce usage.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_reduce_feature_usage()
+    {
+        // Can't reduce unrecorded usage...
+        $usage = $this->subscription->reduceUsage('listings_per_month');
+        $this->assertFalse($usage);
+
+        // Record usage
+        $usage = $this->subscription->recordUsage('listings_per_month', 5);
+
+        // Reduce
+        $usage = $this->subscription->reduceUsage('listings_per_month', 3);
+
+        $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
+        $this->assertEquals(2, $usage->used);
+    }
+
+    /**
      * Can get feature value.
      *
      * @test

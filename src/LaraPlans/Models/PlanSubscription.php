@@ -321,6 +321,32 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Reduce usage.
+     *
+     * @param string $feature_code
+     * @param int $uses
+     * @return mixed
+     */
+    public function reduceUsage($feature_code, $uses = 1)
+    {
+        $feature = new Feature($feature_code);
+
+        $usage = $this->usage()->byFeatureCode($feature_code)->first();
+
+        if (!$usage)
+            return false;
+
+        $usage->used = max($usage->used - $uses, 0);
+
+        $usage->save();
+
+        // Refresh usage records
+        $this->load('usage');
+
+        return $usage;
+    }
+
+    /**
      * Get feature's value.
      *
      * Useful when you need to set model attribute
