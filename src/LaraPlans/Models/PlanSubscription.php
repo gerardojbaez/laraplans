@@ -2,6 +2,7 @@
 
 namespace Gerardojbaez\LaraPlans\Models;
 
+use App;
 use Carbon\Carbon;
 use Gerardojbaez\LaraPlans\Period;
 use Gerardojbaez\LaraPlans\Feature;
