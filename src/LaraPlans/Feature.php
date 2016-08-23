@@ -45,10 +45,13 @@ class Feature
 
         $feature = config('laraplans.features.'.$feature_code);
 
-        foreach ($feature as $key => $value)
+        if (is_array($feature))
         {
-            if (property_exists($this, $key))
-                $this->$key = $value;
+            foreach ($feature as $key => $value)
+            {
+                if (property_exists($this, $key))
+                    $this->$key = $value;
+            }
         }
     }
 
