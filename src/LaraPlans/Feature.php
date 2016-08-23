@@ -38,7 +38,7 @@ class Feature
      */
     public function __construct($feature_code)
     {
-        if (!config('laraplans.features.'.$feature_code))
+        if (!self::isValid($feature_code))
             throw new InvalidPlanFeatureException($feature_code);
 
         $this->feature_code = $feature_code;
@@ -74,6 +74,25 @@ class Feature
         }
 
         return $codes;
+    }
+
+    /**
+     * Check if feature code is valid.
+     *
+     * @param string $code
+     * @return bool
+     */
+    public static function isValid($code)
+    {
+        $features = config('laraplans.features');
+
+        if (array_key_exists($code, $features))
+            return true;
+
+        if (in_array($code, $features))
+            return true;
+
+        return false;
     }
 
     /**

@@ -25,6 +25,19 @@ class FeatureTest extends TestCase
     }
 
     /**
+     * Can check if feature code is valid.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_validate_feature_code()
+    {
+        $this->assertTrue(Feature::isValid('SAMPLE_SIMPLE_FEATURE'));
+        $this->assertTrue(Feature::isValid('SAMPLE_DEFINED_FEATURE'));
+        $this->assertFalse(Feature::isValid('dummy_feature'));
+    }
+
+    /**
      * Can generate feature reset date.
      *
      * @test
