@@ -286,7 +286,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * @param int $uses
      * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
      */
-    public function recordUsage($feature_code, $uses = 1)
+    public function recordUsage($feature_code, $uses = 1, $incremental = true)
     {
         $feature = new Feature($feature_code);
 
@@ -310,7 +310,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             }
         }
 
-        $usage->used += $uses;
+        $usage->used = ($incremental ? $usage->used + $uses : $uses);
 
         $usage->save();
 

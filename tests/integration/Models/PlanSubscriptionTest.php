@@ -153,6 +153,12 @@ class PlanSubscriptionTest extends TestCase
         $usage = $this->subscription->recordUsage('listings_per_month');
 
         $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
+        $this->assertEquals(1, $usage->used);
+
+        // Record fixed amount (not incremental)
+        $usage = $this->subscription->recordUsage('listings_per_month', 2, false);
+        $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
+        $this->assertEquals(2, $usage->used);
     }
 
     /**
