@@ -5,30 +5,30 @@ SaaS style recurring plans for Laravel 5.2.
 
 > Please note: this package doesn't handle payments.
 
-<!-- MarkdownTOC depth=3 autolink=true bracket="round" -->
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Installation](#installation)
-    - [Composer](#composer)
-    - [Service Provider](#service-provider)
-    - [Config file and Migrations](#config-file-and-migrations)
-    - [Traits and Contracts](#traits-and-contracts)
+	- [Composer](#composer)
+	- [Service Provider](#service-provider)
+	- [Config file and Migrations](#config-file-and-migrations)
+	- [Traits and Contracts](#traits-and-contracts)
 - [Usage](#usage)
-    - [Create a Plan](#create-a-plan)
-    - [Subscribe User to a Plan](#subscribe-user-to-a-plan)
-    - [Check plan limitations](#check-plan-limitations)
-    - [Record Feature Usage](#record-feature-usage)
-    - [Clear User Subscription Usage](#clear-user-subscription-usage)
-    - [Check User Subscription Status](#check-user-subscription-status)
-    - [Renew User Subscription](#renew-user-subscription)
-    - [Cancel Subscription](#cancel-subscription)
-    - [Get User Subscription](#get-user-subscription)
-    - [Get User Subscription Plan](#get-user-subscription-plan)
-    - [Plan Model Scopes](#plan-model-scopes)
-    - [Subscription Model Scopes](#subscription-model-scopes)
+	- [Create a Plan](#create-a-plan)
+	- [Subscribe User to a Plan](#subscribe-user-to-a-plan)
+	- [Check plan limitations](#check-plan-limitations)
+	- [Record Feature Usage](#record-feature-usage)
+	- [Reduce Feature Usage](#reduce-feature-usage)
+	- [Clear User Subscription Usage](#clear-user-subscription-usage)
+	- [Check User Subscription Status](#check-user-subscription-status)
+	- [Renew User Subscription](#renew-user-subscription)
+	- [Cancel Subscription](#cancel-subscription)
+	- [Get User Subscription](#get-user-subscription)
+	- [Get User Subscription Plan](#get-user-subscription-plan)
+	- [Subscription Model Scopes](#subscription-model-scopes)
 - [Models](#models)
 - [Config File](#config-file)
 
-<!-- /MarkdownTOC -->
+<!-- /TOC -->
 
 
 ## Installation
@@ -172,12 +172,30 @@ $user = Auth::user();
 // Increment usage by 1
 $user->planSubscription->recordUsage('listings_per_month');
 
-// -or-
-
 // Increment usage by custom number (perfect when user perform batch actions)
 $user->planSubscription->recordUsage('listings_per_month', 3);
 
+// Set fixed amount
+$user->planSubscription->recordUsage('listings_per_month', 5, false);
+
 ```
+
+### Reduce Feature Usage
+
+```php
+<?php
+
+use Auth;
+
+$user = Auth::user();
+
+// Reduce usage by 1
+$user->planSubscription->reduceUsage('listings_per_month', 1);
+
+// Reduce usage by custom number
+$user->planSubscription->reduceUsage('listings_per_month', 3);
+```
+
 ### Clear User Subscription Usage
 
 You may want to reset all feature's usage data when user renew his subscription, in this case the `clearUsage()` function will help you:
