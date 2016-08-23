@@ -162,6 +162,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
 
     /**
      * Cancel subscription.
+     *
      * @param  bool $at_period_end
      * @return $this
      */
