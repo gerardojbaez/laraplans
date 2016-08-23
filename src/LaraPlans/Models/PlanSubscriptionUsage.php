@@ -56,10 +56,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
      */
     public function scopeByFeatureCode($query, $feature_code)
     {
-        return $query->whereHas('feature', function($query) use($feature_code)
-        {
-            $query->whereCode($feature_code);
-        });
+        return $query->whereCode($feature_code);
     }
 
     /**
