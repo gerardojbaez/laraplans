@@ -27,7 +27,6 @@ class PlanSubscriptionUsageTest extends TestCase
         $plan = Plan::create([
             'name' => 'Pro',
             'description' => 'Pro plan',
-            'code' => 'pro',
             'interval' => 'month'
         ]);
 

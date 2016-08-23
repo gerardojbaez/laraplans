@@ -104,7 +104,6 @@ use Gerardojbaez\LaraPlans\Models\PlanFeature;
 $freePlan = Plan::create([
     'name' => 'Pro',
     'description' => 'Pro plan',
-    'code' => 'pro',
     'price' => 9.99,
     'interval' => 'month',
     'interval_count' => 1,
@@ -289,17 +288,6 @@ $user->plan->interval; // month
 $user->plan->interval_count; // 1
 $user->plan->sort_order;
 $user->plan->trial_period_days; // 15
-```
-
-### Plan Model Scopes
-
-```php
-<?php
-
-use Gerardojbaez\LaraPlans\Models\Plan;
-
-// Get subscription by plan code:
-$subscription = Plan::byCode($code)->first();
 ```
 
 ### Subscription Model Scopes

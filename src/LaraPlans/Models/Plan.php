@@ -16,7 +16,6 @@ class Plan extends Model implements PlanInterface
     protected $fillable = [
         'name',
         'description',
-        'code',
         'price',
         'interval',
         'interval_count',
@@ -44,9 +43,6 @@ class Plan extends Model implements PlanInterface
 
         static::saving(function($model)
         {
-            if ( ! $model->code)
-                $model->code = str_random(10);
-
             if ( ! $model->interval)
                 $model->interval = 'month';
 
@@ -114,17 +110,5 @@ class Plan extends Model implements PlanInterface
     public function hasTrial()
     {
         return (is_numeric($this->trial_period_days) AND $this->trial_period_days > 0);
-    }
-
-    /**
-     * Scope by Code.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  string $Code
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeByCode($query, $code)
-    {
-        return $query->whereCode($code);
     }
 }

@@ -20,7 +20,6 @@ class PlanTest extends TestCase
         $plan = Plan::create([
             'name' => 'Pro',
             'description' => 'Pro plan',
-            'code' => 'pro',
             'price' => 9.99,
             'interval' => 'month',
             'interval_count' => 1,
@@ -34,7 +33,7 @@ class PlanTest extends TestCase
             new PlanFeature(['code' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10]),
         ]);
 
-        $plan = Plan::with('features')->byCode('pro')->first();
+        $plan->fresh();
 
         $this->assertEquals('Pro', $plan->name);
         $this->assertEquals(3, $plan->features->count());

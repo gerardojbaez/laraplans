@@ -40,7 +40,6 @@ class PlanSubscriptionTest extends TestCase
         $this->plan = Plan::create([
             'name' => 'Pro',
             'description' => 'Pro plan',
-            'code' => 'pro',
             'price' => 9.99,
             'interval' => 'month',
             'interval_count' => 1,
@@ -355,7 +354,6 @@ class PlanSubscriptionTest extends TestCase
         $newPlan = Plan::create([
             'name' => 'Business',
             'description' => 'Business plan',
-            'code' => 'business',
             'price' => 49.89,
             'interval' => 'month',
             'interval_count' => 1,
@@ -371,7 +369,7 @@ class PlanSubscriptionTest extends TestCase
         $this->subscription->changePlan($newPlan)->save();
 
         // Plan was changed?
-        $this->assertEquals('business', $this->subscription->plan->code);
+        $this->assertEquals('Business', $this->subscription->plan->name);
 
         // Let's check if the subscription period was set (i.e., current_period_start
         // and current_period_end)

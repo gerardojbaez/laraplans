@@ -19,7 +19,6 @@ class UserTest extends TestCase
         $this->plan = Plan::create([
             'name' => 'Pro',
             'description' => 'Pro plan',
-            'code' => 'pro',
             'price' => 9.99,
             'interval' => 'month',
             'interval_count' => 1,
