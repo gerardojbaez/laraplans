@@ -2,12 +2,15 @@
 
 namespace Gerardojbaez\LaraPlans\Models;
 
+use DB;
 use App;
 use Carbon\Carbon;
+use LogicException;
 use Gerardojbaez\LaraPlans\Period;
-use Gerardojbaez\LaraPlans\Feature;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\LaraPlans\SubscriptionAbility;
+use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
 use Gerardojbaez\LaraPlans\Traits\BelongsToPlan;
 use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
 use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
@@ -23,7 +26,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     const STATUS_ACTIVE = 'active';
     const STATUS_CANCELED = 'canceled';
-    const STATUS_ENDED = 'ended';
 
     /**
      * The attributes that are mass assignable.
@@ -33,9 +35,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     protected $fillable = [
         'user_id',
         'plan_id',
-        'trial_end',
-        'current_period_end',
-        'current_period_start',
+        'name',
+        'trial_ends_at',
+        'starts_at',
+        'ends_at',
         'canceled_at'
     ];
 
@@ -45,9 +48,16 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at', 'canceled_at', 'trial_end',
-        'current_period_start', 'current_period_end'
+        'created_at', 'updated_at',
+        'canceled_at', 'trial_ends_at', 'ends_at', 'starts_at'
     ];
+
+    /**
+     * Subscription Ability Manager instance.
+     *
+     * @var Gerardojbaez\LaraPlans\SubscriptionAbility
+     */
+    protected $ability;
 
     /**
      * Boot function for using with User Events.
@@ -60,8 +70,8 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
 
         static::saving(function($model)
         {
-            // Set period if isn't set
-            if (!$model->current_period_start OR !$model->current_period_start)
+            // Set period if it wasn't set
+            if (! $model->ends_at)
                 $model->setNewPeriod();
         });
     }
@@ -83,7 +93,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function usage()
     {
-        return $this->hasMany(config('laraplans.models.plan_subscription_usage'), 'subscription_id');
+        return $this->hasMany(
+            config('laraplans.models.plan_subscription_usage'),
+            'subscription_id'
+        );
     }
 
     /**
@@ -93,14 +106,11 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function getStatusAttribute()
     {
-        if ($this->isActive())
+        if ($this->active())
             return self::STATUS_ACTIVE;
 
-        if ($this->isCanceled())
+        if ($this->canceled())
             return self::STATUS_CANCELED;
-
-        if ($this->periodEnded())
-            return self::STATUS_ENDED;
     }
 
     /**
@@ -108,28 +118,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function isActive()
+    public function active()
     {
-        if ($this->isCanceled())
-            return false;
-
-        if ($this->isTrialling())
-            return true;
-
-        if ($this->periodEnded())
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Check if subscription period has ended.
-     *
-     * @return bool
-     */
-    public function periodEnded()
-    {
-        if ($this->current_period_end->isToday() OR $this->current_period_end->isPast())
+        if (! $this->ended() OR $this->onTrial())
             return true;
 
         return false;
@@ -140,10 +131,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function isTrialling()
+    public function onTrial()
     {
-        if (!is_null($this->trial_end) AND $this->trial_end->isFuture())
-            return true;
+        if (! is_null($trialEndsAt = $this->trial_ends_at))
+            return Carbon::now()->lt(Carbon::instance($trialEndsAt));
 
         return false;
     }
@@ -153,26 +144,37 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function isCanceled()
+    public function canceled()
     {
-        if (is_null($this->canceled_at))
-            return false;
+        return  ! is_null($this->canceled_at);
+    }
 
-        return ($this->canceled_at->isToday() OR $this->canceled_at->isPast());
+    /**
+     * Check if subscription period has ended.
+     *
+     * @return bool
+     */
+    public function ended()
+    {
+        $endsAt = Carbon::instance($this->ends_at);
+
+        return Carbon::now()->gt($endsAt) OR Carbon::now()->eq($endsAt);
     }
 
     /**
      * Cancel subscription.
      *
-     * @param  bool $at_period_end
+     * @param  bool $immediately
      * @return $this
      */
     public function cancel($immediately = false)
     {
+        $this->canceled_at = Carbon::now();
+
         if ($immediately)
-            $this->canceled_at = new Carbon;
-        else
-            $this->canceled_at = $this->current_period_end;
+            $this->ends_at = $this->canceled_at;
+
+        $this->save();
 
         return $this;
     }
@@ -199,216 +201,60 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             $this->setNewPeriod($plan->interval, $plan->interval_count);
 
             // Clear usage data
-            $this->clearUsage();
+            $usageManager = new SubscriptionUsageManager($this);
+            $usageManager->clear();
         }
 
         // Attach new plan to subscription
         $this->plan_id = $plan->id;
 
-        // Refresh relations
-        $this->load('plan');
-
         return $this;
     }
 
     /**
-     * Check whether limit was reached or not.
-     *
-     * @param string $feature_code
-     * @throws \Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException
-     * @throws \Gerardojbaez\LaraPlans\Exceptions\FeatureValueFormatIncompatibleException
-     * @return boolean
-     */
-    public function limitReached($feature_code)
-    {
-        // Get features and usage
-        $feature = $this->getFeatureByCode($feature_code);
-
-        if (!$feature)
-            throw new InvalidPlanFeatureException($feature_code);
-
-        // Match "booleans" type value
-        if ($this->featureEnabled($feature_code) === true)
-            return false;
-
-        // If the feature is zero, let's return true since there's no uses
-        // available. (useful to disable countable features)
-        if ($feature->value === '0')
-            return true;
-
-        // Get feature usage data to check for expiration and
-        // remaining uses...
-        $usage = $this->usage->where('code', $feature->code)->first();
-
-        // Feature has usage record?
-        if (!$usage)
-            return false;
-
-        // Usage has expired?
-        if ($usage->isExpired() === true)
-            return false;
-
-        // Feature has remaining uses?
-        if (($feature->value - $usage->used) > 0)
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Check if subscription plan feature is enabled.
-     *
-     * @param string $feature_code
-     * @throws \Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException
-     * @return bool
-     */
-    public function featureEnabled($feature_code)
-    {
-        $feature = $this->getFeatureByCode($feature_code);
-
-        if (!$feature)
-            return false;
-
-        // If value is one of the positive words configured then the
-        // feature is enabled.
-        if (in_array(strtoupper($feature->value), config('laraplans.positive_words')))
-            return true;
-
-        return false;
-    }
-
-    /**
-     * Record usage.
-     *
-     * This will create or update a usage record.
-     *
-     * @param string $feature_code
-     * @param int $uses
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
-     */
-    public function recordUsage($feature_code, $uses = 1, $incremental = true)
-    {
-        $feature = new Feature($feature_code);
-
-        $usage = $this->usage()->firstOrNew([
-            'code' => $feature_code,
-        ]);
-
-        if($feature->isReseteable())
-        {
-            // Is 'valid_until' attribute null?
-            if (is_null($usage->valid_until))
-            {
-                $usage->valid_until = $feature->getResetDate($this->created_at);
-            }
-
-            // Has expired?
-            elseif ($usage->isExpired() === true)
-            {
-                $usage->valid_until = $feature->getResetDate($usage->valid_until);
-                $usage->used = 0;
-            }
-        }
-
-        $usage->used = ($incremental ? $usage->used + $uses : $uses);
-
-        $usage->save();
-
-        // Refresh usage records
-        $this->load('usage');
-
-        return $usage;
-    }
-
-    /**
-     * Reduce usage.
-     *
-     * @param string $feature_code
-     * @param int $uses
-     * @return mixed
-     */
-    public function reduceUsage($feature_code, $uses = 1)
-    {
-        $feature = new Feature($feature_code);
-
-        $usage = $this->usage()->byFeatureCode($feature_code)->first();
-
-        if (!$usage)
-            return false;
-
-        $usage->used = max($usage->used - $uses, 0);
-
-        $usage->save();
-
-        // Refresh usage records
-        $this->load('usage');
-
-        return $usage;
-    }
-
-    /**
-     * Get feature's value.
-     *
-     * Useful when you need to set model attribute
-     * based on a plan's feature's value.
-     */
-    public function getFeatureValue($feature_code, $default = null)
-    {
-        $feature = $this->plan->features->where('code', $feature_code)->first();
-
-        if (!$feature)
-            return $default;
-
-        return $feature->value;
-    }
-
-    /**
-     * Clear usage data.
-     *
-     * @return $this
-     */
-    public function clearUsage()
-    {
-        $this->usage()->delete();
-
-        if ($this->relationLoaded('usage'))
-            $this->load('usage');
-
-        return $this;
-    }
-
-    /**
-     * Set new subscription period.
+     * Renew subscription period.
      *
      * @param  string $interval
      * @param  int $interval_count
      * @param  string $start Start date
+     * @throws  \LogicException
      * @return  $this
      */
-    public function setNewPeriod($interval = '', $interval_count = '', $start = '')
+    public function renew()
     {
-        if (empty($interval))
-            $interval = $this->plan->interval;
+        if ($this->ended() AND $this->canceled()) {
+            throw new LogicException(
+                'Unable to renew canceled ended subscription.'
+            );
+        }
 
-        if (empty($interval_count))
-            $interval_count = $this->plan->interval_count;
+        $subscription = $this;
 
-        $period = new Period($interval, $interval_count, $start);
+        DB::transaction(function() use ($subscription) {
+            // Clear usage data
+            $usageManager = new SubscriptionUsageManager($subscription);
+            $usageManager->clear();
 
-        $this->current_period_start = $period->getStartDate();
-        $this->current_period_end = $period->getEndDate();
+            // Renew period
+            $subscription->setNewPeriod();
+            $subscription->canceled_at = null;
+            $subscription->save();
+        });
 
         return $this;
     }
 
     /**
-     * Get feature from subscription plan.
+     * Get Subscription Ability instance.
      *
-     * @return \Gerardojbaez\LaraPlans\Models\PlanFeature|null
+     * @return \Gerardojbaez\LaraPlans\SubscriptionAbility
      */
-    protected function getFeatureByCode($code)
+    public function ability()
     {
-        return $this->plan->features->where('code', $code)->first();
+        if (is_null($this->ability))
+            return new SubscriptionAbility($this);
+
+        return $this->ability;
     }
 
     /**
@@ -418,7 +264,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * @param  int $user_id
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    function scopeByUser($query, $user_id)
+    public function scopeByUser($query, $user_id)
     {
         return $query->where('user_id', $user_id);
     }
@@ -430,10 +276,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function scopeFindEndingTrial($query, $dayRange = 3)
     {
-        $from = new Carbon;
-        $to = (new Carbon)->addDays($dayRange);
+        $from = Carbon::now();
+        $to = Carbon::now()->addDays($dayRange);
 
-        $query->whereBetween('trial_end', [$from, $to]);
+        $query->whereBetween('trial_ends_at', [$from, $to]);
     }
 
     /**
@@ -443,7 +289,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function scopeFindEndedTrial($query)
     {
-        $query->where('trial_end', '<=', date('Y-m-d H:i:s'));
+        $query->where('trial_ends_at', '<=', date('Y-m-d H:i:s'));
     }
 
     /**
@@ -453,10 +299,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function scopeFindEndingPeriod($query, $dayRange = 3)
     {
-        $from = new Carbon;
-        $to = (new Carbon)->addDays($dayRange);
+        $from = Carbon::now();
+        $to = Carbon::now()->addDays($dayRange);
 
-        $query->whereBetween('current_period_end', [$from, $to]);
+        $query->whereBetween('ends_at', [$from, $to]);
     }
 
     /**
@@ -466,6 +312,30 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function scopeFindEndedPeriod($query)
     {
-        $query->where('current_period_end', '<=', date('Y-m-d H:i:s'));
+        $query->where('ends_at', '<=', date('Y-m-d H:i:s'));
+    }
+
+    /**
+     * Set subscription period.
+     *
+     * @param  string $interval
+     * @param  int $interval_count
+     * @param  string $start Start date
+     * @return  $this
+     */
+    protected function setNewPeriod($interval = '', $interval_count = '', $start = '')
+    {
+        if (empty($interval))
+            $interval = $this->plan->interval;
+
+        if (empty($interval_count))
+            $interval_count = $this->plan->interval_count;
+
+        $period = new Period($interval, $interval_count, $start);
+
+        $this->starts_at = $period->getStartDate();
+        $this->ends_at = $period->getEndDate();
+
+        return $this;
     }
 }

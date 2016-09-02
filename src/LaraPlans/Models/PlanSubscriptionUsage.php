@@ -2,6 +2,7 @@
 
 namespace Gerardojbaez\LaraPlans\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionUsageInterface;
 
@@ -69,6 +70,6 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
         if (is_null($this->valid_until))
             return false;
 
-        return ($this->valid_until->isFuture() === false);
+        return Carbon::now()->gt($this->valid_until) OR Carbon::now()->eq($this->valid_until);
     }
 }

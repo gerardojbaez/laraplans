@@ -68,12 +68,12 @@ class Period
     {
         if (empty($start))
             $this->start = new Carbon;
-        elseif (!$start instanceOf Carbon)
+        elseif (! $start instanceOf Carbon)
             $this->start = new Carbon($start);
         else
             $this->start = $start;
 
-        if (!$this::isValidInterval($interval))
+        if (! $this::isValidInterval($interval))
             throw new InvalidIntervalException($interval);
 
         $this->interval = $interval;

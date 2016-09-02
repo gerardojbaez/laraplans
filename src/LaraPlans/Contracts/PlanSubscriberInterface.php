@@ -4,7 +4,9 @@ namespace Gerardojbaez\LaraPlans\Contracts;
 
 interface PlanSubscriberInterface
 {
-    public function getPlanAttribute();
-    public function planSubscription();
-    public function subscribeToPlan($plan);
+    public function subscription($name = 'default');
+    public function subscriptions();
+    public function subscribed($subscription = 'default');
+    public function newSubscription($name, $plan);
+    public function subscriptionUsage($subscription = 'default');
 }

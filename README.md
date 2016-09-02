@@ -5,31 +5,34 @@ SaaS style recurring plans for Laravel 5.2.
 
 > Please note: this package doesn't handle payments.
 
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- MarkdownTOC depth="3" autolink="true" bracket="round" -->
 
+- [Considerations](#considerations)
 - [Installation](#installation)
-	- [Composer](#composer)
-	- [Service Provider](#service-provider)
-	- [Config file and Migrations](#config-file-and-migrations)
-	- [Traits and Contracts](#traits-and-contracts)
+    - [Composer](#composer)
+    - [Service Provider](#service-provider)
+    - [Config file and Migrations](#config-file-and-migrations)
+    - [Traits and Contracts](#traits-and-contracts)
 - [Usage](#usage)
-	- [Create a Plan](#create-a-plan)
-	- [Subscribe User to a Plan](#subscribe-user-to-a-plan)
-	- [Check plan limitations](#check-plan-limitations)
-	- [Record Feature Usage](#record-feature-usage)
-	- [Reduce Feature Usage](#reduce-feature-usage)
-	- [Clear User Subscription Usage](#clear-user-subscription-usage)
-	- [Check User Subscription Status](#check-user-subscription-status)
-	- [Renew User Subscription](#renew-user-subscription)
-	- [Cancel Subscription](#cancel-subscription)
-	- [Get User Subscription](#get-user-subscription)
-	- [Get User Subscription Plan](#get-user-subscription-plan)
-	- [Subscription Model Scopes](#subscription-model-scopes)
+    - [Create a Plan](#create-a-plan)
+    - [Creating subscriptions](#creating-subscriptions)
+    - [Subscription Ability](#subscription-ability)
+    - [Record Feature Usage](#record-feature-usage)
+    - [Reduce Feature Usage](#reduce-feature-usage)
+    - [Clear The Subscription Usage Data](#clear-the-subscription-usage-data)
+    - [Check Subscription Status](#check-subscription-status)
+    - [Renew a Subscription](#renew-a-subscription)
+    - [Cancel a Subscription](#cancel-a-subscription)
+    - [Scopes](#scopes)
 - [Models](#models)
 - [Config File](#config-file)
 
-<!-- /TOC -->
+<!-- /MarkdownTOC -->
 
+## Considerations
+
+- Payments are out of scope for this package.
+- You may want to extend all of LaraPlans models since it's likely that you will need to override the logic behind some helper methods like `renew()`, `cancel()` etc. E.g.: when cancelling a subscription you may want to also cancel the recurring payment attached.
 
 ## Installation
 
@@ -119,197 +122,134 @@ $freePlan->features()->saveMany([
 ]);
 ```
 
-### Subscribe User to a Plan
+### Creating subscriptions
 
-You can subscribe a user to a plan by using the `subscribeToPlan()` function available in the `PlanSubscriber` trait. This will create a new subscription if the user doesn't have one.
-
-If both plans (current and new plan) have the same billing frequency (e.g., ` interval` and `interval_count`) the subscription will retain the same billing dates. If the plans don't have the same billing frequency, the subscription will have the new plan billing frequency, starting on the day of the change and _the subscription usage data will be cleared_.
-
-If the new plan have a trial period and it's a new subscription, the trial period will be applied.
+You can subscribe a user to a plan by using the `newSubscription()` function available in the `PlanSubscriber` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
 
 ```php
 <?php
 
 use Auth;
+use Gerardojbaez\LaraPlans\Models\Plan;
 
 $user = Auth::user();
-$user->subscribeToPlan($plan_id)->save();
+$plan = Plan::find(1);
+
+$user->newSubscription('main', $plan)->create();
 ```
 
-### Check plan limitations
+The first argument passed to `newSubscription` method should be the name of the subscription. If your application offer a single subscription, you might call this `main` or `primary`. The second argument is the plan instance your user is subscribing to.
 
-The limit is reached when one of this conditions is _true_:
+<!-- ~~If both plans (current and new plan) have the same billing frequency (e.g., ` interval` and `interval_count`) the subscription will retain the same billing dates. If the plans don't have the same billing frequency, the subscription will have the new plan billing frequency, starting on the day of the change and _the subscription usage data will be cleared_.~~ -->
 
-- Feature's _value is not a positive word_ (positive words are configured in the config file).
-- Feature's _value is zero_.
-- Feature _doesn't have remaining usages_ (i.e., when the user has used all his available uses).
+<!-- ~~If the new plan have a trial period and it's a new subscription, the trial period will be applied.~~ -->
+
+### Subscription Ability
+
+There's multiple ways to determine the usage and ability of a particular feature in the user subscription, the most common one is `canUse`:
+
+The `canUse` method returns `true` or `false` depending on multiple factors:
+
+- Feature _is enabled_.
+- Feature value isn't `0`.
+- Or feature has remaining uses available.
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-
-// Check if user has reached the limit in a particular feature in his subscription:
-$user->planSubscription->limitReached('listings_per_month');
-
-// Check if a feature is enabled
-$user->planSubscription->featureEnabled('title_in_bold');
-
-// Get feature's value
-$user->planSubscription->getFeatureValue('pictures_per_listing');
+$user->subscription('main')->ability()->canUse('listings');
 ```
+
+Other methods are:
+
+- `enabled`: returns `true` when the value of the feature is a _positive word_ listed in the config file.
+- `consumed`: returns how many times the user has used a particular feature.
+- `remainings`: returns available uses for a particular feature.
+- `value`: returns the feature value.
+
+> All methods share the same signature: e.g. `$user->subscription('main')->ability()->consumed('listings');`.
+
+
 ### Record Feature Usage
 
+In order to efectively use the ability methods you will need to keep track of every usage of each feature (or at least those that require it). You may use the `record` method available through the user `subscriptionUsage()` method:
+
 ```php
-<?php
+$user->subscriptionUsage('main')->record('listings');
+```
+The `record` method accept 3 parameters: the first one is the feature's code, the second one is the quantity of uses to add (default is `1`), and the third one indicates if the addition should be incremental (default behavior), when disabled the usage will be override by the quantity provided.
 
-use Auth;
+E.g.:
 
-$user = Auth::user();
+```php
+// Increment by 2
+$user->subscriptionUsage('main')->record('listings', 2);
 
-// Increment usage by 1
-$user->planSubscription->recordUsage('listings_per_month');
-
-// Increment usage by custom number (perfect when user perform batch actions)
-$user->planSubscription->recordUsage('listings_per_month', 3);
-
-// Set fixed amount
-$user->planSubscription->recordUsage('listings_per_month', 5, false);
-
+// Override with 9
+$user->subscriptionUsage('main')->record('listings', 9, false);
 ```
 
 ### Reduce Feature Usage
 
-```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-
-// Reduce usage by 1
-$user->planSubscription->reduceUsage('listings_per_month', 1);
-
-// Reduce usage by custom number
-$user->planSubscription->reduceUsage('listings_per_month', 3);
-```
-
-### Clear User Subscription Usage
-
-You may want to reset all feature's usage data when user renew his subscription, in this case the `clearUsage()` function will help you:
+Reducing the feature usage is _almost_ the same as incrementing it. Here we only _substract_ a given quantity (default is `1`) to the actual usage:
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-$user->planSubscription->clearUsage();
+$user->subscriptionUsage('main')->reduce('listings', 2);
 ```
 
-### Check User Subscription Status
-
-For a subscription to be considered active one of the following must be _true_:
-
-- Subscription `canceled_at` is `null` or in the future.
-- Subscription `trial_end` is in the future.
-- Subscription `current_period_end` is in the future.
+### Clear The Subscription Usage Data
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-$user->planSubscription->isActive();
-
-// Alternatively you can use the following:
-$user->planSubscription->isCanceled();
-$user->planSubscription->isTrialling();
-$user->planSubscription->periodEnded();
-
-// Get the subscription status
-$user->planSubscription->status; // (active|canceled|ended)
+$user->subscriptionUsage('main')->clear();
 ```
 
-### Renew User Subscription
+### Check Subscription Status
+
+For a subscription to be considered active _one of the following must be `true`_:
+
+- Subscription has an active trial.
+- Subscription `ends_at` is in the future.
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-$user->planSubscription->setNewPeriod()->save();
-
-// You may want to clear the usage data:
-$user->planSubscription->setNewPeriod()->clearUsage()->save();
+$user->subscribed('main');
 ```
 
-### Cancel Subscription
+Alternatively you can use the following methods available in the subscription model:
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-
-// Cancel At Period End
-$user->planSubscription->cancel();
-
-// Cancel Immediately
-$user->planSubscription->cancel(true);
+$user->subscription('main')->active();
+$user->subscription('main')->canceled();
+$user->subscription('main')->ended();
+$user->subscription('main')->onTrial();
 ```
 
-### Get User Subscription
+> Canceled subscriptions with an active trial or `ends_at` in the future are considered active.
+
+### Renew a Subscription
+
+To renew a subscription you may use the `renew` method available in the subscription model. This will set a new `ends_at` date based on the selected plan and _will clear the usage data_ of the subscription.
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-$user->planSubscription;
-
-// Get Subscription details
-$user->planSubscription->plan;
-$user->planSubscription->status; // (active|canceled|ended)
-$user->planSubscription->trial_end; // null|date
-$user->planSubscription->current_period_start; // date
-$user->planSubscription->current_period_end; // date
-$user->planSubscription->canceled_at; // null|date
-$user->planSubscription->isActive(); // true|false
+$user->subscription('main')->renew();
 ```
 
-### Get User Subscription Plan
+_Canceled subscriptions with an ended period can't be renewed._
+
+### Cancel a Subscription
+
+To cancel a subscription, simply use the `cancel` method on the user's subscription:
 
 ```php
-<?php
-
-use Auth;
-
-$user = Auth::user();
-$user->plan;
-// -or-
-$user->planSubscription->plan;
-
-// Get plan details
-$user->plan->name; // Pro
-$user->plan->slug; // pro;
-$user->plan->description; // Pro Features for 9.99/month.
-$user->plan->price; // 9.99
-$user->plan->isFree(); // true|false
-$user->plan->interval; // month
-$user->plan->interval_count; // 1
-$user->plan->sort_order;
-$user->plan->trial_period_days; // 15
+$user->subscription('main')->cancel();
 ```
 
-### Subscription Model Scopes
+By default the subscription will remain active until the end of the period, you may pass `true` to end the subscription _immediately_:
 
+```php
+$user->subscription('main')->cancel(true);
+```
+
+### Scopes
+
+#### Subscription Model
 ```php
 <?php
 
@@ -322,16 +262,16 @@ $subscriptions = PlanSubscription::byPlan($plan_id)->get();
 $subscription = PlanSubscription::byUser($user_id)->first();
 
 // Get subscriptions with trial ending in 3 days:
-$subscriptions = PlanSubscription::FindEndingTrial(3)->get();
+$subscriptions = PlanSubscription::findEndingTrial(3)->get();
 
 // Get subscriptions with ended trial:
-$subscriptions = PlanSubscription::FindEndedTrial()->get();
+$subscriptions = PlanSubscription::findEndedTrial()->get();
 
 // Get subscriptions with period ending in 3 days:
-$subscriptions = PlanSubscription::FindEndingPeriod(3)->get();
+$subscriptions = PlanSubscription::findEndingPeriod(3)->get();
 
 // Get subscriptions with ended period:
-$subscriptions = PlanSubscription::FindEndedPeriod()->get();
+$subscriptions = PlanSubscription::findEndedPeriod()->get();
 ```
 
 ## Models

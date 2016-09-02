@@ -60,9 +60,9 @@ class PlanSubscriptionTest extends TestCase
             'password' => '123'
         ]);
 
-        $this->user->subscribeToPlan($this->plan)->save();
+        $this->user->newSubscription('main', $this->plan)->create();
 
-        $this->subscription = $this->user->planSubscription;
+        $this->subscription = $this->user->subscription('main');
     }
 
     /**
@@ -84,7 +84,7 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_is_active()
     {
-        $this->assertTrue($this->subscription->isActive());
+        $this->assertTrue($this->subscription->active());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
     }
 
@@ -98,14 +98,17 @@ class PlanSubscriptionTest extends TestCase
     {
         // Cancel subscription at period end...
         $this->subscription->cancel();
+        $this->subscription->trial_ends_at = null;
 
-        $this->assertFalse($this->subscription->isCanceled());
+        $this->assertTrue($this->subscription->canceled());
+        $this->assertTrue($this->subscription->active());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
         // Cancel subscription immediately...
         $this->subscription->cancel(true);
 
-        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertTrue($this->subscription->canceled());
+        $this->assertFalse($this->subscription->active());
         $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
     }
 
@@ -117,158 +120,40 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_is_trialling()
     {
-        $this->subscription->trial_end = (new Carbon)->subDay();
-        $this->subscription->setNewPeriod('month', 1, (new Carbon)->subMonths(2));
-        $this->assertFalse($this->subscription->isActive());
-        $this->assertEquals(PlanSubscription::STATUS_ENDED, $this->subscription->status);
-
-        $this->subscription->trial_end = $this->subscription->trial_end->addDays(2);
-        $this->assertTrue($this->subscription->isActive());
+        // Test if subscription is active after applying a trial.
+        $this->subscription->trial_ends_at = $this->subscription->trial_ends_at->addDays(2);
+        $this->assertTrue($this->subscription->active());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
-    }
 
-    /**
-     * Can check if subscription has ended.
-     *
-     * @test
-     * @return void
-     */
-    public function period_ended()
-    {
-        $this->subscription->trial_end = null;
-        $this->subscription->setNewPeriod('month', 1, (new Carbon)->subMonths(2));
-
-        $this->assertFalse($this->subscription->isActive());
-        $this->assertEquals(PlanSubscription::STATUS_ENDED, $this->subscription->status);
-    }
-
-    /**
-     * Can record feature usage.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_record_feature_usage()
-    {
-        $usage = $this->subscription->recordUsage('listings_per_month');
-
-        $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
-        $this->assertEquals(1, $usage->used);
-
-        // Record fixed amount (not incremental)
-        $usage = $this->subscription->recordUsage('listings_per_month', 2, false);
-        $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
-        $this->assertEquals(2, $usage->used);
-    }
-
-    /**
-     * Can record reduce usage.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_reduce_feature_usage()
-    {
-        // Can't reduce unrecorded usage...
-        $usage = $this->subscription->reduceUsage('listings_per_month');
-        $this->assertFalse($usage);
-
-        // Record usage
-        $usage = $this->subscription->recordUsage('listings_per_month', 5);
-
-        // Reduce
-        $usage = $this->subscription->reduceUsage('listings_per_month', 3);
-
-        $this->assertInstanceOf(PlanSubscriptionUsage::class, $usage);
-        $this->assertEquals(2, $usage->used);
-    }
-
-    /**
-     * Can get feature value.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_get_feature_value()
-    {
-        $this->assertEquals('N', $this->subscription->getFeatureValue('listing_title_bold'));
-        $this->assertEquals(30, $this->subscription->getFeatureValue('listing_duration_days'));
-    }
-
-    /**
-     * Can check if a particular feature is enabled.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_check_if_a_feature_is_enabled()
-    {
-        $this->assertFalse($this->subscription->featureEnabled('listing_title_bold'));
-    }
-
-    /**
-     * Can check if feature limit was reached.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_check_if_feature_limit_was_reached()
-    {
-        // First, let's test non reached limits...
-        $this->assertFalse($this->subscription->limitReached('listings_per_month'));
-        $this->assertFalse($this->subscription->limitReached('listing_duration_days'));
-        $this->assertFalse($this->subscription->limitReached('listing_title_bold'));
-
-        // Now let's update the usage records to reflect "limit reached" beheavor.
-        $this->subscription->recordUsage('listings_per_month', 50);
-
-        $this->assertTrue($this->subscription->limitReached('listings_per_month'));
-    }
-
-    /**
-     * Can clear usage data.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_clear_usage_data()
-    {
-        $this->subscription->recordUsage('listings_per_month', 2);
-
-        $this->assertEquals(1, $this->subscription->usage->count());
-
-        $this->subscription->clearUsage();
-
-        $this->assertEquals(0, $this->subscription->usage->count());
+        // Test if subscription is inactive after removing the trial.
+        $this->subscription->trial_ends_at = Carbon::now()->subDay();
+        $this->subscription->cancel(true);
+        $this->assertFalse($this->subscription->active());
     }
 
      /**
-     * Can set new period.
+     * Can be renewed.
      *
      * @test
      * @return void
      */
-    public function it_can_set_new_period()
+    public function it_can_be_renewed()
     {
-        // Create a subscription that with an ended period...
+        // Create a subscription with an ended period...
         $subscription = factory(PlanSubscription::class)->create([
             'plan_id' => factory(Plan::class)->create([
                 'interval' => 'month'
             ])->id,
-            'trial_end' => (new Carbon)->subMonth(),
-            'current_period_start' => (new Carbon)->subMonths(2),
-            'current_period_end' => (new Carbon)->subMonth(),
+            'trial_ends_at' => Carbon::now()->subMonth(),
+            'ends_at' => Carbon::now()->subMonth(),
         ]);
 
-        $this->assertFalse($subscription->isActive());
+        $this->assertFalse($subscription->active());
 
-        $subscription->setNewPeriod();
+        $subscription->renew();
 
-        $expected = new Period('month', 1, $subscription->current_period_start);
-
-        $this->assertTrue($subscription->isActive());
-        $this->assertEquals($expected->getStartDate(), $subscription->current_period_start);
-        $this->assertEquals($expected->getEndDate(), $subscription->current_period_end);
+        $this->assertTrue($subscription->active());
+        $this->assertEquals(Carbon::now()->addMonth(), $subscription->ends_at);
     }
 
     /**
@@ -282,12 +167,12 @@ class PlanSubscriptionTest extends TestCase
         // For "control", these subscription shouldn't be
         // included in the result...
         factory(PlanSubscription::class, 10)->create([
-            'trial_end' => (new Carbon)->addDays(10) // End in ten days...
+            'trial_ends_at' => Carbon::now()->addDays(10) // End in ten days...
         ]);
 
         // These are the results that should be returned...
         factory(PlanSubscription::class, 5)->create([
-            'trial_end' => (new Carbon)->addDays(3), // Ended a day ago...
+            'trial_ends_at' => Carbon::now()->addDays(3), // Ended a day ago...
         ]);
 
         $result = PlanSubscription::FindEndingTrial(3)->get();
@@ -306,12 +191,12 @@ class PlanSubscriptionTest extends TestCase
         // For "control", these subscription shouldn't be
         // included in the result...
         factory(PlanSubscription::class, 10)->create([
-            'trial_end' => (new Carbon)->addDays(2) // End in two days...
+            'trial_ends_at' => Carbon::now()->addDays(2) // End in two days...
         ]);
 
         // These are the results that should be returned...
         factory(PlanSubscription::class, 5)->create([
-            'trial_end' => (new Carbon)->subDay(), // Ended a day ago...
+            'trial_ends_at' => Carbon::now()->subDay(), // Ended a day ago...
         ]);
 
         $result = PlanSubscription::FindEndedTrial()->get();
@@ -330,14 +215,12 @@ class PlanSubscriptionTest extends TestCase
         // For "control", these subscription shouldn't be
         // included in the result...
         factory(PlanSubscription::class, 10)->create([
-            'current_period_start' => (new Carbon)->subMonth()->addDays(10),
-            'current_period_end' => (new Carbon)->addDays(10) // End in ten days...
+            'ends_at' => Carbon::now()->addDays(10) // End in ten days...
         ]);
 
         // These are the results that should be returned...
         factory(PlanSubscription::class, 5)->create([
-            'current_period_start' => (new Carbon)->subMonth()->addDays(3),
-            'current_period_end' => (new Carbon)->addDays(3), // Ended a day ago...
+            'ends_at' => Carbon::now()->addDays(3), // Ended a day ago...
         ]);
 
         $result = PlanSubscription::FindEndingPeriod(3)->get();
@@ -356,14 +239,12 @@ class PlanSubscriptionTest extends TestCase
         // For "control", these subscription shouldn't be
         // included in the result...
         factory(PlanSubscription::class, 10)->create([
-            'current_period_start' => (new Carbon)->subMonth()->addDays(2),
-            'current_period_end' => (new Carbon)->addDays(2) // End in two days...
+            'ends_at' => Carbon::now()->addDays(2) // End in two days...
         ]);
 
         // These are the results that should be returned...
         factory(PlanSubscription::class, 5)->create([
-            'current_period_start' => (new Carbon)->subMonth()->addDay(),
-            'current_period_end' => (new Carbon)->subDay(), // Ended a day ago...
+            'ends_at' => Carbon::now()->subDay(), // Ended a day ago...
         ]);
 
         $result = PlanSubscription::FindEndedPeriod()->get();
@@ -397,10 +278,9 @@ class PlanSubscriptionTest extends TestCase
         $this->subscription->changePlan($newPlan)->save();
 
         // Plan was changed?
-        $this->assertEquals('Business', $this->subscription->plan->name);
+        $this->assertEquals('Business', $this->subscription->fresh()->plan->name);
 
-        // Let's check if the subscription period was set (i.e., current_period_start
-        // and current_period_end)
+        // Let's check if the subscription period was set
         $period = new Period($newPlan->interval, $newPlan->interval_count);
 
         // Expected dates
@@ -408,11 +288,10 @@ class PlanSubscriptionTest extends TestCase
         $expectedPeriodEndDate = $period->getEndDate();
 
         // Finaly test period
-        $this->assertEquals($expectedPeriodStartDate, $this->subscription->current_period_start);
-        $this->assertEquals($expectedPeriodEndDate, $this->subscription->current_period_end);
+        $this->assertEquals($expectedPeriodEndDate, $this->subscription->ends_at);
 
         // This assertion will make sure that the subscription is now using
         // the new plan features...
-        $this->assertEquals('Y', $this->subscription->getFeatureValue('listing_title_bold'));
+        $this->assertEquals('Y', $this->subscription->fresh()->ability()->value('listing_title_bold'));
     }
 }

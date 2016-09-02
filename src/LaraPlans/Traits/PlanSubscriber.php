@@ -4,22 +4,27 @@ namespace Gerardojbaez\LaraPlans\Traits;
 
 use App;
 use Carbon\Carbon;
+use Gerardojbaez\LaraPlans\SubscriptionBuilder;
+use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
 use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
 use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
 
 trait PlanSubscriber
 {
     /**
-     * Get user plan.
+     * Get a subscription by name.
      *
-     * @return \Gerardojbaez\LaraPlans\Models\Plan|null
+     * @param  string $name
+     * @return \Gerardojbaez\LaraPlans\Models\Subscription|null
      */
-    function getPlanAttribute()
+    public function subscription($name = 'default')
     {
-        if (!$this->planSubscription)
-            return null;
-
-        return $this->planSubscription->plan;
+        return $this->subscriptions->sortByDesc(function ($value) {
+            return $value->created_at->getTimestamp();
+        })
+        ->first(function ($key, $value) use ($name) {
+            return $value->name === $name;
+        });
     }
 
     /**
@@ -27,32 +32,47 @@ trait PlanSubscriber
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    function planSubscription()
+    public function subscriptions()
     {
-        return $this->hasOne(config('laraplans.models.plan_subscription'));
+        return $this->hasMany(config('laraplans.models.plan_subscription'));
+    }
+
+    /**
+     * Check if the user has a given subscription.
+     *
+     * @param  string $subscription
+     * @return bool
+     */
+    public function subscribed($subscription = 'default')
+    {
+        $subscription = $this->subscription($subscription);
+
+        if (is_null($subscription))
+            return false;
+
+        return $subscription->active();
     }
 
     /**
      * Subscribe user to a new plan.
      *
-     * @var mixed $plan Plan Id or Plan Model Instance
-     * @var array $extra
+     * @param string $subscription
+     * @param mixed $plan
      * @return \Gerardojbaez\LaraPlans\Models\PlanSubscription
      */
-    function subscribeToPlan($plan)
+    public function newSubscription($subscription = 'default', $plan)
     {
-        $subscription = App::make(PlanSubscriptionInterface::class)
-            ->firstOrNew(['user_id' => $this->id]);
+        return new SubscriptionBuilder($this, $subscription, $plan);
+    }
 
-        if (is_numeric($plan))
-            $plan = App::make(PlanInterface::class)->find($plan);
-
-        $subscription->changePlan($plan);
-
-        // Add trial period if this is a new subscription
-        if (is_null($subscription->id) AND ($trialDays = $plan->trial_period_days))
-            $subscription->trial_end = (new Carbon)->addDays($trialDays);
-
-        return $subscription;
+    /**
+     * Get subscription usage manager instance.
+     *
+     * @param  string $subscription
+     * @return \Gerardojbaez\LaraPlans\SubscriptionUsageManager
+     */
+    public function subscriptionUsage($subscription = 'default')
+    {
+        return new SubscriptionUsageManager($this->subscription($subscription));
     }
 }

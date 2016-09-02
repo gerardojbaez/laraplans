@@ -11,12 +11,14 @@ use Gerardojbaez\LaraPlans\Models\PlanFeature;
 
 class PlanSubscriptionUsageTest extends TestCase
 {
-    protected $subscription;
-
-    public function setUP()
+    /**
+     * Check if usage has expired.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_check_if_usage_has_expired()
     {
-        parent::setUp();
-
         Config::set('laraplans.features', [
             'listings_per_month' => [
                 'reseteable_interval' => 'month',
@@ -40,24 +42,13 @@ class PlanSubscriptionUsageTest extends TestCase
             'password' => '123'
         ]);
 
-        $user->subscribeToPlan($plan)->save();
+        $user->newSubscription('main', $plan)->create();
 
-        $this->subscription = $user->planSubscription;
-    }
-
-    /**
-     * Check if usage has expired.
-     *
-     * @test
-     * @return void
-     */
-    public function it_can_check_if_usage_has_expired()
-    {
-        $usage = $this->subscription->recordUsage('listings_per_month');
+        $usage = $user->subscriptionUsage('main')->record('listings_per_month');
 
         $this->assertFalse($usage->isExpired());
 
-        $usage->valid_until = (new Carbon)->subDay(); // date is in the past by 1 day...
+        $usage->valid_until = Carbon::now()->subDay(); // date is in the past by 1 day...
 
         $usage->save();
 
