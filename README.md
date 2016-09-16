@@ -103,8 +103,7 @@ class User extends Authenticatable implements PlanSubscriberInterface
 use Gerardojbaez\LaraPlans\Models\Plan;
 use Gerardojbaez\LaraPlans\Models\PlanFeature;
 
-// Pro Plan
-$freePlan = Plan::create([
+$plan = Plan::create([
     'name' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
@@ -114,11 +113,11 @@ $freePlan = Plan::create([
     'sort_order' => 1,
 ]);
 
-$freePlan->features()->saveMany([
-    new PlanFeature(['code' => 'listings_per_month', 'value' => 50, 'sort_order' => 1]),
+$plan->features()->saveMany([
+    new PlanFeature(['code' => 'listings', 'value' => 50, 'sort_order' => 1]),
     new PlanFeature(['code' => 'pictures_per_listing', 'value' => 10, 'sort_order' => 5]),
     new PlanFeature(['code' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10]),
-    new PlanFeature(['code' => 'pictures_per_listing', 'value' => 5, 'sort_order' => 15])
+    new PlanFeature(['code' => 'listing_title_bold', 'value' => 'Y', 'sort_order' => 15])
 ]);
 ```
 
