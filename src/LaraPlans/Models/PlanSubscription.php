@@ -214,9 +214,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Renew subscription period.
      *
-     * @param  string $interval
-     * @param  int $interval_count
-     * @param  string $start Start date
      * @throws  \LogicException
      * @return  $this
      */
