@@ -209,6 +209,7 @@ For a subscription to be considered active _one of the following must be `true`_
 
 ```php
 $user->subscribed('main');
+$user->subscribed('main', $planId); // Check if user is using a particular plan
 ```
 
 Alternatively you can use the following methods available in the subscription model:

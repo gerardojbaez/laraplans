@@ -41,16 +41,23 @@ trait PlanSubscriber
      * Check if the user has a given subscription.
      *
      * @param  string $subscription
+     * @param  int $planId
      * @return bool
      */
-    public function subscribed($subscription = 'default')
+    public function subscribed($subscription = 'default', $planId = null)
     {
         $subscription = $this->subscription($subscription);
 
         if (is_null($subscription))
             return false;
 
-        return $subscription->active();
+        if (is_null($planId))
+            return $subscription->active();
+
+        if ($planId == $subscription->plan_id AND $subscription->active())
+            return true;
+
+        return false;
     }
 
     /**
