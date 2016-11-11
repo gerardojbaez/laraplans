@@ -112,7 +112,7 @@ class SubscriptionAbility
     public function value($feature, $default = null)
     {
         $feature = $this->subscription->plan->features->first(function ($key, $value) use ($feature) {
-            return $value->code === $feature;
+            return $key->code === $feature;
         });
 
         if (is_null($feature))
