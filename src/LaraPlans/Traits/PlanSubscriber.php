@@ -23,7 +23,7 @@ trait PlanSubscriber
             return $value->created_at->getTimestamp();
         })
         ->first(function ($key, $value) use ($name) {
-            return $value->name === $name;
+            return $key->name === $name;
         });
     }
 
