@@ -10,6 +10,6 @@ return [
         'day' => 'Daily|Every :count Days',
         'week' => 'Weekly|Every :count Weeks',
         'month' => 'Monthly|Every :count Months',
-        'year' => 'Anual|Every :count Years',
+        'year' => 'Annual|Every :count Years',
     ],
 ];

@@ -111,13 +111,12 @@ class SubscriptionAbility
      */
     public function value($feature, $default = null)
     {
-        $feature = $this->subscription->plan->features->first(function ($key, $value) use ($feature) {
-            return $key->code === $feature;
-        });
+        foreach ($this->subscription->plan->features as $key => $value) {
+            if ($feature === $value->code) {
+                return $value->value;
+            }
+        }
 
-        if (is_null($feature))
-            return $default;
-
-        return $feature->value;
+        return $default;
     }
 }
