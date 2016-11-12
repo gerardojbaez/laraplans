@@ -60,14 +60,13 @@ class SubscriptionAbility
      */
     public function consumed($feature)
     {
-        $usage = $this->subscription->usage->first(function ($key, $value) use ($feature) {
-            return $value->code === $feature;
-        });
+        foreach ($this->subscription->usage as $key => $usage) {
+            if ($usage->code === $feature and $usage->isExpired() == false) {
+                return $usage->used;
+            }
+        }
 
-        if (is_null($usage) OR $usage->isExpired())
-            return 0;
-
-        return $usage->used;
+        return 0;
     }
 
     /**
