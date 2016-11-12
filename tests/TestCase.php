@@ -29,11 +29,6 @@ class TestCase extends Testbench
             '--database' => 'testbench',
             '--realpath' => realpath(__DIR__.'/migrations'),
         ]);
-
-        $this->beforeApplicationDestroyed(function()
-        {
-            $this->artisan('migrate:rollback');
-        });
     }
 
     /**
