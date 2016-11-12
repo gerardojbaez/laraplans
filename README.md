@@ -1,7 +1,7 @@
 # LaraPlans
 
 
-SaaS style recurring plans for Laravel 5.2.
+SaaS style recurring plans for Laravel 5.
 
 > Please note: this package doesn't handle payments.
 
