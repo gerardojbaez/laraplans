@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - PSR2 Formatting
 - Removed `newSubscription()` first parameter default value. *You should pass explicitly the subscription name*.
 
+### Fixed
+- Method `isFree` will always return false. Issue #2
+
 ## [0.2.1] - 2016-11-28
 ### Added
 - Support for Laravel v5.3
