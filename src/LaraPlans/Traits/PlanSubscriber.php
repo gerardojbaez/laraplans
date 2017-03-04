@@ -51,14 +51,17 @@ trait PlanSubscriber
     {
         $subscription = $this->subscription($subscription);
 
-        if (is_null($subscription))
+        if (is_null($subscription)) {
             return false;
+        }
 
-        if (is_null($planId))
+        if (is_null($planId)) {
             return $subscription->active();
+        }
 
-        if ($planId == $subscription->plan_id AND $subscription->active())
+        if ($planId == $subscription->plan_id and $subscription->active()) {
             return true;
+        }
 
         return false;
     }
@@ -70,7 +73,7 @@ trait PlanSubscriber
      * @param mixed $plan
      * @return \Gerardojbaez\LaraPlans\Models\PlanSubscription
      */
-    public function newSubscription($subscription = 'default', $plan)
+    public function newSubscription($subscription, $plan)
     {
         return new SubscriptionBuilder($this, $subscription, $plan);
     }

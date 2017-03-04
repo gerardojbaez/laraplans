@@ -9,7 +9,7 @@ trait BelongsToPlan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    function plan()
+    public function plan()
     {
         return $this->belongsTo(config('laraplans.models.plan'));
     }
@@ -21,7 +21,7 @@ trait BelongsToPlan
      * @param  int $plan_id
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    function scopeByPlan($query, $plan_id)
+    public function scopeByPlan($query, $plan_id)
     {
         return $query->where('plan_id', $plan_id);
     }

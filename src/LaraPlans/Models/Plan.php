@@ -41,13 +41,14 @@ class Plan extends Model implements PlanInterface
     {
         parent::boot();
 
-        static::saving(function($model)
-        {
-            if ( ! $model->interval)
+        static::saving(function ($model) {
+            if (! $model->interval) {
                 $model->interval = 'month';
+            }
 
-            if ( ! $model->interval_count)
+            if (! $model->interval_count) {
                 $model->interval_count = 1;
+            }
         });
     }
 
@@ -99,7 +100,7 @@ class Plan extends Model implements PlanInterface
      */
     public function isFree()
     {
-        return ($this->price === 0.00 OR $this->price < 0.00);
+        return ($this->price === 0.00 or $this->price < 0.00);
     }
 
     /**
@@ -109,6 +110,6 @@ class Plan extends Model implements PlanInterface
      */
     public function hasTrial()
     {
-        return (is_numeric($this->trial_period_days) AND $this->trial_period_days > 0);
+        return (is_numeric($this->trial_period_days) and $this->trial_period_days > 0);
     }
 }

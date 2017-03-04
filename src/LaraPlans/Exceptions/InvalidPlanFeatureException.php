@@ -10,7 +10,7 @@ class InvalidPlanFeatureException extends \Exception
      * @param $feature
      * @return void
      */
-    function __construct($feature)
+    public function __construct($feature)
     {
         $this->message = "Invalid plan feature: {$feature}";
     }

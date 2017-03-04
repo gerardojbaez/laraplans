@@ -18,7 +18,7 @@ class SubscriptionAbility
      *
      * @return void
      */
-    function __construct($subscription)
+    public function __construct($subscription)
     {
         $this->subscription = $subscription;
     }
@@ -35,18 +35,21 @@ class SubscriptionAbility
         // Get features and usage
         $feature_value = $this->value($feature);
 
-        if (is_null($feature_value))
+        if (is_null($feature_value)) {
             return false;
+        }
 
         // Match "booleans" type value
-        if ($this->enabled($feature) === true)
+        if ($this->enabled($feature) === true) {
             return true;
+        }
 
         // If the feature value is zero, let's return false
         // since there's no uses available. (useful to disable
         // countable features)
-        if ($feature_value === '0')
+        if ($feature_value === '0') {
             return false;
+        }
 
         // Check for available uses
         return $this->remainings($feature) > 0;
@@ -90,13 +93,15 @@ class SubscriptionAbility
     {
         $feature_value = $this->value($feature);
 
-        if (is_null($feature_value))
+        if (is_null($feature_value)) {
             return false;
+        }
 
         // If value is one of the positive words configured then the
         // feature is enabled.
-        if (in_array(strtoupper($feature_value), config('laraplans.positive_words')))
+        if (in_array(strtoupper($feature_value), config('laraplans.positive_words'))) {
             return true;
+        }
 
         return false;
     }
