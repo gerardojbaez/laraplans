@@ -100,7 +100,7 @@ class Plan extends Model implements PlanInterface
      */
     public function isFree()
     {
-        return ($this->price === 0.00 or $this->price < 0.00);
+        return ((float) $this->price <= 0.00);
     }
 
     /**
