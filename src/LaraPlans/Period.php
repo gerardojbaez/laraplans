@@ -66,20 +66,23 @@ class Period
      */
     public function __construct($interval = 'month', $count = 1, $start = '')
     {
-        if (empty($start))
+        if (empty($start)) {
             $this->start = new Carbon;
-        elseif (! $start instanceOf Carbon)
+        } elseif (! $start instanceof Carbon) {
             $this->start = new Carbon($start);
-        else
+        } else {
             $this->start = $start;
+        }
 
-        if (! $this::isValidInterval($interval))
+        if (! $this::isValidInterval($interval)) {
             throw new InvalidIntervalException($interval);
+        }
 
         $this->interval = $interval;
 
-        if ($count > 0)
+        if ($count > 0) {
             $this->interval_count = $count;
+        }
 
         $this->calculate();
     }
@@ -93,8 +96,9 @@ class Period
     {
         $intervals = [];
 
-        foreach (array_keys(self::$intervalMapping) as $interval)
+        foreach (array_keys(self::$intervalMapping) as $interval) {
             $intervals[$interval] = trans('laraplans::messages.'.$interval);
+        }
 
         return $intervals;
     }

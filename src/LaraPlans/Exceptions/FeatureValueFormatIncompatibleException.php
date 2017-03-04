@@ -10,7 +10,7 @@ class FeatureValueFormatIncompatibleException extends \Exception
      * @param $feature
      * @return void
      */
-    function __construct($value)
+    public function __construct($value)
     {
         $this->message = "Feature value format is incompatible: {$value}.";
     }

@@ -67,9 +67,10 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
      */
     public function isExpired()
     {
-        if (is_null($this->valid_until))
+        if (is_null($this->valid_until)) {
             return false;
+        }
 
-        return Carbon::now()->gt($this->valid_until) OR Carbon::now()->eq($this->valid_until);
+        return Carbon::now()->gt($this->valid_until) or Carbon::now()->eq($this->valid_until);
     }
 }

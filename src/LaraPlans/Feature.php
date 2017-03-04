@@ -38,19 +38,19 @@ class Feature
      */
     public function __construct($feature_code)
     {
-        if (!self::isValid($feature_code))
+        if (!self::isValid($feature_code)) {
             throw new InvalidPlanFeatureException($feature_code);
+        }
 
         $this->feature_code = $feature_code;
 
         $feature = config('laraplans.features.'.$feature_code);
 
-        if (is_array($feature))
-        {
-            foreach ($feature as $key => $value)
-            {
-                if (property_exists($this, $key))
+        if (is_array($feature)) {
+            foreach ($feature as $key => $value) {
+                if (property_exists($this, $key)) {
                     $this->$key = $value;
+                }
             }
         }
     }
@@ -64,16 +64,18 @@ class Feature
     {
         $features = config('laraplans.features');
 
-        if (!$features)
+        if (!$features) {
             return [];
+        }
 
         $codes = [];
 
         foreach ($features as $key => $value) {
-            if (is_string($value))
+            if (is_string($value)) {
                 $codes[] = $value;
-            else
+            } else {
                 $codes[] = $key;
+            }
         }
 
         return $codes;
@@ -89,11 +91,13 @@ class Feature
     {
         $features = config('laraplans.features');
 
-        if (array_key_exists($code, $features))
+        if (array_key_exists($code, $features)) {
             return true;
+        }
 
-        if (in_array($code, $features))
+        if (in_array($code, $features)) {
             return true;
+        }
 
         return false;
     }
@@ -168,8 +172,9 @@ class Feature
      */
     public function getResetDate($dateFrom = '')
     {
-        if (empty($dateFrom))
+        if (empty($dateFrom)) {
             $dateFrom = new Carbon;
+        }
 
         $period = new Period($this->reseteable_interval, $this->reseteable_count, $dateFrom);
 

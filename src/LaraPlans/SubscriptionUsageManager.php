@@ -16,7 +16,7 @@ class SubscriptionUsageManager
      *
      * @param \Illuminate\Database\Eloqunet\Model $subscription
      */
-    function __construct($subscription)
+    public function __construct($subscription)
     {
         $this->subscription = $subscription;
     }
@@ -38,22 +38,17 @@ class SubscriptionUsageManager
             'code' => $feature->getFeatureCode(),
         ]);
 
-        if($feature->isReseteable())
-        {
-            // Set expiration date when the usage record is new
+        if ($feature->isReseteable()) {
+        // Set expiration date when the usage record is new
             // or doesn't have one.
-            if (is_null($usage->valid_until))
-            {
-                // Set date from subscription creation date so
+            if (is_null($usage->valid_until)) {
+            // Set date from subscription creation date so
                 // the reset period match the period specified
                 // by the subscription's plan.
                 $usage->valid_until = $feature->getResetDate($this->subscription->created_at);
-            }
-
-            // If the usage record has been expired, let's assign
+            } // If the usage record has been expired, let's assign
             // a new expiration date and reset the uses to zero.
-            elseif ($usage->isExpired() === true)
-            {
+            elseif ($usage->isExpired() === true) {
                 $usage->valid_until = $feature->getResetDate($usage->valid_until);
                 $usage->used = 0;
             }
@@ -82,8 +77,9 @@ class SubscriptionUsageManager
             ->byFeatureCode($feature->getFeatureCode())
             ->first();
 
-        if (is_null($usage))
+        if (is_null($usage)) {
             return false;
+        }
 
         $usage->used = max($usage->used - $uses, 0);
 

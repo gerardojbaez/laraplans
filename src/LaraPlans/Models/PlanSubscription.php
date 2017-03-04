@@ -68,11 +68,11 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     {
         parent::boot();
 
-        static::saving(function($model)
-        {
+        static::saving(function ($model) {
             // Set period if it wasn't set
-            if (! $model->ends_at)
+            if (! $model->ends_at) {
                 $model->setNewPeriod();
+            }
         });
     }
 
@@ -81,7 +81,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    function user()
+    public function user()
     {
         return $this->belongsTo(config('auth.providers.users.model'));
     }
@@ -106,11 +106,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function getStatusAttribute()
     {
-        if ($this->active())
+        if ($this->active()) {
             return self::STATUS_ACTIVE;
+        }
 
-        if ($this->canceled())
+        if ($this->canceled()) {
             return self::STATUS_CANCELED;
+        }
     }
 
     /**
@@ -120,8 +122,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function active()
     {
-        if (! $this->ended() OR $this->onTrial())
+        if (! $this->ended() or $this->onTrial()) {
             return true;
+        }
 
         return false;
     }
@@ -133,8 +136,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function onTrial()
     {
-        if (! is_null($trialEndsAt = $this->trial_ends_at))
+        if (! is_null($trialEndsAt = $this->trial_ends_at)) {
             return Carbon::now()->lt(Carbon::instance($trialEndsAt));
+        }
 
         return false;
     }
@@ -158,7 +162,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     {
         $endsAt = Carbon::instance($this->ends_at);
 
-        return Carbon::now()->gt($endsAt) OR Carbon::now()->eq($endsAt);
+        return Carbon::now()->gt($endsAt) or Carbon::now()->eq($endsAt);
     }
 
     /**
@@ -171,8 +175,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     {
         $this->canceled_at = Carbon::now();
 
-        if ($immediately)
+        if ($immediately) {
             $this->ends_at = $this->canceled_at;
+        }
 
         $this->save();
 
@@ -187,16 +192,16 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function changePlan($plan)
     {
-        if (is_numeric($plan))
+        if (is_numeric($plan)) {
             $plan = App::make(PlanInterface::class)->find($plan);
+        }
 
         // If plans doesn't have the same billing frequency (e.g., interval
         // and interval_count) we will update the billing dates starting
         // today... and sice we are basically creating a new billing cycle,
         // the usage data will be cleared.
-        if (is_null($this->plan) OR $this->plan->interval !== $plan->interval OR
-                $this->plan->interval_count !== $plan->interval_count)
-        {
+        if (is_null($this->plan) or $this->plan->interval !== $plan->interval or
+                $this->plan->interval_count !== $plan->interval_count) {
             // Set period
             $this->setNewPeriod($plan->interval, $plan->interval_count);
 
@@ -219,7 +224,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function renew()
     {
-        if ($this->ended() AND $this->canceled()) {
+        if ($this->ended() and $this->canceled()) {
             throw new LogicException(
                 'Unable to renew canceled ended subscription.'
             );
@@ -227,7 +232,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
 
         $subscription = $this;
 
-        DB::transaction(function() use ($subscription) {
+        DB::transaction(function () use ($subscription) {
             // Clear usage data
             $usageManager = new SubscriptionUsageManager($subscription);
             $usageManager->clear();
@@ -248,8 +253,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function ability()
     {
-        if (is_null($this->ability))
+        if (is_null($this->ability)) {
             return new SubscriptionAbility($this);
+        }
 
         return $this->ability;
     }
@@ -322,11 +328,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     protected function setNewPeriod($interval = '', $interval_count = '', $start = '')
     {
-        if (empty($interval))
+        if (empty($interval)) {
             $interval = $this->plan->interval;
+        }
 
-        if (empty($interval_count))
+        if (empty($interval_count)) {
             $interval_count = $this->plan->interval_count;
+        }
 
         $period = new Period($interval, $interval_count, $start);
 

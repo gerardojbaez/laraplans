@@ -29,7 +29,7 @@ class LaraPlansServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../lang' => resource_path('lang/vendor/laraplans'),
-       ]);
+        ]);
     }
 
     /**

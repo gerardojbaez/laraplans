@@ -8,7 +8,7 @@ $factory->define(PlanSubscriptionUsage::class, function (Faker\Generator $faker)
         'name' => $faker->word,
         'subscription_id' => factory(PlanSubscription::class)->create()->id,
         'code' => $faker->word,
-        'used' => rand(1,50),
+        'used' => rand(1, 50),
         'valid_until' => $faker->dateTime()
     ];
 });

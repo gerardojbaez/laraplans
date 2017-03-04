@@ -10,7 +10,7 @@ class InvalidIntervalException extends \Exception
      * @param $feature
      * @return void
      */
-    function __construct($interval)
+    public function __construct($interval)
     {
         $this->message = "Invalid interval \"{$interval}\".";
     }
