@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Changed
 - PSR2 Formatting
 - Removed `newSubscription()` first parameter default value. *You should pass explicitly the subscription name*.
+- Updated composer dependencies
 
 ### Fixed
 - Method `isFree` will always return false. Issue #2
