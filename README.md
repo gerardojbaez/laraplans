@@ -5,7 +5,7 @@ SaaS style recurring plans for Laravel 5.
 
 > Please note: this package doesn't handle payments.
 
-<!-- MarkdownTOC depth="3" autolink="true" bracket="round" -->
+<!-- MarkdownTOC depth="2" autolink="true" bracket="round" -->
 
 - [Considerations](#considerations)
 - [Installation](#installation)
@@ -42,7 +42,7 @@ Add the following to your `composer.json` file:
 ```json
 {
     "require": {
-        "gerardojbaez/laraplans": "0.*"
+        "gerardojbaez/laraplans": "~1.0"
     }
 }
 ```
@@ -50,6 +50,12 @@ Add the following to your `composer.json` file:
 And then run in your terminal:
 
     composer install
+
+#### Quick Installation
+
+Above installation can also be simplify by using the following command:
+
+    composer require "gerardojbaez/laraplans=~1.0"
 
 ### Service Provider
 
