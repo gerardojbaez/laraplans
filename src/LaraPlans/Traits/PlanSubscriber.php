@@ -15,7 +15,7 @@ trait PlanSubscriber
      * Get a subscription by name.
      *
      * @param  string $name
-     * @return \Gerardojbaez\LaraPlans\Models\Subscription|null
+     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscription|null
      */
     public function subscription($name = 'default')
     {
