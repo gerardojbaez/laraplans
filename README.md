@@ -127,6 +127,14 @@ $plan->features()->saveMany([
 ]);
 ```
 
+### Get the value of Feature 
+
+Say you want to show the value of the feature _pictures_per_listing_ from above. You can use `getFeatureByCode()`.
+
+```php
+$amountOfPictures = $plan->getFeatureByCode('pictures_per_listing')->value
+```
+
 ### Creating subscriptions
 
 You can subscribe a user to a plan by using the `newSubscription()` function available in the `PlanSubscriber` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
