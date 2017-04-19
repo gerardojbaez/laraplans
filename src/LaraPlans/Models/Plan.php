@@ -2,6 +2,7 @@
 
 namespace Gerardojbaez\LaraPlans\Models;
 
+use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\LaraPlans\Period;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
@@ -111,5 +112,25 @@ class Plan extends Model implements PlanInterface
     public function hasTrial()
     {
         return (is_numeric($this->trial_period_days) and $this->trial_period_days > 0);
+    }
+
+    /**
+     * Returns the demanded feature
+     *
+     * @param String $code
+     * @return PlanFeature
+     * @throws InvalidPlanFeatureException
+     */
+    public function getFeatureByCode($code)
+    {
+        $feature = $this->features()->getEager()->first(function($item) use ($code) {
+            return $item->code === $code;
+        });
+
+        if (is_null($feature)) {
+            throw new InvalidPlanFeatureException($code);
+        }
+
+        return $feature;
     }
 }
