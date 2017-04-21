@@ -87,6 +87,16 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Get the plan.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function plan()
+    {
+        return $this->belongsTo(config('laraplans.models.plan'));
+    }
+
+    /**
      * Get subscription usage.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
