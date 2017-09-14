@@ -19,15 +19,11 @@ trait PlanSubscriber
      */
     public function subscription($name = 'default')
     {
-        $subscriptions = $this->subscriptions->sortByDesc(function ($value) {
-            return $value->created_at->getTimestamp();
-        });
-
-        foreach ($subscriptions as $key => $subscription) {
-            if ($subscription->name === $name) {
-                return $subscription;
-            }
-        }
+        return $this->subscriptions()
+            ->getQuery()
+            ->orderBy('created_at', 'desc')
+            ->where('name', $name)
+            ->first();
     }
 
     /**
