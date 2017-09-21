@@ -20,10 +20,9 @@ trait PlanSubscriber
     public function subscription($name = 'default')
     {
         return $this->subscriptions()
-            ->getQuery()
-            ->orderBy('created_at', 'desc')
             ->where('name', $name)
-            ->first();
+            ->orderBy('id', 'desc')
+            ->Active();
     }
 
     /**

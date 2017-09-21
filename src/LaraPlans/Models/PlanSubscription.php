@@ -273,6 +273,18 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Find subscription that's not ended.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        $now = Carbon::now();
+
+        $query->where('ends_at', '>', $now);
+    }
+
+    /**
      * Find subscription with an ending trial.
      *
      * @return \Illuminate\Database\Eloquent\Builder
