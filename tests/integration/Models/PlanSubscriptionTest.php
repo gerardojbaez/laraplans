@@ -84,7 +84,7 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_isActive()
+    public function it_determines_if_is_active()
     {
         $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
@@ -96,7 +96,7 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_isCanceled()
+    public function it_determines_if_is_canceled()
     {
         // Cancel subscription at period end...
         $this->subscription->cancel();
@@ -120,7 +120,7 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_trialling()
+    public function it_determines_if_is_trialling()
     {
         // Test if subscription is active after applying a trial.
         $this->subscription->trial_ends_at = $this->subscription->trial_ends_at->addDays(2);
