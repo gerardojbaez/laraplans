@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -14,7 +16,8 @@ class CreatePlanSubscriptionsTable extends Migration
     {
         Schema::create('plan_subscriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('subscribable_id')->unsigned()->index();
+            $table->string('subscribable_type')->index();
             $table->integer('plan_id')->unsigned();
             $table->string('name');
             $table->timestamp('trial_ends_at')->nullable();
@@ -23,7 +26,6 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->timestamp('canceled_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
         });
     }

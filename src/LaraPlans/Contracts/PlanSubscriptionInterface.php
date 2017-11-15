@@ -4,7 +4,7 @@ namespace Gerardojbaez\LaraPlans\Contracts;
 
 interface PlanSubscriptionInterface
 {
-    public function user();
+    public function subscribable();
     public function plan();
     public function usage();
     public function getStatusAttribute();

@@ -6,7 +6,8 @@ use Gerardojbaez\LaraPlans\Models\PlanSubscription;
 
 $factory->define(PlanSubscription::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => factory(User::class)->create()->id,
+        'subscribable_id' => factory(User::class)->create()->id,
+        'subscribable_type' => User::class,
         'plan_id' => factory(Plan::class)->create()->id,
         'name' => $faker->word
     ];

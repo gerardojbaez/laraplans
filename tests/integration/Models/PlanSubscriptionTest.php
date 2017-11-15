@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
 
 use Config;
@@ -71,9 +73,9 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_can_get_subscription_user()
+    public function it_gets_subscribable_model_instance()
     {
-        $this->assertInstanceOf(config('auth.providers.users.model'), $this->subscription->user);
+        $this->assertInstanceOf(User::class, $this->subscription->subscribable);
     }
 
     /**

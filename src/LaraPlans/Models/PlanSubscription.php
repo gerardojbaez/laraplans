@@ -33,7 +33,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'plan_id',
         'name',
         'trial_ends_at',
@@ -77,13 +76,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
-     * Get user.
+     * Get the subscribable of the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function subscribable()
     {
-        return $this->belongsTo(config('auth.providers.users.model'));
+        return $this->morphTo();
     }
 
     /**
