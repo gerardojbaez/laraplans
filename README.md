@@ -55,7 +55,7 @@ And then run in your terminal:
 
 Above installation can also be simplify by using the following command:
 
-    composer require "gerardojbaez/laraplans=~1.0"
+    composer require gerardojbaez/laraplans
 
 ### Service Provider
 
