@@ -56,10 +56,10 @@ trait PlanSubscriber
         }
 
         if (is_null($planId)) {
-            return $subscription->active();
+            return $subscription->isActive();
         }
 
-        if ($planId == $subscription->plan_id and $subscription->active()) {
+        if ($planId == $subscription->plan_id and $subscription->isActive()) {
             return true;
         }
 

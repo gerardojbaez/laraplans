@@ -105,11 +105,11 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function getStatusAttribute()
     {
-        if ($this->active()) {
+        if ($this->isActive()) {
             return self::STATUS_ACTIVE;
         }
 
-        if ($this->canceled()) {
+        if ($this->isCanceled()) {
             return self::STATUS_CANCELED;
         }
     }
@@ -119,9 +119,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function active()
+    public function isActive()
     {
-        if (! $this->ended() or $this->onTrial()) {
+        if (! $this->isEnded() or $this->onTrial()) {
             return true;
         }
 
@@ -147,7 +147,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function canceled()
+    public function isCanceled()
     {
         return  ! is_null($this->canceled_at);
     }
@@ -157,7 +157,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function ended()
+    public function isEnded()
     {
         $endsAt = Carbon::instance($this->ends_at);
 
@@ -223,7 +223,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function renew()
     {
-        if ($this->ended() and $this->canceled()) {
+        if ($this->isEnded() and $this->isCanceled()) {
             throw new LogicException(
                 'Unable to renew canceled ended subscription.'
             );

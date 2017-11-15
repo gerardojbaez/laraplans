@@ -84,9 +84,9 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_active()
+    public function it_is_isActive()
     {
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
     }
 
@@ -96,21 +96,21 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_canceled()
+    public function it_is_isCanceled()
     {
         // Cancel subscription at period end...
         $this->subscription->cancel();
         $this->subscription->trial_ends_at = null;
 
-        $this->assertTrue($this->subscription->canceled());
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
         // Cancel subscription immediately...
         $this->subscription->cancel(true);
 
-        $this->assertTrue($this->subscription->canceled());
-        $this->assertFalse($this->subscription->active());
+        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertFalse($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
     }
 
@@ -124,13 +124,13 @@ class PlanSubscriptionTest extends TestCase
     {
         // Test if subscription is active after applying a trial.
         $this->subscription->trial_ends_at = $this->subscription->trial_ends_at->addDays(2);
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
         // Test if subscription is inactive after removing the trial.
         $this->subscription->trial_ends_at = Carbon::now()->subDay();
         $this->subscription->cancel(true);
-        $this->assertFalse($this->subscription->active());
+        $this->assertFalse($this->subscription->isActive());
     }
 
      /**
@@ -150,11 +150,11 @@ class PlanSubscriptionTest extends TestCase
             'ends_at' => Carbon::now()->subMonth(),
         ]);
 
-        $this->assertFalse($subscription->active());
+        $this->assertFalse($subscription->isActive());
 
         $subscription->renew();
 
-        $this->assertTrue($subscription->active());
+        $this->assertTrue($subscription->isActive());
         $this->assertEquals(Carbon::now()->addMonth(), $subscription->ends_at);
     }
 
