@@ -38,7 +38,7 @@ class SubscriptionUsageManager
             'code' => $feature->getFeatureCode(),
         ]);
 
-        if ($feature->isReseteable()) {
+        if ($feature->isResettable()) {
         // Set expiration date when the usage record is new
             // or doesn't have one.
             if (is_null($usage->valid_until)) {

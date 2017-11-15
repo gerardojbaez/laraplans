@@ -47,8 +47,8 @@ return [
     'features' => [
         'SAMPLE_SIMPLE_FEATURE',
         'SAMPLE_DEFINED_FEATURE' => [
-            'reseteable_interval' => 'month',
-            'reseteable_count' => 2
+            'resettable_interval' => 'month',
+            'resettable_count' => 2
         ],
     ],
 ];

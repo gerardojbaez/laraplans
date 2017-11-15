@@ -16,18 +16,18 @@ class Feature
     protected $feature_code;
 
     /**
-     * Feature reseteable interval.
+     * Feature resettable interval.
      *
      * @var string
      */
-    protected $reseteable_interval;
+    protected $resettable_interval;
 
     /**
-     * Feature reseteable count.
+     * Feature resettable count.
      *
      * @var int
      */
-    protected $reseteable_count;
+    protected $resettable_count;
 
     /**
      * Create a new Feature instance.
@@ -113,55 +113,55 @@ class Feature
     }
 
     /**
-     * Get reseteable interval.
+     * Get resettable interval.
      *
      * @return string|null
      */
-    public function getReseteableInterval()
+    public function getResettableInterval()
     {
-        return $this->reseteable_interval;
+        return $this->resettable_interval;
     }
 
     /**
-     * Get reseteable count.
+     * Get resettable count.
      *
      * @return int|null
      */
-    public function getResetableCount()
+    public function getResettableCount()
     {
-        return $this->reseteable_count;
+        return $this->resettable_count;
     }
 
     /**
-     * Set reseteable interval.
+     * Set resettable interval.
      *
      * @param string
      * @return void
      */
-    public function setReseteableInterval($interval)
+    public function setResettableInterval($interval)
     {
-        $this->reseteable_interval = $interval;
+        $this->resettable_interval = $interval;
     }
 
     /**
-     * Set reseteable count.
+     * Set resettable count.
      *
      * @param int
      * @return void
      */
-    public function setReseteableCount($count)
+    public function setResettableCount($count)
     {
-        $this->reseteable_count = $count;
+        $this->resettable_count = $count;
     }
 
     /**
-     * Check if feature is reseteable.
+     * Check if feature is resettable.
      *
      * @return bool
      */
-    public function isReseteable()
+    public function isResettable()
     {
-        return is_string($this->reseteable_interval);
+        return is_string($this->resettable_interval);
     }
 
     /**
@@ -176,7 +176,7 @@ class Feature
             $dateFrom = new Carbon;
         }
 
-        $period = new Period($this->reseteable_interval, $this->reseteable_count, $dateFrom);
+        $period = new Period($this->resettable_interval, $this->resettable_count, $dateFrom);
 
         return $period->getEndDate();
     }

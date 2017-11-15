@@ -31,8 +31,8 @@ class PlanSubscriptionTest extends TestCase
 
         Config::set('laraplans.features', [
             'listings_per_month' => [
-                'reseteable_interval' => 'month',
-                'reseteable_count' => 1
+                'resettable_interval' => 'month',
+                'resettable_count' => 1
             ],
             'pictures_per_listing',
             'listing_duration_days',
