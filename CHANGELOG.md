@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Added
+
+*This release breaks backward compatibility.*
+
+### Fixed
 - Fix #18
 - Fix #17
+- Fix #11
 
 ## [1.0.0] - 2016-03-05
 ### Added
