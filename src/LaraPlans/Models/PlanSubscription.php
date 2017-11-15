@@ -10,9 +10,12 @@ use Gerardojbaez\LaraPlans\Period;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\LaraPlans\Models\PlanFeature;
 use Gerardojbaez\LaraPlans\SubscriptionAbility;
-use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
 use Gerardojbaez\LaraPlans\Traits\BelongsToPlan;
 use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
+use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
+use Gerardojbaez\LaraPlans\Events\SubscriptionRenewed;
+use Gerardojbaez\LaraPlans\Events\SubscriptionCanceled;
+use Gerardojbaez\LaraPlans\Events\SubscriptionPlanChanged;
 use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
 use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\LaraPlans\Exceptions\FeatureValueFormatIncompatibleException;
@@ -61,6 +64,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Boot function for using with User Events.
      *
+     * @todo Move events to an Observer.
      * @return void
      */
     protected static function boot()
@@ -71,6 +75,12 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             // Set period if it wasn't set
             if (! $model->ends_at) {
                 $model->setNewPeriod();
+            }
+        });
+
+        static::saved(function ($model) {
+            if ($model->getOriginal('plan_id') !== $model->plan_id) {
+                event(new SubscriptionPlanChanged($model));
             }
         });
     }
@@ -178,9 +188,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             $this->ends_at = $this->canceled_at;
         }
 
-        $this->save();
+        if ($this->save()) {
+            event(new SubscriptionCanceled($this));
 
-        return $this;
+            return $this;
+        }
+
+        return false;
     }
 
     /**
@@ -241,6 +255,8 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             $subscription->canceled_at = null;
             $subscription->save();
         });
+
+        event(new SubscriptionRenewed($this));
 
         return $this;
     }

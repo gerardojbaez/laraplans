@@ -7,12 +7,16 @@ namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
 use Config;
 use Carbon\Carbon;
 use Gerardojbaez\LaraPlans\Period;
+use Illuminate\Support\Facades\Event;
 use Gerardojbaez\LaraPlans\Models\Plan;
 use Gerardojbaez\LaraPlans\Tests\TestCase;
 use Gerardojbaez\LaraPlans\Tests\Models\User;
 use Gerardojbaez\LaraPlans\Models\PlanFeature;
 use Gerardojbaez\LaraPlans\Models\PlanSubscription;
+use Gerardojbaez\LaraPlans\Events\SubscriptionRenewed;
+use Gerardojbaez\LaraPlans\Events\SubscriptionCanceled;
 use Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\LaraPlans\Events\SubscriptionPlanChanged;
 
 class PlanSubscriptionTest extends TestCase
 {
@@ -96,8 +100,10 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_determines_if_is_canceled()
+    public function it_cancels()
     {
+        Event::fake();
+
         // Cancel subscription at period end...
         $this->subscription->cancel();
         $this->subscription->trial_ends_at = null;
@@ -112,6 +118,12 @@ class PlanSubscriptionTest extends TestCase
         $this->assertTrue($this->subscription->isCanceled());
         $this->assertFalse($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
+
+        $subscription = $this->subscription;
+
+        Event::assertFired(SubscriptionCanceled::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 
     /**
@@ -141,6 +153,8 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_can_be_renewed()
     {
+        Event::fake();
+
         // Create a subscription with an ended period...
         $subscription = factory(PlanSubscription::class)->create([
             'plan_id' => factory(Plan::class)->create([
@@ -156,6 +170,10 @@ class PlanSubscriptionTest extends TestCase
 
         $this->assertTrue($subscription->isActive());
         $this->assertEquals(Carbon::now()->addMonth(), $subscription->ends_at);
+
+        Event::assertFired(SubscriptionRenewed::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 
     /**
@@ -262,6 +280,8 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_can_change_plan()
     {
+        Event::fake();
+
         $newPlan = Plan::create([
             'name' => 'Business',
             'description' => 'Business plan',
@@ -295,5 +315,11 @@ class PlanSubscriptionTest extends TestCase
         // This assertion will make sure that the subscription is now using
         // the new plan features...
         $this->assertEquals('Y', $this->subscription->fresh()->ability()->value('listing_title_bold'));
+
+        $subscription = $this->subscription;
+
+        Event::assertFired(SubscriptionPlanChanged::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 }

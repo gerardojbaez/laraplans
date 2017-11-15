@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 *This release breaks backward compatibility.*
 
+### Added
+- `SubscriptionRenewed` event.
+- `SubscriptionCanceled` event.
+- `SubscriptionPlanChanged` event.
+
 ### Fixed
 - Fix #18
 - Fix #17
