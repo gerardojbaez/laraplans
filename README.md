@@ -1,14 +1,16 @@
-# LaraPlans
+# Laraplans
 
 
 SaaS style recurring plans for Laravel 5.
 
-> Please note: this package doesn't handle payments.
+*Payments are out of scope for this package at this moment, but [suggestions are welcome](https://github.com/gerardojbaez/laraplans/ssues/new)!*
+
+## Table of Content
 
 <!-- MarkdownTOC depth="2" autolink="true" bracket="round" -->
 
-- [Considerations](#considerations)
-- [Installation](#installation)
+- [Feedback](#feedback)
+- [How to install](#how-to-install)
     - [Composer](#composer)
     - [Service Provider](#service-provider)
     - [Config file and Migrations](#config-file-and-migrations)
@@ -33,21 +35,18 @@ SaaS style recurring plans for Laravel 5.
 
 <!-- /MarkdownTOC -->
 
-## Considerations
+## Feedback
 
-- Payments are out of scope for this package.
-- You may want to extend all of LaraPlans models since it's likely that you will need to override the logic behind some helper methods like `renew()`, `cancel()` etc. E.g.: when cancelling a subscription you may want to also cancel the recurring payment attached.
+Feel free to leave your feedback! [How are you using Laraplans?](https://github.com/gerardojbaez/laraplans/issues/22)
 
-## Installation
+## How to install
 
 ### Composer
 Add the following to your `composer.json` file:
 
 ```json
-{
-    "require": {
-        "gerardojbaez/laraplans": "~1.0"
-    }
+"require": {
+    "gerardojbaez/laraplans": "~1.0"
 }
 ```
 
@@ -57,7 +56,7 @@ And then run in your terminal:
 
 #### Quick Installation
 
-Above installation can also be simplify by using the following command:
+Above installation can also be simplified by using the following command:
 
     composer require gerardojbaez/laraplans
 
@@ -76,7 +75,7 @@ Add `Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class` to your application
 
 ### Config file and Migrations
 
-Publish package config file and migrations with the command:
+Publish package config file and migrations with the following command:
 
     php artisan vendor:publish --provider="Gerardojbaez\LaraPlans\LaraPlansServiceProvider"
 
