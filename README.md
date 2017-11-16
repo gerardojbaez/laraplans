@@ -1,5 +1,9 @@
-# Laraplans
+[![Build Status](https://img.shields.io/travis/gerardojbaez/laraplans.svg?style=flat-square)](https://travis-ci.org/gerardojbaez/laraplans)
+[![Latest Version](https://img.shields.io/github/release/gerardojbaez/laraplans.svg?style=flat-square)](https://github.com/gerardojbaez/laraplans/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/gerardojbaez/laraplans.svg?style=flat-square)](https://packagist.org/packages/gerardojbaez/laraplans)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
+# Laraplans
 
 SaaS style recurring plans for Laravel 5.
 
