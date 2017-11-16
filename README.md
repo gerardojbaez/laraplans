@@ -3,7 +3,7 @@
 
 SaaS style recurring plans for Laravel 5.
 
-*Payments are out of scope for this package at this moment, but [suggestions are welcome](https://github.com/gerardojbaez/laraplans/ssues/new)!*
+*Payments are out of scope for this package at this moment, but [suggestions are welcome](https://github.com/gerardojbaez/laraplans/issues/new)!*
 
 ## Table of Content
 
