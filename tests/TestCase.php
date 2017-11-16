@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class TestCase extends Testbench
 {
+    protected $tz;
+
     /**
      * Setup the test enviroment.
      *
@@ -16,6 +18,11 @@ class TestCase extends Testbench
      */
     public function setUp()
     {
+        // save current timezone
+        $this->tz = date_default_timezone_get();
+
+        date_default_timezone_set('America/Toronto');
+
         parent::setUp();
 
         // Run package migrations
@@ -29,6 +36,13 @@ class TestCase extends Testbench
             '--database' => 'testbench',
             '--realpath' => realpath(__DIR__.'/migrations'),
         ]);
+    }
+
+    protected function tearDown()
+    {
+        date_default_timezone_set($this->tz);
+
+        parent::tearDown();
     }
 
     /**
