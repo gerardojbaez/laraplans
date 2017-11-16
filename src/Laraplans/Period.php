@@ -1,9 +1,9 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
 use Carbon\Carbon;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidIntervalException;
+use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
 
 class Period
 {
@@ -61,7 +61,7 @@ class Period
      * @param  string $interval Interval
      * @param  int $count Interval count
      * @param  string $start Starting point
-     * @throws  \Gerardojbaez\LaraPlans\Exceptions\InvalidIntervalException
+     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException
      * @return  void
      */
     public function __construct($interval = 'month', $count = 1, $start = '')

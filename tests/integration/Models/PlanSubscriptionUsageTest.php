@@ -1,13 +1,13 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
+namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Tests\Models\User;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 class PlanSubscriptionUsageTest extends TestCase
 {

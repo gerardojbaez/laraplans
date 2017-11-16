@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Tests;
+namespace Gerardojbaez\Laraplans\Tests;
 
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
@@ -42,7 +42,7 @@ class TestCase extends Testbench
         $this->registerEloquentFactory($app);
 
         // Set user model
-        $app['config']->set('auth.providers.users.model', '\Gerardojbaez\LaraPlans\Tests\Models\User');
+        $app['config']->set('auth.providers.users.model', '\Gerardojbaez\Laraplans\Tests\Models\User');
 
         // set up database configuration
         $app['config']->set('database.default', 'testbench');
@@ -54,14 +54,14 @@ class TestCase extends Testbench
     }
 
     /**
-     * Get LaraPlans package service provider.
+     * Get Laraplans package service provider.
      *
      * @param  \Illuminate\Foundation\Application $app
      * @return array
      */
     public function getPackageProviders($app)
     {
-        return ['Gerardojbaez\LaraPlans\LaraPlansServiceProvider'];
+        return ['Gerardojbaez\Laraplans\LaraplansServiceProvider'];
     }
 
     /**

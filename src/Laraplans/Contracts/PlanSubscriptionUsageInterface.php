@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Contracts;
+namespace Gerardojbaez\Laraplans\Contracts;
 
 interface PlanSubscriptionUsageInterface
 {

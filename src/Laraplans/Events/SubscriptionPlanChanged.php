@@ -1,23 +1,23 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Events;
+namespace Gerardojbaez\Laraplans\Events;
 
-use Gerardojbaez\LaraPlans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Models\PlanSubscription;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionCanceled
+class SubscriptionPlanChanged
 {
     use SerializesModels;
 
     /**
-     * @var \LaraPlans\Models\PlanSubscription
+     * @var \Laraplans\Models\PlanSubscription
      */
     public $subscription;
 
     /**
      * Create a new event instance.
      *
-     * @param  \LaraPlans\Models\PlanSubscription  $subscription
+     * @param  \Laraplans\Models\PlanSubscription  $subscription
      * @return void
      */
     public function __construct(PlanSubscription $subscription)

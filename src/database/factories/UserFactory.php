@@ -1,6 +1,6 @@
 <?php
 
-use Gerardojbaez\LaraPlans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Tests\Models\User;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [

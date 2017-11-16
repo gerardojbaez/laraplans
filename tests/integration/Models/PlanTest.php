@@ -1,11 +1,11 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
+namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Gerardojbaez\LaraPlans\Period;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Period;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 class PlanTest extends TestCase
 {

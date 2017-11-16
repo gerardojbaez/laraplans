@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - `SubscriptionCanceled` event.
 - `SubscriptionPlanChanged` event.
 
+### Changed
+- Namespace changed from `Gerardojbaez\LaraPlans` to `Gerardojbaez\Laraplans`
+
 ### Fixed
 - Fix #18
 - Fix #17

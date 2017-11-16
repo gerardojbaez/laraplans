@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Unit;
+namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\LaraPlans\Feature;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
+use Gerardojbaez\Laraplans\Feature;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class FeatureTest extends TestCase
 {

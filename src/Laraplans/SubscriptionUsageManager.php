@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
 class SubscriptionUsageManager
 {
@@ -28,7 +28,7 @@ class SubscriptionUsageManager
      *
      * @param string $feature
      * @param int $uses
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function record($feature, $uses = 1, $incremental = true)
     {
@@ -66,7 +66,7 @@ class SubscriptionUsageManager
      *
      * @param string $feature
      * @param int $uses
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function reduce($feature, $uses = 1)
     {

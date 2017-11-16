@@ -1,13 +1,13 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration;
+namespace Gerarodjbaez\Laraplans\Tests\Integration;
 
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Tests\Models\User;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
-use Gerardojbaez\LaraPlans\SubscriptionUsageManger;
-use Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\SubscriptionUsageManger;
+use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
 
 class SubscriptionUsageMangerTest extends TestCase
 {

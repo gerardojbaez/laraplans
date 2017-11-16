@@ -62,14 +62,14 @@ Above installation can also be simplified by using the following command:
 
 ### Service Provider
 
-Add `Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class` to your application service providers in `config/app.php` file:
+Add `Gerardojbaez\Laraplans\LaraplansServiceProvider::class` to your application service providers in `config/app.php` file:
 
 ```php
 'providers' => [
     /**
      * Third Party Service Providers...
      */
-    Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class,
+    Gerardojbaez\Laraplans\LaraplansServiceProvider::class,
 ]
 ```
 
@@ -77,7 +77,7 @@ Add `Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class` to your application
 
 Publish package config file and migrations with the following command:
 
-    php artisan vendor:publish --provider="Gerardojbaez\LaraPlans\LaraPlansServiceProvider"
+    php artisan vendor:publish --provider="Gerardojbaez\Laraplans\LaraplansServiceProvider"
 
 Then run migrations:
 
@@ -85,7 +85,7 @@ Then run migrations:
 
 ### Traits and Contracts
 
-Add `Gerardojbaez\LaraPlans\Traits\PlanSubscriber` trait and `Gerardojbaez\LaraPlans\Contracts\PlanSubscriberInterface` contract to your `User` model.
+Add `Gerardojbaez\Laraplans\Traits\PlanSubscriber` trait and `Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface` contract to your `User` model.
 
 See the following example:
 
@@ -95,8 +95,8 @@ See the following example:
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriberInterface;
-use Gerardojbaez\LaraPlans\Traits\PlanSubscriber;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
+use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 
 class User extends Authenticatable implements PlanSubscriberInterface
 {
@@ -109,8 +109,8 @@ class User extends Authenticatable implements PlanSubscriberInterface
 ```php
 <?php
 
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 $plan = Plan::create([
     'name' => 'Pro',
@@ -138,7 +138,7 @@ You can subscribe a user to a plan by using the `newSubscription()` function ava
 <?php
 
 use Auth;
-use Gerardojbaez\LaraPlans\Models\Plan;
+use Gerardojbaez\Laraplans\Models\Plan;
 
 $user = Auth::user();
 $plan = Plan::find(1);
@@ -262,7 +262,7 @@ $user->subscription('main')->cancel(true);
 ```php
 <?php
 
-use Gerardojbaez\LaraPlans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Models\PlanSubscription;
 
 // Get subscriptions by plan:
 $subscriptions = PlanSubscription::byPlan($plan_id)->get();
@@ -285,7 +285,7 @@ $subscriptions = PlanSubscription::findEndedPeriod()->get();
 
 ## Events
 
-Events are under the namespace `Gerardojbaez\LaraPlans\Events`.
+Events are under the namespace `Gerardojbaez\Laraplans\Events`.
 
 ### `SubscriptionRenewed`
 
@@ -301,16 +301,16 @@ Fired when a subscription's plan is changed. This will be triggered once the `Pl
 
 ## Models
 
-LaraPlans uses 4 models:
+Laraplans uses 4 models:
 
 ```php
-Gerardojbaez\LaraPlans\Models\Plan;
-Gerardojbaez\LaraPlans\Models\PlanFeature;
-Gerardojbaez\LaraPlans\Models\PlanSubscription;
-Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
+Gerardojbaez\Laraplans\Models\Plan;
+Gerardojbaez\Laraplans\Models\PlanFeature;
+Gerardojbaez\Laraplans\Models\PlanSubscription;
+Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
 ```
 
-For more details take a look to each model and the `Gerardojbaez\LaraPlans\Traits\PlanSubscriber` trait.
+For more details take a look to each model and the `Gerardojbaez\Laraplans\Traits\PlanSubscriber` trait.
 
 ## Config File
 

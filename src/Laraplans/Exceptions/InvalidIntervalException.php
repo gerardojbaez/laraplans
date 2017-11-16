@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Exceptions;
+namespace Gerardojbaez\Laraplans\Exceptions;
 
 class InvalidIntervalException extends \Exception
 {

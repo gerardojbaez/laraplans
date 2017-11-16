@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Gerardojbaez\\LaraPlans\\": "src/LaraPlans/"
+            "Gerardojbaez\\Laraplans\\": "src/Laraplans/"
         }
     },
     "autoload-dev": {
@@ -25,7 +25,7 @@
             "tests/TestCase.php"
         ],
         "psr-4": {
-            "Gerardojbaez\\LaraPlans\\Tests\\": "tests/"
+            "Gerardojbaez\\Laraplans\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev"

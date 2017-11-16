@@ -1,24 +1,24 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Models;
+namespace Gerardojbaez\Laraplans\Models;
 
 use DB;
 use App;
 use Carbon\Carbon;
 use LogicException;
-use Gerardojbaez\LaraPlans\Period;
+use Gerardojbaez\Laraplans\Period;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
-use Gerardojbaez\LaraPlans\SubscriptionAbility;
-use Gerardojbaez\LaraPlans\Traits\BelongsToPlan;
-use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
-use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
-use Gerardojbaez\LaraPlans\Events\SubscriptionRenewed;
-use Gerardojbaez\LaraPlans\Events\SubscriptionCanceled;
-use Gerardojbaez\LaraPlans\Events\SubscriptionPlanChanged;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
-use Gerardojbaez\LaraPlans\Exceptions\FeatureValueFormatIncompatibleException;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\SubscriptionAbility;
+use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
+use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\SubscriptionUsageManager;
+use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
+use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
+use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
+use Gerardojbaez\Laraplans\Exceptions\FeatureValueFormatIncompatibleException;
 
 class PlanSubscription extends Model implements PlanSubscriptionInterface
 {
@@ -57,7 +57,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Subscription Ability Manager instance.
      *
-     * @var Gerardojbaez\LaraPlans\SubscriptionAbility
+     * @var Gerardojbaez\Laraplans\SubscriptionAbility
      */
     protected $ability;
 
@@ -264,7 +264,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Get Subscription Ability instance.
      *
-     * @return \Gerardojbaez\LaraPlans\SubscriptionAbility
+     * @return \Gerardojbaez\Laraplans\SubscriptionAbility
      */
     public function ability()
     {

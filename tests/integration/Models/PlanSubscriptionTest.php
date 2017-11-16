@@ -2,21 +2,21 @@
 
 // @codingStandardsIgnoreFile
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
+namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Gerardojbaez\LaraPlans\Period;
+use Gerardojbaez\Laraplans\Period;
 use Illuminate\Support\Facades\Event;
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Tests\Models\User;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
-use Gerardojbaez\LaraPlans\Models\PlanSubscription;
-use Gerardojbaez\LaraPlans\Events\SubscriptionRenewed;
-use Gerardojbaez\LaraPlans\Events\SubscriptionCanceled;
-use Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
-use Gerardojbaez\LaraPlans\Events\SubscriptionPlanChanged;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
+use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
+use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
 
 class PlanSubscriptionTest extends TestCase
 {
