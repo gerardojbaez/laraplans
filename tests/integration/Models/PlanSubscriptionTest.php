@@ -169,7 +169,7 @@ class PlanSubscriptionTest extends TestCase
         $subscription->renew();
 
         $this->assertTrue($subscription->isActive());
-        $this->assertEquals(Carbon::now()->addMonth(), $subscription->ends_at);
+        $this->assertEquals(Carbon::now()->addMonth()->format('Y-m-d H:i:s'), $subscription->ends_at->format('Y-m-d H:i:s'));
 
         Event::assertFired(SubscriptionRenewed::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
@@ -310,7 +310,7 @@ class PlanSubscriptionTest extends TestCase
         $expectedPeriodEndDate = $period->getEndDate();
 
         // Finaly test period
-        $this->assertEquals($expectedPeriodEndDate, $this->subscription->ends_at);
+        $this->assertEquals($expectedPeriodEndDate->format('Y-m-d H:i:s'), $this->subscription->ends_at->format('Y-m-d H:i:s'));
 
         // This assertion will make sure that the subscription is now using
         // the new plan features...
