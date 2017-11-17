@@ -7,14 +7,14 @@ class SubscriptionUsageManager
     /**
      * Subscription model instance.
      *
-     * @var \Illuminate\Database\Eloqunet\Model
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $subscription;
 
     /**
      * Create new Subscription Usage Manager instance.
      *
-     * @param \Illuminate\Database\Eloqunet\Model $subscription
+     * @param \Illuminate\Database\Eloquent\Model $subscription
      */
     public function __construct($subscription)
     {

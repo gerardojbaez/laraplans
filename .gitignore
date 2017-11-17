@@ -2,3 +2,4 @@
 /.phpintel
 composer.phar
 *.sublime-workspace
+/.idea

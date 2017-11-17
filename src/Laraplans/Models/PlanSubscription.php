@@ -27,8 +27,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Subscription statuses
      */
-    const STATUS_ACTIVE = 'active';
-    const STATUS_CANCELED = 'canceled';
+    const STATUS_ENDED      = 'ended';
+    const STATUS_ACTIVE     = 'active';
+    const STATUS_CANCELED   = 'canceled';
 
     /**
      * The attributes that are mass assignable.
@@ -121,6 +122,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
 
         if ($this->isCanceled()) {
             return self::STATUS_CANCELED;
+        }
+
+        if ($this->isEnded()) {
+            return self::STATUS_ENDED;
         }
     }
 

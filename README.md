@@ -21,6 +21,7 @@ SaaS style recurring plans for Laravel 5.
     - [Traits and Contracts](#traits-and-contracts)
 - [Usage](#usage)
     - [Create a Plan](#create-a-plan)
+    - [Get the value of Feature](#get-the-value-of-feature)
     - [Creating subscriptions](#creating-subscriptions)
     - [Subscription Ability](#subscription-ability)
     - [Record Feature Usage](#record-feature-usage)
@@ -132,6 +133,14 @@ $plan->features()->saveMany([
     new PlanFeature(['code' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10]),
     new PlanFeature(['code' => 'listing_title_bold', 'value' => 'Y', 'sort_order' => 15])
 ]);
+```
+
+### Get the value of Feature
+
+Say you want to show the value of the feature _pictures_per_listing_ from above. You can use `getFeatureByCode()`.
+
+```php
+$amountOfPictures = $plan->getFeatureByCode('pictures_per_listing')->value
 ```
 
 ### Creating subscriptions
