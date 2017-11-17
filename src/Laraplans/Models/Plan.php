@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Models;
+namespace Gerardojbaez\Laraplans\Models;
 
-use Gerardojbaez\LaraPlans\Period;
+use Gerardojbaez\Laraplans\Period;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanInterface;
 
 class Plan extends Model implements PlanInterface
 {

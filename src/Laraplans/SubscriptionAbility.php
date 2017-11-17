@@ -1,8 +1,8 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
-use Gerardojbaez\LaraPlans\Feature;
+use Gerardojbaez\Laraplans\Feature;
 
 class SubscriptionAbility
 {
@@ -80,7 +80,7 @@ class SubscriptionAbility
      */
     public function remainings($feature)
     {
-        return ($this->value($feature) - $this->consumed($feature));
+        return ((int) $this->value($feature) - (int) $this->consumed($feature));
     }
 
     /**

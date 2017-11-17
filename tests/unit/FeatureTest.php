@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Unit;
+namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\LaraPlans\Feature;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
+use Gerardojbaez\Laraplans\Feature;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class FeatureTest extends TestCase
 {
@@ -46,8 +46,8 @@ class FeatureTest extends TestCase
     public function it_can_generate_feature_reset_date()
     {
         $feature = new Feature('SAMPLE_DEFINED_FEATURE');
-        $feature->setReseteableInterval('month');
-        $feature->setReseteableCount('1');
+        $feature->setResettableInterval('month');
+        $feature->setResettableCount('1');
 
         $this->assertEquals('2016-09-16 17:14:16', (string)$feature->getResetDate('2016-08-16 17:14:16'));
     }

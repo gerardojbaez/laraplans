@@ -6,7 +6,9 @@
     "type": "library",
     "require": {
         "php": ">=5.5.9",
-        "nesbot/carbon": "~1.21"
+        "nesbot/carbon": "~1.21",
+        "illuminate/support": "~5.3",
+        "illuminate/database": "~5.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -16,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Gerardojbaez\\LaraPlans\\": "src/LaraPlans/"
+            "Gerardojbaez\\Laraplans\\": "src/Laraplans/"
         }
     },
     "autoload-dev": {
@@ -24,7 +26,7 @@
             "tests/TestCase.php"
         ],
         "psr-4": {
-            "Gerardojbaez\\LaraPlans\\Tests\\": "tests/"
+            "Gerardojbaez\\Laraplans\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev"

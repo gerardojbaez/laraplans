@@ -1,16 +1,22 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
+// @codingStandardsIgnoreFile
+
+namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Gerardojbaez\LaraPlans\Period;
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Tests\Models\User;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
-use Gerardojbaez\LaraPlans\Models\PlanSubscription;
-use Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\Laraplans\Period;
+use Illuminate\Support\Facades\Event;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
+use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
+use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
 
 class PlanSubscriptionTest extends TestCase
 {
@@ -29,8 +35,8 @@ class PlanSubscriptionTest extends TestCase
 
         Config::set('laraplans.features', [
             'listings_per_month' => [
-                'reseteable_interval' => 'month',
-                'reseteable_count' => 1
+                'resettable_interval' => 'month',
+                'resettable_count' => 1
             ],
             'pictures_per_listing',
             'listing_duration_days',
@@ -71,9 +77,9 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_can_get_subscription_user()
+    public function it_gets_subscribable_model_instance()
     {
-        $this->assertInstanceOf(config('auth.providers.users.model'), $this->subscription->user);
+        $this->assertInstanceOf(User::class, $this->subscription->subscribable);
     }
 
     /**
@@ -82,9 +88,9 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_active()
+    public function it_determines_if_is_active()
     {
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
     }
 
@@ -94,22 +100,30 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_canceled()
+    public function it_cancels()
     {
+        Event::fake();
+
         // Cancel subscription at period end...
         $this->subscription->cancel();
         $this->subscription->trial_ends_at = null;
 
-        $this->assertTrue($this->subscription->canceled());
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
         // Cancel subscription immediately...
         $this->subscription->cancel(true);
 
-        $this->assertTrue($this->subscription->canceled());
-        $this->assertFalse($this->subscription->active());
+        $this->assertTrue($this->subscription->isCanceled());
+        $this->assertFalse($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
+
+        $subscription = $this->subscription;
+
+        Event::assertFired(SubscriptionCanceled::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 
     /**
@@ -118,17 +132,17 @@ class PlanSubscriptionTest extends TestCase
      * @test
      * @return void
      */
-    public function it_is_trialling()
+    public function it_determines_if_is_trialling()
     {
         // Test if subscription is active after applying a trial.
         $this->subscription->trial_ends_at = $this->subscription->trial_ends_at->addDays(2);
-        $this->assertTrue($this->subscription->active());
+        $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
         // Test if subscription is inactive after removing the trial.
         $this->subscription->trial_ends_at = Carbon::now()->subDay();
         $this->subscription->cancel(true);
-        $this->assertFalse($this->subscription->active());
+        $this->assertFalse($this->subscription->isActive());
     }
 
      /**
@@ -139,6 +153,8 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_can_be_renewed()
     {
+        Event::fake();
+
         // Create a subscription with an ended period...
         $subscription = factory(PlanSubscription::class)->create([
             'plan_id' => factory(Plan::class)->create([
@@ -148,12 +164,16 @@ class PlanSubscriptionTest extends TestCase
             'ends_at' => Carbon::now()->subMonth(),
         ]);
 
-        $this->assertFalse($subscription->active());
+        $this->assertFalse($subscription->isActive());
 
         $subscription->renew();
 
-        $this->assertTrue($subscription->active());
-        $this->assertEquals(Carbon::now()->addMonth(), $subscription->ends_at);
+        $this->assertTrue($subscription->isActive());
+        $this->assertEquals(Carbon::now()->addMonth()->format('Y-m-d H:i:s'), $subscription->ends_at->format('Y-m-d H:i:s'));
+
+        Event::assertFired(SubscriptionRenewed::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 
     /**
@@ -260,6 +280,8 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_can_change_plan()
     {
+        Event::fake();
+
         $newPlan = Plan::create([
             'name' => 'Business',
             'description' => 'Business plan',
@@ -288,10 +310,16 @@ class PlanSubscriptionTest extends TestCase
         $expectedPeriodEndDate = $period->getEndDate();
 
         // Finaly test period
-        $this->assertEquals($expectedPeriodEndDate, $this->subscription->ends_at);
+        $this->assertEquals($expectedPeriodEndDate->format('Y-m-d H:i:s'), $this->subscription->ends_at->format('Y-m-d H:i:s'));
 
         // This assertion will make sure that the subscription is now using
         // the new plan features...
         $this->assertEquals('Y', $this->subscription->fresh()->ability()->value('listing_title_bold'));
+
+        $subscription = $this->subscription;
+
+        Event::assertFired(SubscriptionPlanChanged::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 }

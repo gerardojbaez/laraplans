@@ -1,14 +1,14 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
 use Illuminate\Support\ServiceProvider;
-use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
-use Gerardojbaez\LaraPlans\Contracts\PlanFeatureInterface;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionUsageInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
 
-class LaraPlansServiceProvider extends ServiceProvider
+class LaraplansServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

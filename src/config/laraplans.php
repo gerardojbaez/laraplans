@@ -25,14 +25,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you want to use your own models you will want to update the following
-    | array to make sure LaraPlans use them.
+    | array to make sure Laraplans use them.
     |
     */
     'models' => [
-        'plan' => 'Gerardojbaez\LaraPlans\Models\Plan',
-        'plan_feature' => 'Gerardojbaez\LaraPlans\Models\PlanFeature',
-        'plan_subscription' => 'Gerardojbaez\LaraPlans\Models\PlanSubscription',
-        'plan_subscription_usage' => 'Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage',
+        'plan' => 'Gerardojbaez\Laraplans\Models\Plan',
+        'plan_feature' => 'Gerardojbaez\Laraplans\Models\PlanFeature',
+        'plan_subscription' => 'Gerardojbaez\Laraplans\Models\PlanSubscription',
+        'plan_subscription_usage' => 'Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage',
     ],
 
     /*
@@ -47,8 +47,8 @@ return [
     'features' => [
         'SAMPLE_SIMPLE_FEATURE',
         'SAMPLE_DEFINED_FEATURE' => [
-            'reseteable_interval' => 'month',
-            'reseteable_count' => 2
+            'resettable_interval' => 'month',
+            'resettable_count' => 2
         ],
     ],
 ];

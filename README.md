@@ -1,14 +1,20 @@
-# LaraPlans
+[![Build Status](https://img.shields.io/travis/gerardojbaez/laraplans.svg?style=flat-square)](https://travis-ci.org/gerardojbaez/laraplans)
+[![Latest Version](https://img.shields.io/github/release/gerardojbaez/laraplans.svg?style=flat-square)](https://github.com/gerardojbaez/laraplans/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/gerardojbaez/laraplans.svg?style=flat-square)](https://packagist.org/packages/gerardojbaez/laraplans)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
+# Laraplans
 
 SaaS style recurring plans for Laravel 5.
 
-> Please note: this package doesn't handle payments.
+*Payments are out of scope for this package at this moment, but [suggestions are welcome](https://github.com/gerardojbaez/laraplans/issues/new)!*
+
+## Table of Content
 
 <!-- MarkdownTOC depth="2" autolink="true" bracket="round" -->
 
-- [Considerations](#considerations)
-- [Installation](#installation)
+- [Feedback](#feedback)
+- [How to install](#how-to-install)
     - [Composer](#composer)
     - [Service Provider](#service-provider)
     - [Config file and Migrations](#config-file-and-migrations)
@@ -24,26 +30,27 @@ SaaS style recurring plans for Laravel 5.
     - [Renew a Subscription](#renew-a-subscription)
     - [Cancel a Subscription](#cancel-a-subscription)
     - [Scopes](#scopes)
+- [Events](#events)
+    - [`SubscriptionRenewed`](#subscriptionrenewed)
+    - [`SubscriptionCanceled`](#subscriptioncanceled)
+    - [`SubscriptionPlanChanged`](#subscriptionplanchanged)
 - [Models](#models)
 - [Config File](#config-file)
 
 <!-- /MarkdownTOC -->
 
-## Considerations
+## Feedback
 
-- Payments are out of scope for this package.
-- You may want to extend all of LaraPlans models since it's likely that you will need to override the logic behind some helper methods like `renew()`, `cancel()` etc. E.g.: when cancelling a subscription you may want to also cancel the recurring payment attached.
+Feel free to leave your feedback! [How are you using Laraplans?](https://github.com/gerardojbaez/laraplans/issues/22)
 
-## Installation
+## How to install
 
 ### Composer
 Add the following to your `composer.json` file:
 
 ```json
-{
-    "require": {
-        "gerardojbaez/laraplans": "~1.0"
-    }
+"require": {
+    "gerardojbaez/laraplans": "~1.0"
 }
 ```
 
@@ -53,28 +60,28 @@ And then run in your terminal:
 
 #### Quick Installation
 
-Above installation can also be simplify by using the following command:
+Above installation can also be simplified by using the following command:
 
-    composer require "gerardojbaez/laraplans=~1.0"
+    composer require gerardojbaez/laraplans
 
 ### Service Provider
 
-Add `Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class` to your application service providers in `config/app.php` file:
+Add `Gerardojbaez\Laraplans\LaraplansServiceProvider::class` to your application service providers in `config/app.php` file:
 
 ```php
 'providers' => [
     /**
      * Third Party Service Providers...
      */
-    Gerardojbaez\LaraPlans\LaraPlansServiceProvider::class,
+    Gerardojbaez\Laraplans\LaraplansServiceProvider::class,
 ]
 ```
 
 ### Config file and Migrations
 
-Publish package config file and migrations with the command:
+Publish package config file and migrations with the following command:
 
-    php artisan vendor:publish --provider="Gerardojbaez\LaraPlans\LaraPlansServiceProvider"
+    php artisan vendor:publish --provider="Gerardojbaez\Laraplans\LaraplansServiceProvider"
 
 Then run migrations:
 
@@ -82,7 +89,7 @@ Then run migrations:
 
 ### Traits and Contracts
 
-Add `Gerardojbaez\LaraPlans\Traits\PlanSubscriber` trait and `Gerardojbaez\LaraPlans\Contracts\PlanSubscriberInterface` contract to your `User` model.
+Add `Gerardojbaez\Laraplans\Traits\PlanSubscriber` trait and `Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface` contract to your `User` model.
 
 See the following example:
 
@@ -92,8 +99,8 @@ See the following example:
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriberInterface;
-use Gerardojbaez\LaraPlans\Traits\PlanSubscriber;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
+use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 
 class User extends Authenticatable implements PlanSubscriberInterface
 {
@@ -106,8 +113,8 @@ class User extends Authenticatable implements PlanSubscriberInterface
 ```php
 <?php
 
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 $plan = Plan::create([
     'name' => 'Pro',
@@ -135,7 +142,7 @@ You can subscribe a user to a plan by using the `newSubscription()` function ava
 <?php
 
 use Auth;
-use Gerardojbaez\LaraPlans\Models\Plan;
+use Gerardojbaez\Laraplans\Models\Plan;
 
 $user = Auth::user();
 $plan = Plan::find(1);
@@ -259,7 +266,7 @@ $user->subscription('main')->cancel(true);
 ```php
 <?php
 
-use Gerardojbaez\LaraPlans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Models\PlanSubscription;
 
 // Get subscriptions by plan:
 $subscriptions = PlanSubscription::byPlan($plan_id)->get();
@@ -280,18 +287,34 @@ $subscriptions = PlanSubscription::findEndingPeriod(3)->get();
 $subscriptions = PlanSubscription::findEndedPeriod()->get();
 ```
 
+## Events
+
+Events are under the namespace `Gerardojbaez\Laraplans\Events`.
+
+### `SubscriptionRenewed`
+
+Fired when a subscription is renewed using the `renew()` method. The following are the events triggered by the package.
+
+### `SubscriptionCanceled`
+
+Fired when a subscription is canceled using the `cancel()` method.
+
+### `SubscriptionPlanChanged`
+
+Fired when a subscription's plan is changed. This will be triggered once the `PlanSubscription` model is saved. Plan change is determine by comparing the original and current value of `plan_id`.
+
 ## Models
 
-LaraPlans uses 4 models:
+Laraplans uses 4 models:
 
 ```php
-Gerardojbaez\LaraPlans\Models\Plan;
-Gerardojbaez\LaraPlans\Models\PlanFeature;
-Gerardojbaez\LaraPlans\Models\PlanSubscription;
-Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage;
+Gerardojbaez\Laraplans\Models\Plan;
+Gerardojbaez\Laraplans\Models\PlanFeature;
+Gerardojbaez\Laraplans\Models\PlanSubscription;
+Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
 ```
 
-For more details take a look to each model and the `Gerardojbaez\LaraPlans\Traits\PlanSubscriber` trait.
+For more details take a look to each model and the `Gerardojbaez\Laraplans\Traits\PlanSubscriber` trait.
 
 ## Config File
 

@@ -1,3 +1,4 @@
 /vendor
 /.phpintel
 composer.phar
+*.sublime-workspace

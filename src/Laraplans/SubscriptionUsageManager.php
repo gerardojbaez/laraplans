@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
 class SubscriptionUsageManager
 {
@@ -28,7 +28,7 @@ class SubscriptionUsageManager
      *
      * @param string $feature
      * @param int $uses
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function record($feature, $uses = 1, $incremental = true)
     {
@@ -38,7 +38,7 @@ class SubscriptionUsageManager
             'code' => $feature->getFeatureCode(),
         ]);
 
-        if ($feature->isReseteable()) {
+        if ($feature->isResettable()) {
         // Set expiration date when the usage record is new
             // or doesn't have one.
             if (is_null($usage->valid_until)) {
@@ -66,7 +66,7 @@ class SubscriptionUsageManager
      *
      * @param string $feature
      * @param int $uses
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscriptionUsage
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function reduce($feature, $uses = 1)
     {

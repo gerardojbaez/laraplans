@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Models;
+namespace Gerardojbaez\Laraplans\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionUsageInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
 
 class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterface
 {

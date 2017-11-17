@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans;
+namespace Gerardojbaez\Laraplans;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -87,7 +87,7 @@ class SubscriptionBuilder
      * Create a new subscription.
      *
      * @param  array  $options
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscription
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscription
      */
     public function create(array $attributes = [])
     {

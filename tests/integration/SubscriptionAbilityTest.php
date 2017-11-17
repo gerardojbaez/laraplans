@@ -1,11 +1,11 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Tests\Integration\Models;
+namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Gerardojbaez\LaraPlans\Models\Plan;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Tests\Models\User;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 class SubscriptionAbilityTest extends TestCase
 {
@@ -37,6 +37,7 @@ class SubscriptionAbilityTest extends TestCase
             new PlanFeature(['code' => 'pictures_per_listing', 'value' => 10]),
             new PlanFeature(['code' => 'listing_title_bold', 'value' => 'N']),
             new PlanFeature(['code' => 'listing_video', 'value' => 'Y']),
+            new PlanFeature(['code' => 'non_positive_word', 'value' => 'I']), // test for non-positive words
         ]);
 
         // Create Subscription
@@ -49,5 +50,6 @@ class SubscriptionAbilityTest extends TestCase
         $this->assertEquals('N', $user->subscription('main')->ability()->value('listing_title_bold'));
         $this->assertFalse($user->subscription('main')->ability()->enabled('listing_title_bold'));
         $this->assertTrue($user->subscription('main')->ability()->enabled('listing_video'));
+        $this->assertFalse($user->subscription('main')->ability()->canUse('non_positive_word'));
     }
 }

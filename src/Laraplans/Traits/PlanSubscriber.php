@@ -1,13 +1,13 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Traits;
+namespace Gerardojbaez\Laraplans\Traits;
 
 use App;
 use Carbon\Carbon;
-use Gerardojbaez\LaraPlans\SubscriptionBuilder;
-use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
-use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
+use Gerardojbaez\Laraplans\SubscriptionBuilder;
+use Gerardojbaez\Laraplans\SubscriptionUsageManager;
+use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
 
 trait PlanSubscriber
 {
@@ -15,7 +15,7 @@ trait PlanSubscriber
      * Get a subscription by name.
      *
      * @param  string $name
-     * @return \Gerardojbaez\LaraPlans\Models\Subscription|null
+     * @return \Gerardojbaez\Laraplans\Models\Subscription|null
      */
     public function subscription($name = 'default')
     {
@@ -37,7 +37,7 @@ trait PlanSubscriber
      */
     public function subscriptions()
     {
-        return $this->hasMany(config('laraplans.models.plan_subscription'));
+        return $this->morphMany(config('laraplans.models.plan_subscription'), 'subscribable');
     }
 
     /**
@@ -56,10 +56,10 @@ trait PlanSubscriber
         }
 
         if (is_null($planId)) {
-            return $subscription->active();
+            return $subscription->isActive();
         }
 
-        if ($planId == $subscription->plan_id and $subscription->active()) {
+        if ($planId == $subscription->plan_id and $subscription->isActive()) {
             return true;
         }
 
@@ -71,7 +71,7 @@ trait PlanSubscriber
      *
      * @param string $subscription
      * @param mixed $plan
-     * @return \Gerardojbaez\LaraPlans\Models\PlanSubscription
+     * @return \Gerardojbaez\Laraplans\Models\PlanSubscription
      */
     public function newSubscription($subscription, $plan)
     {
@@ -82,7 +82,7 @@ trait PlanSubscriber
      * Get subscription usage manager instance.
      *
      * @param  string $subscription
-     * @return \Gerardojbaez\LaraPlans\SubscriptionUsageManager
+     * @return \Gerardojbaez\Laraplans\SubscriptionUsageManager
      */
     public function subscriptionUsage($subscription = 'default')
     {

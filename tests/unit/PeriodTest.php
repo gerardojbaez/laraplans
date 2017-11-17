@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerarodjbaez\LaraPlans\Unit;
+namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\LaraPlans\Period;
-use Gerardojbaez\LaraPlans\Tests\TestCase;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidIntervalException;
+use Gerardojbaez\Laraplans\Period;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
 
 class PeriodTest extends TestCase
 {

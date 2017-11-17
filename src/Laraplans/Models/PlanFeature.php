@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Models;
+namespace Gerardojbaez\Laraplans\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\LaraPlans\Traits\BelongsToPlan;
-use Gerardojbaez\LaraPlans\Contracts\PlanFeatureInterface;
+use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
+use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
 
 class PlanFeature extends Model implements PlanFeatureInterface
 {

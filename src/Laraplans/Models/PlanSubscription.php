@@ -1,21 +1,24 @@
 <?php
 
-namespace Gerardojbaez\LaraPlans\Models;
+namespace Gerardojbaez\Laraplans\Models;
 
 use DB;
 use App;
 use Carbon\Carbon;
 use LogicException;
-use Gerardojbaez\LaraPlans\Period;
+use Gerardojbaez\Laraplans\Period;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\LaraPlans\Models\PlanFeature;
-use Gerardojbaez\LaraPlans\SubscriptionAbility;
-use Gerardojbaez\LaraPlans\SubscriptionUsageManager;
-use Gerardojbaez\LaraPlans\Traits\BelongsToPlan;
-use Gerardojbaez\LaraPlans\Contracts\PlanInterface;
-use Gerardojbaez\LaraPlans\Contracts\PlanSubscriptionInterface;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
-use Gerardojbaez\LaraPlans\Exceptions\FeatureValueFormatIncompatibleException;
+use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\SubscriptionAbility;
+use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
+use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\SubscriptionUsageManager;
+use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
+use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
+use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
+use Gerardojbaez\Laraplans\Exceptions\FeatureValueFormatIncompatibleException;
 
 class PlanSubscription extends Model implements PlanSubscriptionInterface
 {
@@ -33,7 +36,6 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'plan_id',
         'name',
         'trial_ends_at',
@@ -55,13 +57,14 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Subscription Ability Manager instance.
      *
-     * @var Gerardojbaez\LaraPlans\SubscriptionAbility
+     * @var Gerardojbaez\Laraplans\SubscriptionAbility
      */
     protected $ability;
 
     /**
      * Boot function for using with User Events.
      *
+     * @todo Move events to an Observer.
      * @return void
      */
     protected static function boot()
@@ -74,16 +77,22 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
                 $model->setNewPeriod();
             }
         });
+
+        static::saved(function ($model) {
+            if ($model->getOriginal('plan_id') !== $model->plan_id) {
+                event(new SubscriptionPlanChanged($model));
+            }
+        });
     }
 
     /**
-     * Get user.
+     * Get the subscribable of the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function subscribable()
     {
-        return $this->belongsTo(config('auth.providers.users.model'));
+        return $this->morphTo();
     }
 
     /**
@@ -106,11 +115,11 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function getStatusAttribute()
     {
-        if ($this->active()) {
+        if ($this->isActive()) {
             return self::STATUS_ACTIVE;
         }
 
-        if ($this->canceled()) {
+        if ($this->isCanceled()) {
             return self::STATUS_CANCELED;
         }
     }
@@ -120,9 +129,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function active()
+    public function isActive()
     {
-        if (! $this->ended() or $this->onTrial()) {
+        if (! $this->isEnded() or $this->onTrial()) {
             return true;
         }
 
@@ -148,7 +157,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function canceled()
+    public function isCanceled()
     {
         return  ! is_null($this->canceled_at);
     }
@@ -158,7 +167,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @return bool
      */
-    public function ended()
+    public function isEnded()
     {
         $endsAt = Carbon::instance($this->ends_at);
 
@@ -179,9 +188,13 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             $this->ends_at = $this->canceled_at;
         }
 
-        $this->save();
+        if ($this->save()) {
+            event(new SubscriptionCanceled($this));
 
-        return $this;
+            return $this;
+        }
+
+        return false;
     }
 
     /**
@@ -224,7 +237,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function renew()
     {
-        if ($this->ended() and $this->canceled()) {
+        if ($this->isEnded() and $this->isCanceled()) {
             throw new LogicException(
                 'Unable to renew canceled ended subscription.'
             );
@@ -243,13 +256,15 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             $subscription->save();
         });
 
+        event(new SubscriptionRenewed($this));
+
         return $this;
     }
 
     /**
      * Get Subscription Ability instance.
      *
-     * @return \Gerardojbaez\LaraPlans\SubscriptionAbility
+     * @return \Gerardojbaez\Laraplans\SubscriptionAbility
      */
     public function ability()
     {
