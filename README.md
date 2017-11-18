@@ -42,7 +42,7 @@ SaaS style recurring plans for Laravel 5.
 
 ## Feedback
 
-Feel free to leave your feedback! [How are you using Laraplans?](https://github.com/gerardojbaez/laraplans/issues/22)
+[Feel free to leave your feedback!](https://github.com/gerardojbaez/laraplans/issues/22)
 
 ## How to install
 
@@ -51,7 +51,7 @@ Add the following to your `composer.json` file:
 
 ```json
 "require": {
-    "gerardojbaez/laraplans": "~1.0"
+    "gerardojbaez/laraplans": "~2.0"
 }
 ```
 
@@ -298,11 +298,11 @@ $subscriptions = PlanSubscription::findEndedPeriod()->get();
 
 ## Events
 
-Events are under the namespace `Gerardojbaez\Laraplans\Events`.
+Events are under the namespace `Gerardojbaez\Laraplans\Events`. The following are the events triggered by the package.
 
 ### `SubscriptionRenewed`
 
-Fired when a subscription is renewed using the `renew()` method. The following are the events triggered by the package.
+Fired when a subscription is renewed using the `renew()` method.
 
 ### `SubscriptionCanceled`
 
