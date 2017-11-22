@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+- `canceled_immediately` column to `plan_subscriptions` table
+- `isCanceledImmediately()` method to `PlanSubscription` model.
+
+### Changed
+- Now when a subscription is *immediately* canceled the `canceled_immediately` column will be set to true.
+- `ends_at` column is no longer overrided to accomodate the `canceled_at` date. This ends date will remain untouched.
+- `isActive()` method will return `false` if subscription was canceled immediately, even if the `ends_at` column is in the future.
+
 ## [2.0.0] - 2017-11-16
 
 *This release breaks backward compatibility.*
