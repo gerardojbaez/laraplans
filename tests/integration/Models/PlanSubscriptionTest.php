@@ -109,6 +109,7 @@ class PlanSubscriptionTest extends TestCase
         $this->subscription->trial_ends_at = null;
 
         $this->assertTrue($this->subscription->isCanceled());
+        $this->assertFalse($this->subscription->isCanceledImmediately());
         $this->assertTrue($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_ACTIVE, $this->subscription->status);
 
@@ -116,6 +117,7 @@ class PlanSubscriptionTest extends TestCase
         $this->subscription->cancel(true);
 
         $this->assertTrue($this->subscription->isCanceled());
+        $this->assertTrue($this->subscription->isCanceledImmediately());
         $this->assertFalse($this->subscription->isActive());
         $this->assertEquals(PlanSubscription::STATUS_CANCELED, $this->subscription->status);
 

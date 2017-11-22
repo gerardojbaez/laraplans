@@ -20,6 +20,7 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->string('subscribable_type')->index();
             $table->integer('plan_id')->unsigned();
             $table->string('name');
+            $table->boolean('canceled_immediately')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();

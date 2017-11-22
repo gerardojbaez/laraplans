@@ -56,6 +56,15 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'canceled_immediately' => 'boolean',
+    ];
+
+    /**
      * Subscription Ability Manager instance.
      *
      * @var Gerardojbaez\Laraplans\SubscriptionAbility
@@ -136,7 +145,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function isActive()
     {
-        if (! $this->isEnded() or $this->onTrial()) {
+        if ((! $this->isEnded() or $this->onTrial()) and ! $this->isCanceledImmediately()) {
             return true;
         }
 
@@ -168,6 +177,16 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Check if subscription is canceled immediately.
+     *
+     * @return bool
+     */
+    public function isCanceledImmediately()
+    {
+        return  (! is_null($this->canceled_at) and $this->canceled_immediately === true);
+    }
+
+    /**
      * Check if subscription period has ended.
      *
      * @return bool
@@ -190,7 +209,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
         $this->canceled_at = Carbon::now();
 
         if ($immediately) {
-            $this->ends_at = $this->canceled_at;
+            $this->canceled_immediately = true;
         }
 
         if ($this->save()) {

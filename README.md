@@ -239,6 +239,7 @@ Alternatively you can use the following methods available in the subscription mo
 ```php
 $user->subscription('main')->active();
 $user->subscription('main')->canceled();
+$user->subscription('main')->canceledImmediately();
 $user->subscription('main')->ended();
 $user->subscription('main')->onTrial();
 ```
