@@ -2,12 +2,13 @@
 
 namespace Gerardojbaez\Laraplans\Traits;
 
-use App;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Gerardojbaez\Laraplans\SubscriptionBuilder;
-use Gerardojbaez\Laraplans\SubscriptionUsageManager;
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\SubscriptionUsageManager;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
+use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
 
 trait PlanSubscriber
 {
@@ -75,7 +76,7 @@ trait PlanSubscriber
      */
     public function newSubscription($subscription, $plan)
     {
-        return new SubscriptionBuilder($this, $subscription, $plan);
+        return App::make(SubscriptionBuilderInterface::class, [$this, $subscription, $plan]);
     }
 
     /**

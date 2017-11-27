@@ -4,8 +4,9 @@ namespace Gerardojbaez\Laraplans;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
 
-class SubscriptionBuilder
+class SubscriptionBuilder implements SubscriptionBuilderInterface
 {
     /**
      * The user model that is subscribing.

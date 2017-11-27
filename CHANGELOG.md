@@ -8,11 +8,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - `canceled_immediately` column to `plan_subscriptions` table
 - `isCanceledImmediately()` method to `PlanSubscription` model.
+- `SubscriptionBuilderInterface`
 
 ### Changed
 - Now when a subscription is *immediately* canceled the `canceled_immediately` column will be set to true.
 - `ends_at` column is no longer overrided to accomodate the `canceled_at` date. This ends date will remain untouched.
 - `isActive()` method will return `false` if subscription was canceled immediately, even if the `ends_at` column is in the future.
+- Now `newSubscription()` method in `PlanSubscriber` trait is expecting a `SubscriptionBuilderInterface` implementation through Laravel's `App::make()`.
 
 ## [2.0.0] - 2017-11-16
 
