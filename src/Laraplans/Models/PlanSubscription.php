@@ -7,12 +7,14 @@ use App;
 use Carbon\Carbon;
 use LogicException;
 use Gerardojbaez\Laraplans\Period;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
 use Gerardojbaez\Laraplans\SubscriptionAbility;
 use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
 use Gerardojbaez\Laraplans\SubscriptionUsageManager;
+use Gerardojbaez\Laraplans\Events\SubscriptionCreated;
 use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
 use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
 use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
@@ -80,6 +82,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     protected static function boot()
     {
         parent::boot();
+
+        static::created(function ($model) {
+            Event::fire(new SubscriptionCreated($model));
+        });
 
         static::saving(function ($model) {
             // Set period if it wasn't set

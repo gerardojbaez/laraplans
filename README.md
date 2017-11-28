@@ -32,6 +32,7 @@ SaaS style recurring plans for Laravel 5.
     - [Cancel a Subscription](#cancel-a-subscription)
     - [Scopes](#scopes)
 - [Events](#events)
+    - [`SubscriptionCreated`](#subscriptioncreated)
     - [`SubscriptionRenewed`](#subscriptionrenewed)
     - [`SubscriptionCanceled`](#subscriptioncanceled)
     - [`SubscriptionPlanChanged`](#subscriptionplanchanged)
@@ -300,6 +301,10 @@ $subscriptions = PlanSubscription::findEndedPeriod()->get();
 ## Events
 
 Events are under the namespace `Gerardojbaez\Laraplans\Events`. The following are the events triggered by the package.
+
+### `SubscriptionCreated`
+
+Fired when a subscription is created.
 
 ### `SubscriptionRenewed`
 

@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - `canceled_immediately` column to `plan_subscriptions` table
 - `isCanceledImmediately()` method to `PlanSubscription` model.
 - `SubscriptionBuilderInterface`
+- `SubscriptionCreated` event.
 
 ### Changed
 - Now when a subscription is *immediately* canceled the `canceled_immediately` column will be set to true.

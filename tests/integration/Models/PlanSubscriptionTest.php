@@ -13,6 +13,7 @@ use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
 use Gerardojbaez\Laraplans\Models\PlanSubscription;
+use Gerardojbaez\Laraplans\Events\SubscriptionCreated;
 use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
 use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
 use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
@@ -69,6 +70,21 @@ class PlanSubscriptionTest extends TestCase
         $this->user->newSubscription('main', $this->plan)->create();
 
         $this->subscription = $this->user->subscription('main');
+    }
+
+    /** @test */
+    public function it_triggers_create_event_when_created()
+    {
+        // Arrange
+        Event::fake();
+
+        // Act
+        $subscription = factory(PlanSubscription::class)->create();
+
+        // Assert
+        Event::assertFired(SubscriptionCreated::class, function ($event) use ($subscription) {
+            return (int) $event->subscription->id === (int) $subscription->id;
+        });
     }
 
     /**
