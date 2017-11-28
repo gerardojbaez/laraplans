@@ -3,6 +3,7 @@
 namespace Gerardojbaez\Laraplans\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\App;
 use Gerardojbaez\Laraplans\SubscriptionBuilder;
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
@@ -76,7 +77,15 @@ trait PlanSubscriber
      */
     public function newSubscription($subscription, $plan)
     {
-        return App::make(SubscriptionBuilderInterface::class, [$this, $subscription, $plan]);
+        $container = Container::getInstance();
+
+        if (method_exists($container, 'makeWith')) {
+            return $container->makeWith(SubscriptionBuilderInterface::class, [
+                'user' => $this, 'name' => $subscription, 'plan' => $plan
+            ]);
+        }
+
+        return $container->make(SubscriptionBuilderInterface::class, [$this, $subscription, $plan]);
     }
 
     /**
