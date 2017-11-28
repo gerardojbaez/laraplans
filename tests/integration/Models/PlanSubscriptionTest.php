@@ -187,7 +187,7 @@ class PlanSubscriptionTest extends TestCase
         $subscription->renew();
 
         $this->assertTrue($subscription->isActive());
-        $this->assertEquals(Carbon::now()->addMonth()->format('Y-m-d H:i:s'), $subscription->ends_at->format('Y-m-d H:i:s'));
+        $this->assertEquals(Carbon::now()->addMonth()->month, $subscription->ends_at->month);
 
         Event::assertFired(SubscriptionRenewed::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
