@@ -18,18 +18,15 @@ matrix:
     - php: 5.6
       env: ILLUMINATE_VERSION=5.3.*
     - php: 5.6
-      env: ILLUMINATE_VERSION=5.4.*
-      env: TESTBENCH_VERSION=3.4.*
+      env: ILLUMINATE_VERSION=5.4.* TESTBENCH_VERSION=3.4.*
     - php: 7.0
       env: ILLUMINATE_VERSION=5.3.*
     - php: 7.0
-      env: ILLUMINATE_VERSION=5.4.*
-      env: TESTBENCH_VERSION=3.4.*
+      env: ILLUMINATE_VERSION=5.4.* TESTBENCH_VERSION=3.4.*
     - php: 7.1
       env: ILLUMINATE_VERSION=5.3.*
     - php: 7.1
-      env: ILLUMINATE_VERSION=5.4.*
-      env: TESTBENCH_VERSION=3.4.*
+      env: ILLUMINATE_VERSION=5.4.* TESTBENCH_VERSION=3.4.*
 
 before_script:
   - composer require "illuminate/support:${ILLUMINATE_VERSION}" --no-update
