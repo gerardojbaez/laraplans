@@ -11,24 +11,29 @@ cache:
 
 env:
   - ILLUMINATE_VERSION=5.3.*
+  - TESTBENCH_VERSION=3.3.*
 
 matrix:
   include:
     - php: 5.6
       env: ILLUMINATE_VERSION=5.3.*
-    - php: 7.0
-      env: ILLUMINATE_VERSION=5.3.*
-    - php: 7.1
-      env: ILLUMINATE_VERSION=5.3.*
     - php: 5.6
       env: ILLUMINATE_VERSION=5.4.*
+      env: TESTBENCH_VERSION=3.4.*
+    - php: 7.0
+      env: ILLUMINATE_VERSION=5.3.*
     - php: 7.0
       env: ILLUMINATE_VERSION=5.4.*
+      env: TESTBENCH_VERSION=3.4.*
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.3.*
     - php: 7.1
       env: ILLUMINATE_VERSION=5.4.*
+      env: TESTBENCH_VERSION=3.4.*
 
 before_script:
   - composer require "illuminate/support:${ILLUMINATE_VERSION}" --no-update
   - composer require "illuminate/database:${ILLUMINATE_VERSION}" --no-update
+  - composer require "orchestra/testbench:${TESTBENCH_VERSION}" --dev --no-update
   - composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
   - composer dumpautoload -o
