@@ -327,7 +327,8 @@ class PlanSubscriptionTest extends TestCase
         $expectedPeriodStartDate = $period->getStartDate();
         $expectedPeriodEndDate = $period->getEndDate();
 
-        $this->assertEquals($expectedPeriodEndDate->format('Y-m-d H'), $this->subscription->ends_at->format('Y-m-d H'));
+        // Finaly test period
+        $this->assertEquals($expectedPeriodEndDate->format('Y-m-d H:i:s'), $this->subscription->ends_at->format('Y-m-d H:i:s'));
 
         // This assertion will make sure that the subscription is now using
         // the new plan features...
