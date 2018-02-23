@@ -3,14 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.2.0] - 2018-02-23
 
 ### Added
 - Support for Laravel 5.4
 - `SubscriptionDeleted` event.
+- Documentation website http://laraplans.readthedocs.io
 
 ### Fixed
 - Renamed `user_id` to `subscribable_id`, fixes #30
+- Compatibility with Laravel 5.5 - See #26
 
 ## [2.1.0] - 2017-11-27
 
