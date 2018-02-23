@@ -28,6 +28,18 @@ Create a Plan
         new PlanFeature(['code' => 'listing_title_bold', 'value' => 'Y', 'sort_order' => 15])
     ]);
 
+Accessing Plan Features
+-----------------------
+
+In some cases you need to access a particular feature in a particular plan, you can accomplish this by using the ``getFeatureByCode`` method available in the ``Plan`` model.
+
+Example:
+
+.. code-block:: php
+
+    $feature = $plan->getFeatureByCode('pictures_per_listing');
+    $feature->value // Get the feature's value
+
 Create a Subscription
 ---------------------
 
@@ -67,7 +79,7 @@ The ``canUse`` method returns ``true`` or ``false`` depending on multiple factor
 - ``enabled``: returns ``true`` when the value of the feature is a *positive word* listed in the config file.
 - ``consumed``: returns how many times the user has used a particular feature.
 - ``remainings``: returns available uses for a particular feature.
-- ``sValue``: returns the feature value.
+- ``value``: returns the feature value.
 
 All methods share the same signature: ``$user->subscription('main')->ability()->consumed('listings');``.
 
