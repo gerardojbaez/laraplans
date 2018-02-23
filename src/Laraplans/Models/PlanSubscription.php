@@ -306,15 +306,15 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
-     * Find by user id.
+     * Find by subscribable id.
      *
      * @param  \Illuminate\Database\Eloquent\Builder
-     * @param  int $user_id
+     * @param  int $subscribable
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByUser($query, $user_id)
+    public function scopeByUser($query, $subscribable)
     {
-        return $query->where('user_id', $user_id);
+        return $query->where('subscribable_id', $subscribable);
     }
 
     /**

@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Support for Laravel 5.4
 - `SubscriptionDeleted` event.
 
+### Fixed
+- Renamed `user_id` to `subscribable_id`, fixes #30
+
 ## [2.1.0] - 2017-11-27
 
 ### Added
