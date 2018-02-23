@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [2.2.0] - 2018-02-23
 
 ### Added
-- Support for Laravel 5.4
+- Support for Laravel 5.4 and Laravel 5.5
 - `SubscriptionDeleted` event.
 - Documentation website http://laraplans.readthedocs.io
 
