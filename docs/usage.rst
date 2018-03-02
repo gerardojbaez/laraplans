@@ -6,8 +6,6 @@ Create a Plan
 
 .. code-block:: php
 
-    <?php
-
     use Gerardojbaez\Laraplans\Models\Plan;
     use Gerardojbaez\Laraplans\Models\PlanFeature;
 
@@ -46,8 +44,6 @@ Create a Subscription
 First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the ``newSubscription`` method (available in ``PlanSubscriber`` trait) to create the model's subscription.
 
 .. code-block:: php
-
-    <?php
 
     use Auth;
     use Gerardojbaez\Laraplans\Models\Plan;

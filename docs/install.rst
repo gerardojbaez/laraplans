@@ -46,8 +46,6 @@ See the following example:
 
 .. code-block:: php
 
-    <?php
-
     namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
