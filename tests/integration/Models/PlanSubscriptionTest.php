@@ -163,14 +163,12 @@ class PlanSubscriptionTest extends TestCase
         $this->assertFalse($this->subscription->isActive());
     }
 
-     /**
+    /**
      * Can be renewed.
      *
      * @test
      * @return void
      */
-
-    /** @test */
     public function it_can_be_renewed()
     {
         Event::fake();
