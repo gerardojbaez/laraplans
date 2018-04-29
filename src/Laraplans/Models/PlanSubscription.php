@@ -95,7 +95,8 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
         });
 
         static::saved(function ($model) {
-            if ($model->getOriginal('plan_id') !== $model->plan_id) {
+            // check if there is a plan and it is changed
+            if ($model->getOriginal('plan_id') && $model->getOriginal('plan_id') !== $model->plan_id) {
                 event(new SubscriptionPlanChanged($model));
             }
         });
