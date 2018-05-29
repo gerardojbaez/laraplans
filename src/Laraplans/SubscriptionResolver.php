@@ -10,7 +10,7 @@ class SubscriptionResolver implements SubscriptionResolverInterface
     /**
      * @inherit
      */
-    public function resolve(Model $subscribable, $name) : Model
+    public function resolve(Model $subscribable, $name)
     {
         $subscriptions = $subscribable->subscriptions->sortByDesc(function ($value) {
             return $value->created_at->getTimestamp();

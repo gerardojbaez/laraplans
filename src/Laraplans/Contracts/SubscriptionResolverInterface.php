@@ -13,5 +13,5 @@ interface SubscriptionResolverInterface
      * @param  string $name The subscription name if your site supports multiple subscriptions.
      * @return Model
      */
-    public function resolve(Model $subscribable, $name) : Model;
+    public function resolve(Model $subscribable, $name);
 }
