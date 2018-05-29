@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [UNRELEASED]
 
 ### Added
-- Now the subscription returned by the `subscription()` method in the `PlanSubscriber` trait is resolved by a class compatible with `Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface`. Default resolver is `Gerardojbaez\Laraplans\SubscriptionResolver`. Behavior and logic not changed. [Documentation](http://laraplans.readthedocs.io/en/usage.html#subscription-resolving).
+- Now the subscription returned by the `subscription()` method in the `PlanSubscriber` trait is resolved by a class compatible with `Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface`. Default resolver is `Gerardojbaez\Laraplans\SubscriptionResolver`. Behavior and logic not changed. [Documentation](https://laraplans.readthedocs.io/en/latest/usage.html#subscription-resolving).
 
 ## [2.2.0] - 2018-02-23
 
