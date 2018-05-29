@@ -58,7 +58,7 @@ The first argument passed to ``newSubscription`` method should be the name of th
 Subscription resolving
 ----------------------
 
-When you use the ``subscription()`` method (i.e., ``$user->subscription('main')``) in the subscribable model to retrieve a subscription, you will receive the latest subscription created of the subscribable and the subscription name. For example, if you subscribe *Jane Doe* to *Free plan*, and later to *Pro plan*, Laraplans will return the subscription with the *Pro plan*  because it is the newest subscription available. If you have a different requirement you may use your own subscription resolver by biding an implementation of ``Gerardojbaez\Laraplans\Interfaces\SubscriptionResolverInterface`` to the `service container`__; like so:
+When you use the ``subscription()`` method (i.e., ``$user->subscription('main')``) in the subscribable model to retrieve a subscription, you will receive the latest subscription created of the subscribable and the subscription name. For example, if you subscribe *Jane Doe* to *Free plan*, and later to *Pro plan*, Laraplans will return the subscription with the *Pro plan*  because it is the newest subscription available. If you have a different requirement you may use your own subscription resolver by biding an implementation of ``Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface`` to the `service container`__; like so:
 
 .. __: https://laravel.com/docs/5.6/container#introduction
 
