@@ -10,6 +10,7 @@ use Gerardojbaez\Laraplans\Contracts\PlanInterface;
 use Gerardojbaez\Laraplans\SubscriptionUsageManager;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
 use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
+use Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface;
 
 trait PlanSubscriber
 {
@@ -21,15 +22,7 @@ trait PlanSubscriber
      */
     public function subscription($name = 'default')
     {
-        $subscriptions = $this->subscriptions->sortByDesc(function ($value) {
-            return $value->created_at->getTimestamp();
-        });
-
-        foreach ($subscriptions as $key => $subscription) {
-            if ($subscription->name === $name) {
-                return $subscription;
-            }
-        }
+        return App::make(SubscriptionResolverInterface::class)->resolve($this, $name);
     }
 
     /**

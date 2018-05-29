@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [UNRELEASED]
+
+### Added
+- Now the subscription returned by the `subscription()` method in the `PlanSubscriber` trait is resolved by a class compatible with `Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface`. Default resolver is `Gerardojbaez\Laraplans\Contracts\SubscriptionResolver`. Behavior and logic not changed.
+
 ## [2.2.0] - 2018-02-23
 
 ### Added
