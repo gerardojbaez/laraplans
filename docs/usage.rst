@@ -189,7 +189,7 @@ To cancel a subscription, simply use the ``cancel``  method on the user's subscr
     $user->subscription('main')->cancel();
 
 
-By default, the subscription will remain active until the perdiod ends. Pass ``true`` to *immediately* cancel a subscription.
+By default, the subscription will remain active until the period ends. Pass ``true`` to *immediately* cancel a subscription.
 
 .. code-block:: php
 
