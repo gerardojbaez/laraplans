@@ -202,7 +202,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     {
         $endsAt = Carbon::instance($this->ends_at);
 
-        return Carbon::now()->gt($endsAt) or Carbon::now()->eq($endsAt);
+        return Carbon::now()->gte($endsAt);
     }
 
     /**
