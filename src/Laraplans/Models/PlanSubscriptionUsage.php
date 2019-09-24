@@ -71,6 +71,6 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
             return false;
         }
 
-        return Carbon::now()->gt($this->valid_until) or Carbon::now()->eq($this->valid_until);
+        return Carbon::now()->gte($this->valid_until);
     }
 }
