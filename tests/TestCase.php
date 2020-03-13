@@ -14,21 +14,21 @@ class TestCase extends Testbench
      *
      * @return void
      */
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
-        // Run package migrations
-        $this->artisan('migrate', [
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../src/database/migrations'),
-        ]);
-
+        // // Run package migrations
+        // $this->artisan('migrate', [
+        //     '--database' => 'testbench',
+        //     '--realpath' => realpath(__DIR__.'/../src/database/migrations'),
+        // ]);
+        $this->loadMigrationsFrom(__DIR__ . '/../src/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        // $this->loadLaravelMigrations();
         // These migrations are for testing purposes only...
-        $this->artisan('migrate', [
-            '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/migrations'),
-        ]);
+
     }
 
     /**
@@ -47,9 +47,9 @@ class TestCase extends Testbench
         // set up database configuration
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
+          'driver'   => 'sqlite',
+          'database' => ':memory:',
+          'prefix'   => '',
         ]);
     }
 

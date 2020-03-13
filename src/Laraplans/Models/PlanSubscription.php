@@ -84,7 +84,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
         parent::boot();
 
         static::created(function ($model) {
-            Event::dispatch(new SubscriptionCreated($model));
+            SubscriptionCreated::dispatch($model);
+//            event(new SubscriptionCreated($model));
+//            Event::dispatch(new SubscriptionCreated($model));
         });
 
         static::saving(function ($model) {

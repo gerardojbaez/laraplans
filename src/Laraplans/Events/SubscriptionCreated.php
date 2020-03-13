@@ -3,11 +3,12 @@
 namespace Gerardojbaez\Laraplans\Events;
 
 use Gerardojbaez\Laraplans\Models\PlanSubscription;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class SubscriptionCreated
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * @var \Laraplans\Models\PlanSubscription
@@ -17,8 +18,7 @@ class SubscriptionCreated
     /**
      * Create a new event instance.
      *
-     * @param  \Laraplans\Models\PlanSubscription  $subscription
-     * @return void
+     * @param PlanSubscription $subscription
      */
     public function __construct(PlanSubscription $subscription)
     {
