@@ -1,7 +1,7 @@
 <?php
 
-use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Czechbox\Laraplans\Models\Plan;
+use Czechbox\Laraplans\Models\PlanFeature;
 
 $factory->define(PlanFeature::class, function (Faker\Generator $faker) {
     return [

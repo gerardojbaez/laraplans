@@ -29,10 +29,10 @@ return [
     |
     */
     'models' => [
-        'plan' => 'Gerardojbaez\Laraplans\Models\Plan',
-        'plan_feature' => 'Gerardojbaez\Laraplans\Models\PlanFeature',
-        'plan_subscription' => 'Gerardojbaez\Laraplans\Models\PlanSubscription',
-        'plan_subscription_usage' => 'Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage',
+        'plan' => 'Czechbox\Laraplans\Models\Plan',
+        'plan_feature' => 'Czechbox\Laraplans\Models\PlanFeature',
+        'plan_subscription' => 'Czechbox\Laraplans\Models\PlanSubscription',
+        'plan_subscription_usage' => 'Czechbox\Laraplans\Models\PlanSubscriptionUsage',
     ],
 
     /*

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Traits;
+namespace Czechbox\Laraplans\Traits;
 
 trait BelongsToPlan
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Gerardojbaez\Laraplans;
+namespace Czechbox\Laraplans;
 
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface;
+use Czechbox\Laraplans\Contracts\SubscriptionResolverInterface;
 
 class SubscriptionResolver implements SubscriptionResolverInterface
 {

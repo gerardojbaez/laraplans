@@ -2,10 +2,10 @@
 
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
-use Gerardojbaez\Laraplans\SubscriptionBuilder;
+use Czechbox\Laraplans\Models\Plan;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Tests\Models\User;
+use Czechbox\Laraplans\SubscriptionBuilder;
 
 class SubscriptionBuilderTest extends TestCase
 {

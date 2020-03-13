@@ -4,10 +4,10 @@ namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
-use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Czechbox\Laraplans\Models\Plan;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Tests\Models\User;
+use Czechbox\Laraplans\Models\PlanFeature;
 
 class PlanSubscriptionUsageTest extends TestCase
 {

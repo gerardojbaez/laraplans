@@ -1,8 +1,8 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Events;
+namespace Czechbox\Laraplans\Events;
 
-use Gerardojbaez\Laraplans\Models\PlanSubscription;
+use Czechbox\Laraplans\Models\PlanSubscription;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 

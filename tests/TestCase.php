@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Tests;
+namespace Czechbox\Laraplans\Tests;
 
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
@@ -42,7 +42,7 @@ class TestCase extends Testbench
         $this->registerEloquentFactory($app);
 
         // Set user model
-        $app['config']->set('auth.providers.users.model', '\Gerardojbaez\Laraplans\Tests\Models\User');
+        $app['config']->set('auth.providers.users.model', '\Czechbox\Laraplans\Tests\Models\User');
 
         // set up database configuration
         $app['config']->set('database.default', 'testbench');
@@ -61,7 +61,7 @@ class TestCase extends Testbench
      */
     public function getPackageProviders($app)
     {
-        return ['Gerardojbaez\Laraplans\LaraplansServiceProvider'];
+        return ['Czechbox\Laraplans\LaraplansServiceProvider'];
     }
 
     /**

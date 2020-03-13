@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Contracts;
+namespace Czechbox\Laraplans\Contracts;
 
 interface SubscriptionBuilderInterface
 {
@@ -23,7 +23,7 @@ interface SubscriptionBuilderInterface
      * Create a new subscription.
      *
      * @param  array  $options
-     * @return \Gerardojbaez\Laraplans\Models\PlanSubscription
+     * @return \Czechbox\Laraplans\Models\PlanSubscription
      */
     public function create(array $attributes = []);
 }

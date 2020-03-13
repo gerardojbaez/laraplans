@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerardojbaez\Laraplans;
+namespace Czechbox\Laraplans;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
+use Czechbox\Laraplans\Contracts\SubscriptionBuilderInterface;
 
 class SubscriptionBuilder implements SubscriptionBuilderInterface
 {
@@ -88,7 +88,7 @@ class SubscriptionBuilder implements SubscriptionBuilderInterface
      * Create a new subscription.
      *
      * @param  array  $options
-     * @return \Gerardojbaez\Laraplans\Models\PlanSubscription
+     * @return \Czechbox\Laraplans\Models\PlanSubscription
      */
     public function create(array $attributes = [])
     {

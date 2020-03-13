@@ -2,9 +2,9 @@
 
 namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\Laraplans\Period;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
+use Czechbox\Laraplans\Period;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Exceptions\InvalidIntervalException;
 
 class PeriodTest extends TestCase
 {

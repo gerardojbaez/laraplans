@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerardojbaez\Laraplans;
+namespace Czechbox\Laraplans;
 
 use Carbon\Carbon;
-use Gerardojbaez\Laraplans\Period;
-use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
+use Czechbox\Laraplans\Period;
+use Czechbox\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class Feature
 {
@@ -33,7 +33,7 @@ class Feature
      * Create a new Feature instance.
      *
      * @param string $feature_code
-     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException
+     * @throws  \Czechbox\Laraplans\Exceptions\InvalidPlanFeatureException
      * @return void
      */
     public function __construct($feature_code)

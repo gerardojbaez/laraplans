@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Contracts;
+namespace Czechbox\Laraplans\Contracts;
 
 interface PlanSubscriberInterface
 {

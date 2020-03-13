@@ -2,9 +2,9 @@
 
 namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\Laraplans\Feature;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
+use Czechbox\Laraplans\Feature;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class FeatureTest extends TestCase
 {

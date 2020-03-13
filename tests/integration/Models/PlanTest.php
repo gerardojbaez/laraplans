@@ -2,10 +2,10 @@
 
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Gerardojbaez\Laraplans\Period;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Czechbox\Laraplans\Period;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Models\Plan;
+use Czechbox\Laraplans\Models\PlanFeature;
 
 class PlanTest extends TestCase
 {

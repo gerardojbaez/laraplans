@@ -6,18 +6,18 @@ namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Gerardojbaez\Laraplans\Period;
+use Czechbox\Laraplans\Period;
 use Illuminate\Support\Facades\Event;
-use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
-use Gerardojbaez\Laraplans\Models\PlanFeature;
-use Gerardojbaez\Laraplans\Models\PlanSubscription;
-use Gerardojbaez\Laraplans\Events\SubscriptionCreated;
-use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
-use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
-use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
-use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
+use Czechbox\Laraplans\Models\Plan;
+use Czechbox\Laraplans\Tests\TestCase;
+use Czechbox\Laraplans\Tests\Models\User;
+use Czechbox\Laraplans\Models\PlanFeature;
+use Czechbox\Laraplans\Models\PlanSubscription;
+use Czechbox\Laraplans\Events\SubscriptionCreated;
+use Czechbox\Laraplans\Events\SubscriptionRenewed;
+use Czechbox\Laraplans\Events\SubscriptionCanceled;
+use Czechbox\Laraplans\Models\PlanSubscriptionUsage;
+use Czechbox\Laraplans\Events\SubscriptionPlanChanged;
 
 class PlanSubscriptionTest extends TestCase
 {
