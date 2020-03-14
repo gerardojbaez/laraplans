@@ -4,25 +4,10 @@ Installation
 Composer
 --------
 
-For the moment this version cannot be installed via ``composer require``.
 
-Instead, I've chosen to follow the Composer VCS Install method as I'm not sure I want to take on long-term mainenance beyond my own needs. If somebody asks, or I add substantial functionality, that may change.
+.. code-block:: bash
 
-In your ``composer.json`` file add the following
-
-.. code-block:: json
-
-    {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/czechbox/laraplans"
-        }
-    ],
-    "require": {
-        "gerardojbaez/laraplans": "dev-6.x"
-        }
-    }
+composer require czechbox/laravelplans
 
 Service Provider
 ----------------
