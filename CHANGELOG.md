@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [UNRELEASED]
 
 ### Added
-- Now the subscription returned by the `subscription()` method in the `PlanSubscriber` trait is resolved by a class compatible with `Czechbox\Laraplans\Contracts\SubscriptionResolverInterface`. Default resolver is `Czechbox\Laraplans\SubscriptionResolver`. Behavior and logic not changed. [Documentation](https://laraplans.readthedocs.io/en/latest/usage.html#subscription-resolving).
+- Now the subscription returned by the `subscription()` method in the `PlanSubscriber` trait is resolved by a class compatible with `Czechbox\LaravelPlans\Contracts\SubscriptionResolverInterface`. Default resolver is `Czechbox\LaravelPlans\SubscriptionResolver`. Behavior and logic not changed. [Documentation](https://laraplans.readthedocs.io/en/latest/usage.html#subscription-resolving).
 
 ## [2.2.0] - 2018-02-23
 
@@ -43,7 +43,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - `SubscriptionPlanChanged` event.
 
 ### Changed
-- Namespace changed from `Czechbox\LaraPlans` to `Czechbox\Laraplans`
+- Namespace changed from `Czechbox\LaraPlans` to `Czechbox\LaravelPlans`
 
 ### Fixed
 - Fix #18

@@ -1,10 +1,10 @@
 <?php
 
-namespace Gerarodjbaez\Laraplans\Unit;
+namespace Czechbox\LaravelPlans\Unit;
 
-use Czechbox\Laraplans\Period;
-use Czechbox\Laraplans\Tests\TestCase;
-use Czechbox\Laraplans\Exceptions\InvalidIntervalException;
+use Czechbox\LaravelPlans\Period;
+use Czechbox\LaravelPlans\Tests\TestCase;
+use Czechbox\LaravelPlans\Exceptions\InvalidIntervalException;
 
 class PeriodTest extends TestCase
 {

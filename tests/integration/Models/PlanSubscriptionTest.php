@@ -2,22 +2,22 @@
 
 // @codingStandardsIgnoreFile
 
-namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
+namespace Czechbox\LaravelPlans\Tests\Integration\Models;
 
 use Config;
 use Carbon\Carbon;
-use Czechbox\Laraplans\Period;
+use Czechbox\LaravelPlans\Period;
 use Illuminate\Support\Facades\Event;
-use Czechbox\Laraplans\Models\Plan;
-use Czechbox\Laraplans\Tests\TestCase;
-use Czechbox\Laraplans\Tests\Models\User;
-use Czechbox\Laraplans\Models\PlanFeature;
-use Czechbox\Laraplans\Models\PlanSubscription;
-use Czechbox\Laraplans\Events\SubscriptionCreated;
-use Czechbox\Laraplans\Events\SubscriptionRenewed;
-use Czechbox\Laraplans\Events\SubscriptionCanceled;
-use Czechbox\Laraplans\Models\PlanSubscriptionUsage;
-use Czechbox\Laraplans\Events\SubscriptionPlanChanged;
+use Czechbox\LaravelPlans\Models\Plan;
+use Czechbox\LaravelPlans\Tests\TestCase;
+use Czechbox\LaravelPlans\Tests\Models\User;
+use Czechbox\LaravelPlans\Models\PlanFeature;
+use Czechbox\LaravelPlans\Models\PlanSubscription;
+use Czechbox\LaravelPlans\Events\SubscriptionCreated;
+use Czechbox\LaravelPlans\Events\SubscriptionRenewed;
+use Czechbox\LaravelPlans\Events\SubscriptionCanceled;
+use Czechbox\LaravelPlans\Models\PlanSubscriptionUsage;
+use Czechbox\LaravelPlans\Events\SubscriptionPlanChanged;
 
 class PlanSubscriptionTest extends TestCase
 {
@@ -34,7 +34,7 @@ class PlanSubscriptionTest extends TestCase
     {
         parent::setUp();
 
-        Config::set('laraplans.features', [
+        Config::set('laravelplans.features', [
             'listings_per_month' => [
                 'resettable_interval' => 'month',
                 'resettable_count' => 1
