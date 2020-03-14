@@ -8,12 +8,12 @@ Composer
 .. code-block:: bash
 
     composer require czechbox/laravelplans
-    
+
 
 Service Provider
 ----------------
 
-Add ``Czechbox\LaravelPlans\LaraplansServiceProvider::class`` to your application service providers file: ``config/app.php``.
+Add ``Czechbox\LaravelPlans\LaravelPlansServiceProvider::class`` to your application service providers file: ``config/app.php``.
 
 .. code-block:: php
 
@@ -21,7 +21,7 @@ Add ``Czechbox\LaravelPlans\LaraplansServiceProvider::class`` to your applicatio
         /**
          * Third Party Service Providers...
          */
-        Czechbox\LaravelPlans\LaraplansServiceProvider::class,
+        Czechbox\LaravelPlans\LaravelPlansServiceProvider::class,
     ]
 
 Config File and Migrations
@@ -31,7 +31,7 @@ Publish package config file and migrations with the following command:
 
 .. code-block:: bash
 
-    php artisan vendor:publish --provider="Czechbox\LaravelPlans\LaraplansServiceProvider"
+    php artisan vendor:publish --provider="Czechbox\LaravelPlans\LaravelPlansServiceProvider"
 
 Then run migrations:
 
