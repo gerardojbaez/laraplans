@@ -6,12 +6,12 @@ before_install:
   - composer self-update
 
 install:
-  - rm composer.lock
+
   - travis_retry composer update --prefer-dist
   
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/newcache
 
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
