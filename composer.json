@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Czechbox\\LaravelPlans\\": "src/laravelplans/"
+            "Czechbox\\LaravelPlans\\": "src/LaravelPlans/"
         }
     },
     "autoload-dev": {
