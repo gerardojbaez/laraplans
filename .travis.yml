@@ -2,7 +2,13 @@ language: php
 
 php:
   - 7.2
+before_install:
+  - composer self-update
 
+install:
+  - rm composer.lock
+  - travis_retry composer update --prefer-dist
+  
 cache:
   directories:
     - $HOME/.composer/cache
