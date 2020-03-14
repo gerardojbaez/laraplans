@@ -7,7 +7,8 @@ Composer
 
 .. code-block:: bash
 
-composer require czechbox/laravelplans
+    composer require czechbox/laravelplans
+    
 
 Service Provider
 ----------------
