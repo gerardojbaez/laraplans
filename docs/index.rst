@@ -1,4 +1,4 @@
-Welcome to Laraplans's documentation!
+Welcome to LaravelPlans's documentation!
 =====================================
 
 This library intends to provide a quick starting point to any app that requires SaaS style plans and subscriptions.
@@ -6,7 +6,7 @@ This library intends to provide a quick starting point to any app that requires 
 .. toctree::
    :hidden:
 
-   Laraplans <self>
+   LaravelPlans <self>
 
 .. toctree::
    :maxdepth: 2

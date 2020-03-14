@@ -27,7 +27,7 @@ In your ``composer.json`` file add the following
 Service Provider
 ----------------
 
-Add ``Czechbox\Laraplans\LaraplansServiceProvider::class`` to your application service providers file: ``config/app.php``.
+Add ``Czechbox\LaravelPlans\LaraplansServiceProvider::class`` to your application service providers file: ``config/app.php``.
 
 .. code-block:: php
 
@@ -35,7 +35,7 @@ Add ``Czechbox\Laraplans\LaraplansServiceProvider::class`` to your application s
         /**
          * Third Party Service Providers...
          */
-        Czechbox\Laraplans\LaraplansServiceProvider::class,
+        Czechbox\LaravelPlans\LaraplansServiceProvider::class,
     ]
 
 Config File and Migrations
@@ -45,7 +45,7 @@ Publish package config file and migrations with the following command:
 
 .. code-block:: bash
 
-    php artisan vendor:publish --provider="Czechbox\Laraplans\LaraplansServiceProvider"
+    php artisan vendor:publish --provider="Czechbox\LaravelPlans\LaraplansServiceProvider"
 
 Then run migrations:
 
@@ -56,7 +56,7 @@ Then run migrations:
 Traits and Contracts
 --------------------
 
-Add ``Czechbox\Laraplans\Traits\PlanSubscriber`` trait and ``Czechbox\Laraplans\Contracts\PlanSubscriberInterface`` contract to your ``User`` model.
+Add ``Czechbox\LaravelPlans\Traits\PlanSubscriber`` trait and ``Czechbox\LaravelPlans\Contracts\PlanSubscriberInterface`` contract to your ``User`` model.
 
 See the following example:
 
@@ -65,8 +65,8 @@ See the following example:
     namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
-    use Czechbox\Laraplans\Contracts\PlanSubscriberInterface;
-    use Czechbox\Laraplans\Traits\PlanSubscriber;
+    use Czechbox\LaravelPlans\Contracts\PlanSubscriberInterface;
+    use Czechbox\LaravelPlans\Traits\PlanSubscriber;
 
     class User extends Authenticatable implements PlanSubscriberInterface
     {

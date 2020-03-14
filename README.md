@@ -5,7 +5,7 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/czechbox/laraplans/total)
 
 
-# Laraplans
+# LaravelPlans
 
 SaaS style recurring plans for Laravel 6.x based on the original 5.x package by [gerardojbaez](https://github.com/gerardojbaez/laraplans)
 
@@ -19,7 +19,7 @@ The package has been refactored to run on Laravel 6.x, as have the test so the b
 
 [Feel free to leave your feedback!](https://github.com/czechbox/laraplans/issues/22)
 
-## Install 
+## Install
 
 This is currently a [Composer VCS install](https://getcomposer.org/doc/05-repositories.md#vcs). While the original project seems to have been abandoned, I don't plan to release to Packagist unless somebody asks for it, or I make substantial changes.
 

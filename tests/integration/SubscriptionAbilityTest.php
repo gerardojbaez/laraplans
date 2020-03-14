@@ -1,11 +1,11 @@
 <?php
 
-namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
+namespace Czechbox\LaravelPlans\Tests\Integration\Models;
 
-use Czechbox\Laraplans\Models\Plan;
-use Czechbox\Laraplans\Tests\TestCase;
-use Czechbox\Laraplans\Tests\Models\User;
-use Czechbox\Laraplans\Models\PlanFeature;
+use Czechbox\LaravelPlans\Models\Plan;
+use Czechbox\LaravelPlans\Tests\TestCase;
+use Czechbox\LaravelPlans\Tests\Models\User;
+use Czechbox\LaravelPlans\Models\PlanFeature;
 
 class SubscriptionAbilityTest extends TestCase
 {
@@ -18,8 +18,8 @@ class SubscriptionAbilityTest extends TestCase
     public function it_can_check_feature_usage()
     {
         $user = User::create([
-            'email' => 'gerardo@email.dev',
-            'name' => 'Gerardo',
+            'email' => 'jack@example.dev',
+            'name' => 'Jack',
             'password' => 'password'
         ]);
 

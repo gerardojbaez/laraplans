@@ -25,14 +25,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you want to use your own models you will want to update the following
-    | array to make sure Laraplans use them.
+    | array to make sure LaravelPlans use them.
     |
     */
     'models' => [
-        'plan' => 'Czechbox\Laraplans\Models\Plan',
-        'plan_feature' => 'Czechbox\Laraplans\Models\PlanFeature',
-        'plan_subscription' => 'Czechbox\Laraplans\Models\PlanSubscription',
-        'plan_subscription_usage' => 'Czechbox\Laraplans\Models\PlanSubscriptionUsage',
+        'plan' => 'Czechbox\LaravelPlans\Models\Plan',
+        'plan_feature' => 'Czechbox\LaravelPlans\Models\PlanFeature',
+        'plan_subscription' => 'Czechbox\LaravelPlans\Models\PlanSubscription',
+        'plan_subscription_usage' => 'Czechbox\LaravelPlans\Models\PlanSubscriptionUsage',
     ],
 
     /*

@@ -6,8 +6,8 @@ Create a Plan
 
 .. code-block:: php
 
-    use Czechbox\Laraplans\Models\Plan;
-    use Czechbox\Laraplans\Models\PlanFeature;
+    use Czechbox\LaravelPlans\Models\Plan;
+    use Czechbox\LaravelPlans\Models\PlanFeature;
 
     $plan = Plan::create([
         'name' => 'Pro',
@@ -46,7 +46,7 @@ First, retrieve an instance of your subscriber model, which typically will be yo
 .. code-block:: php
 
     use Auth;
-    use Czechbox\Laraplans\Models\Plan;
+    use Czechbox\LaravelPlans\Models\Plan;
 
     $user = Auth::user();
     $plan = Plan::find(1);
@@ -58,7 +58,7 @@ The first argument passed to ``newSubscription`` method should be the name of th
 Subscription resolving
 ----------------------
 
-When you use the ``subscription()`` method (i.e., ``$user->subscription('main')``) in the subscribable model to retrieve a subscription, you will receive the latest subscription created of the subscribable and the subscription name. For example, if you subscribe *Jane Doe* to *Free plan*, and later to *Pro plan*, Laraplans will return the subscription with the *Pro plan*  because it is the newest subscription available. If you have a different requirement you may use your own subscription resolver by binding an implementation of ``Czechbox\Laraplans\Contracts\SubscriptionResolverInterface`` to the `service container`__; like so:
+When you use the ``subscription()`` method (i.e., ``$user->subscription('main')``) in the subscribable model to retrieve a subscription, you will receive the latest subscription created of the subscribable and the subscription name. For example, if you subscribe *Jane Doe* to *Free plan*, and later to *Pro plan*, LaravelPlans will return the subscription with the *Pro plan*  because it is the newest subscription available. If you have a different requirement you may use your own subscription resolver by binding an implementation of ``Czechbox\LaravelPlans\Contracts\SubscriptionResolverInterface`` to the `service container`__; like so:
 
 .. __: https://laravel.com/docs/5.6/container#introduction
 
@@ -177,7 +177,7 @@ To renew a subscription you may use the ``renew`` method available in the subscr
 .. caution::
     Canceled subscriptions with an ended period can't be renewed.
 
-``Czechbox\Laraplans\Events\SubscriptionRenewed`` event is fired when a subscription is renewed using the ``renew`` method.
+``Czechbox\LaravelPlans\Events\SubscriptionRenewed`` event is fired when a subscription is renewed using the ``renew`` method.
 
 Cancel a Subscription
 ---------------------
