@@ -19,7 +19,7 @@ class PlanSubscriptionUsageTest extends TestCase
      */
     public function it_can_check_if_usage_has_expired()
     {
-        Config::set('laraplans.features', [
+        Config::set('laravelplans.features', [
             'listings_per_month' => [
                 'resettable_interval' => 'month',
                 'resettable_count' => 1

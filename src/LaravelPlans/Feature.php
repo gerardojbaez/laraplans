@@ -44,7 +44,7 @@ class Feature
 
         $this->feature_code = $feature_code;
 
-        $feature = config('laraplans.features.'.$feature_code);
+        $feature = config('laravelplans.features.'.$feature_code);
 
         if (is_array($feature)) {
             foreach ($feature as $key => $value) {
@@ -62,7 +62,7 @@ class Feature
      */
     public static function getAllFeatures()
     {
-        $features = config('laraplans.features');
+        $features = config('laravelplans.features');
 
         if (!$features) {
             return [];
@@ -89,7 +89,7 @@ class Feature
      */
     public static function isValid($code)
     {
-        $features = config('laraplans.features');
+        $features = config('laravelplans.features');
 
         if (array_key_exists($code, $features)) {
             return true;

@@ -97,7 +97,7 @@ class Period
         $intervals = [];
 
         foreach (array_keys(self::$intervalMapping) as $interval) {
-            $intervals[$interval] = trans('laraplans::messages.'.$interval);
+            $intervals[$interval] = trans('laravelplans::messages.'.$interval);
         }
 
         return $intervals;

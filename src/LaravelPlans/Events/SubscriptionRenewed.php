@@ -10,14 +10,14 @@ class SubscriptionRenewed
     use SerializesModels;
 
     /**
-     * @var \Laraplans\Models\PlanSubscription
+     * @var \Czechbox\LaravelPlans\Models\PlanSubscription
      */
     public $subscription;
 
     /**
      * Create a new event instance.
      *
-     * @param  \Laraplans\Models\PlanSubscription  $subscription
+     * @param  \Czechbox\LaravelPlans\Models\PlanSubscription  $subscription
      * @return void
      */
     public function __construct(PlanSubscription $subscription)

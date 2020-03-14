@@ -36,7 +36,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
      */
     public function feature()
     {
-        return $this->belongsTo(config('laraplans.models.plan_feature'));
+        return $this->belongsTo(config('laravelplans.models.plan_feature'));
     }
 
     /**
@@ -46,7 +46,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
      */
     public function subscription()
     {
-        return $this->belongsTo(config('laraplans.models.plan_subscription'));
+        return $this->belongsTo(config('laravelplans.models.plan_subscription'));
     }
 
     /**

@@ -11,7 +11,7 @@ trait BelongsToPlan
      */
     public function plan()
     {
-        return $this->belongsTo(config('laraplans.models.plan'));
+        return $this->belongsTo(config('laravelplans.models.plan'));
     }
 
     /**

@@ -12,7 +12,7 @@
         <env name="DB_CONNECTION" value="testing"/>
     </php>
     <testsuites>
-        <testsuite name="LaraPlans">
+        <testsuite name="LaravelPlans">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

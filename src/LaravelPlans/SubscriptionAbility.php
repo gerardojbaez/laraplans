@@ -99,7 +99,7 @@ class SubscriptionAbility
 
         // If value is one of the positive words configured then the
         // feature is enabled.
-        if (in_array(strtoupper($feature_value), config('laraplans.positive_words'))) {
+        if (in_array(strtoupper($feature_value), config('laravelplans.positive_words'))) {
             return true;
         }
 

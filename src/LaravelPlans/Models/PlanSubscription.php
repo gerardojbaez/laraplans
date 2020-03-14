@@ -69,7 +69,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Subscription Ability Manager instance.
      *
-     * @var Czechbox\Laraplans\SubscriptionAbility
+     * @var Czechbox\LaravelPlans\SubscriptionAbility
      */
     protected $ability;
 
@@ -122,7 +122,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     public function usage()
     {
         return $this->hasMany(
-            config('laraplans.models.plan_subscription_usage'),
+            config('laravelplans.models.plan_subscription_usage'),
             'subscription_id'
         );
     }

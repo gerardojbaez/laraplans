@@ -60,7 +60,7 @@ class Plan extends Model implements PlanInterface
      */
     public function features()
     {
-        return $this->hasMany(config('laraplans.models.plan_feature'));
+        return $this->hasMany(config('laravelplans.models.plan_feature'));
     }
 
     /**
@@ -70,7 +70,7 @@ class Plan extends Model implements PlanInterface
      */
     public function subscriptions()
     {
-        return $this->hasMany(config('laraplans.models.plan_subscription'));
+        return $this->hasMany(config('laravelplans.models.plan_subscription'));
     }
 
     /**
@@ -91,7 +91,7 @@ class Plan extends Model implements PlanInterface
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+        return trans_choice('laravelplans::messages.interval_description.'.$this->interval, $this->interval_count);
     }
 
     /**

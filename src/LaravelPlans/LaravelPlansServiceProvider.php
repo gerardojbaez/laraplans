@@ -21,18 +21,18 @@ class LaravelPlansServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laraplans');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laravelplans');
 
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
 
         $this->publishes([
-            __DIR__.'/../config/laraplans.php' => config_path('laraplans.php')
+            __DIR__ . '/../config/laravelplans.php' => config_path('laravelplans.php')
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../lang' => resource_path('lang/vendor/laraplans'),
+            __DIR__.'/../lang' => resource_path('lang/vendor/laravelplans'),
         ]);
     }
 
@@ -43,12 +43,12 @@ class LaravelPlansServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laraplans.php', 'laraplans');
+        $this->mergeConfigFrom(__DIR__ . '/../config/laravelplans.php', 'laravelplans');
 
-        $this->app->bind(PlanInterface::class, config('laraplans.models.plan'));
-        $this->app->bind(PlanFeatureInterface::class, config('laraplans.models.plan_feature'));
-        $this->app->bind(PlanSubscriptionInterface::class, config('laraplans.models.plan_subscription'));
-        $this->app->bind(PlanSubscriptionUsageInterface::class, config('laraplans.models.plan_subscription_usage'));
+        $this->app->bind(PlanInterface::class, config('laravelplans.models.plan'));
+        $this->app->bind(PlanFeatureInterface::class, config('laravelplans.models.plan_feature'));
+        $this->app->bind(PlanSubscriptionInterface::class, config('laravelplans.models.plan_subscription'));
+        $this->app->bind(PlanSubscriptionUsageInterface::class, config('laravelplans.models.plan_subscription_usage'));
         $this->app->bind(SubscriptionBuilderInterface::class, SubscriptionBuilder::class);
         $this->app->bind(SubscriptionResolverInterface::class, SubscriptionResolver::class);
     }

@@ -41,6 +41,6 @@ class PlanFeature extends Model implements PlanFeatureInterface
      */
     public function usage()
     {
-        return $this->hasMany(config('laraplans.models.plan_subscription_usage'));
+        return $this->hasMany(config('laravelplans.models.plan_subscription_usage'));
     }
 }

@@ -11,7 +11,7 @@ class SubscriptionCreated
     use Dispatchable, SerializesModels;
 
     /**
-     * @var \Laraplans\Models\PlanSubscription
+     * @var \Czechbox\LaravelPlans\Models\PlanSubscription
      */
     public $subscription;
 
