@@ -29,5 +29,12 @@
             "Czechbox\\LaravelPlans\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Czechbox\\LaravelPlans\\LaravelPlansServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 }
