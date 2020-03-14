@@ -2,6 +2,8 @@
 [![Latest Version](https://img.shields.io/github/release/czechbox/laraplans.svg?style=flat-square)](https://github.com/czechbox/laraplans/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/czechbox/laraplans.svg?style=flat-square)](https://packagist.org/packages/czechbox/laraplans)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Documentation Status](https://readthedocs.org/projects/czechbox-laraplans/badge/?version=latest)](https://czechbox-laraplans.readthedocs.io/en/latest/?badge=latest)
+
 
 # Laraplans
 
@@ -13,10 +15,10 @@ SaaS style recurring plans for Laravel 5.
 
 ## Feedback
 
-[Feel free to leave your feedback!](https://github.com/gerardojbaez/laraplans/issues/22)
+[Feel free to leave your feedback!](https://github.com/czechbox/laraplans/issues/22)
 
 ## Install
 
     composer require gerardojbaez/laraplans
 
-For package setup please follow the [install guide](http://laraplans.readthedocs.io/en/latest/install.html).
+For package setup please follow the [install guide](http://czechbox-laraplans.readthedocs.io/en/latest/install.html).
