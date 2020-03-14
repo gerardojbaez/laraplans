@@ -1,8 +1,8 @@
-[![Build Status](https://img.shields.io/travis/czechbox/laraplans.svg?style=flat-square)](https://travis-ci.org/czechbox/laraplans)
-[![Latest Version](https://img.shields.io/github/release/czechbox/laraplans.svg?style=flat-square)](https://github.com/czechbox/laraplans/releases)
+[![Build Status](https://img.shields.io/travis/czechbox/laravelplans.svg?style=flat-square)](https://travis-ci.org/czechbox/laravelplans)
+[![Latest Version](https://img.shields.io/github/release/czechbox/laravelplans.svg?style=flat-square)](https://github.com/czechbox/laravelplans/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Documentation Status](https://readthedocs.org/projects/czechbox-laraplans/badge/?version=latest)](https://czechbox-laraplans.readthedocs.io/en/latest/?badge=latest)
-![GitHub All Releases](https://img.shields.io/github/downloads/czechbox/laraplans/total)
+[![Documentation Status](https://readthedocs.org/projects/laravelplans/badge/?version=latest)](https://czechbox-laraplans.readthedocs.io/en/latest/?badge=latest)
+![GitHub All Releases](https://img.shields.io/github/downloads/czechbox/laravelplans/total)
 
 
 # LaravelPlans
