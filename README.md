@@ -7,9 +7,9 @@
 
 # Laraplans
 
-SaaS style recurring plans for Laravel 5.
+SaaS style recurring plans for Laravel 6.x based on the original 5.x package by [gerardojbaez](https://github.com/gerardojbaez/laraplans)
 
-**Documentation is available at http://laraplans.readthedocs.io**
+**Documentation is available at http://czechbox-laraplans.readthedocs.io**
 
 > *Payments are out of scope for this package.*
 
@@ -17,8 +17,8 @@ SaaS style recurring plans for Laravel 5.
 
 [Feel free to leave your feedback!](https://github.com/czechbox/laraplans/issues/22)
 
-## Install
+## Install (coming soon)
 
-    composer require gerardojbaez/laraplans
+    composer require czechbox/laraplans
 
 For package setup please follow the [install guide](http://czechbox-laraplans.readthedocs.io/en/latest/install.html).
