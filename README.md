@@ -1,6 +1,6 @@
-[![Build Status](https://img.shields.io/travis/gerardojbaez/laraplans.svg?style=flat-square)](https://travis-ci.org/gerardojbaez/laraplans)
-[![Latest Version](https://img.shields.io/github/release/gerardojbaez/laraplans.svg?style=flat-square)](https://github.com/gerardojbaez/laraplans/releases)
-[![Total Downloads](https://img.shields.io/packagist/dt/gerardojbaez/laraplans.svg?style=flat-square)](https://packagist.org/packages/gerardojbaez/laraplans)
+[![Build Status](https://img.shields.io/travis/czechbox/laraplans.svg?style=flat-square)](https://travis-ci.org/czechbox/laraplans)
+[![Latest Version](https://img.shields.io/github/release/czechbox/laraplans.svg?style=flat-square)](https://github.com/czechbox/laraplans/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/czechbox/laraplans.svg?style=flat-square)](https://packagist.org/packages/czechbox/laraplans)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 # Laraplans
