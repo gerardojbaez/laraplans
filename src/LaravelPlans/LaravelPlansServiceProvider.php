@@ -28,10 +28,8 @@ class LaravelPlansServiceProvider extends ServiceProvider
         $timestamp = date('Y_m_d_His', time());
         $this->publishes([
 //            using templates to publish the migrations
-            __DIR__ . '/../database/migrations/_create_plan_features_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_features_table.php"),
-            __DIR__ . '/../database/migrations/_create_plan_subscription_usages_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_subscription_usages_table.php"),
-            __DIR__ . '/../database/migrations/_create_plan_subscriptions_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_subscriptions_table.php"),
-            __DIR__ . '/../database/migrations/_create_plans_table.phpt' => database_path("/migrations/{$timestamp}_create_plans_table.php"),
+            __DIR__ . '/../database/migrations/_create_laravelplans_tables.phpt' => database_path("/migrations/{$timestamp}_create_laravelplans_tables.phpt"),
+
 
         ], 'migrations');
 
