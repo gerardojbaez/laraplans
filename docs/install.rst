@@ -27,7 +27,7 @@ Publish package config file and migrations with the following command:
     php artisan vendor:publish --provider="Czechbox\LaravelPlans\LaravelPlansServiceProvider"
 
 
-Depending on your use case, you may want to adjust the published migrations. If your User model id is a 'uuid' rather than 'increments', modify the ``XXXX_XX-XX_XXXXXX_create_plan_subscriptions_table.php`` file as below.
+Depending on your use case, you may want to adjust the published migrations. If your User model id is a 'uuid' rather than 'increments', modify the ``plan_subscriptions`` schema in  ``XXXX_XX-XX_XXXXXX_create_laravelplans_tables.php`` file as below.
 
 .. code-block:: php
 
