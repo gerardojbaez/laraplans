@@ -23,8 +23,16 @@ class LaravelPlansServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'laravelplans');
 
+        //little timestamp trick to make sure migrations are added in the order they are installed and don't cause issues
+
+        $timestamp = date('Y_m_d_His', time());
         $this->publishes([
-            __DIR__.'/../database/migrations/' => database_path('migrations')
+//            using templates to publish the migrations
+            __DIR__ . '/migrations/_create_plan_features_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_features_table.php"),
+            __DIR__ . '/migrations/_create_plan_subscription_usages_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_subscription_usages_table.php"),
+            __DIR__ . '/migrations/_create_plan_subscriptions_table.phpt' => database_path("/migrations/{$timestamp}_create_plan_subscriptions_table.php"),
+            __DIR__ . '/migrations/_create_plans_table.phpt' => database_path("/migrations/{$timestamp}_create_plans_table.php"),
+
         ], 'migrations');
 
         $this->publishes([
