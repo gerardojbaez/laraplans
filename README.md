@@ -5,7 +5,12 @@
 
 # Laraplans
 
-SaaS style recurring plans for Laravel 5.
+A Laravel package for SaaS style recurring plans.
+
+## Compatibility
+- For projects using Laravel 5.7 or below, use Laraplans v2.2.0.
+
+**Support for Laravel v6 and v7 is currently in progress.**
 
 **Documentation is available at http://laraplans.readthedocs.io**
 
