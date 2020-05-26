@@ -3,8 +3,9 @@
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Gerardojbaez\Laraplans\Period;
-use Gerardojbaez\Laraplans\Tests\TestCase;
+use Illuminate\Support\Facades\App;
 use Gerardojbaez\Laraplans\Models\Plan;
+use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
 
 class PlanTest extends TestCase
@@ -69,10 +70,10 @@ class PlanTest extends TestCase
             'interval_count' => 1
         ]);
 
-        \App::setLocale('en');
+        App::setLocale('en');
         $this->assertEquals('Monthly', $plan->intervalDescription);
 
-        \App::setLocale('es');
+        App::setLocale('es');
         $this->assertEquals('Mensual', $plan->intervalDescription);
     }
 
