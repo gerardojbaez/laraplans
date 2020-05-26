@@ -14,20 +14,21 @@ class TestCase extends Testbench
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
+
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../src/database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
 
         // Run package migrations
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/../src/database/migrations'),
         ]);
 
         // These migrations are for testing purposes only...
         $this->artisan('migrate', [
             '--database' => 'testbench',
-            '--realpath' => realpath(__DIR__.'/migrations'),
         ]);
     }
 

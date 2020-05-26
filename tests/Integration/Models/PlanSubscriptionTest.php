@@ -30,7 +30,7 @@ class PlanSubscriptionTest extends TestCase
      *
      * @return  void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -82,7 +82,7 @@ class PlanSubscriptionTest extends TestCase
         $subscription = factory(PlanSubscription::class)->create();
 
         // Assert
-        Event::assertFired(SubscriptionCreated::class, function ($event) use ($subscription) {
+        Event::assertDispatched(SubscriptionCreated::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
         });
     }
@@ -139,7 +139,7 @@ class PlanSubscriptionTest extends TestCase
 
         $subscription = $this->subscription;
 
-        Event::assertFired(SubscriptionCanceled::class, function ($event) use ($subscription) {
+        Event::assertDispatched(SubscriptionCanceled::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
         });
     }
@@ -189,7 +189,7 @@ class PlanSubscriptionTest extends TestCase
         $this->assertTrue($subscription->isActive());
         $this->assertEquals(Carbon::now()->addMonth()->month, $subscription->ends_at->month);
 
-        Event::assertFired(SubscriptionRenewed::class, function ($event) use ($subscription) {
+        Event::assertDispatched(SubscriptionRenewed::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
         });
     }
@@ -298,7 +298,9 @@ class PlanSubscriptionTest extends TestCase
      */
     public function it_can_change_plan()
     {
-        Event::fake();
+        Event::fake([
+            SubscriptionPlanChanged::class
+        ]);
 
         $newPlan = Plan::create([
             'name' => 'Business',
@@ -336,7 +338,7 @@ class PlanSubscriptionTest extends TestCase
 
         $subscription = $this->subscription;
 
-        Event::assertFired(SubscriptionPlanChanged::class, function ($event) use ($subscription) {
+        Event::assertDispatched(SubscriptionPlanChanged::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
         });
     }

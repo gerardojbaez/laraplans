@@ -11,6 +11,7 @@ use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
 use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
 use Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
+use Illuminate\Support\Facades\Event;
 
 class LaraplansServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,16 @@ class LaraplansServiceProvider extends ServiceProvider
         $this->app->bind(PlanSubscriptionUsageInterface::class, config('laraplans.models.plan_subscription_usage'));
         $this->app->bind(SubscriptionBuilderInterface::class, SubscriptionBuilder::class);
         $this->app->bind(SubscriptionResolverInterface::class, SubscriptionResolver::class);
+
+        Event::listen(
+            \Gerardojbaez\Laraplans\Events\SubscriptionSaving::class,
+            \Gerardojbaez\Laraplans\Listeners\PlanSubscription\SetPeriodWhenEmpty::class
+        );
+
+        Event::listen(
+            \Gerardojbaez\Laraplans\Events\SubscriptionSaving::class,
+            \Gerardojbaez\Laraplans\Listeners\PlanSubscription\DispatchEventWhenPlanChanges::class
+        );
     }
 
     /**
