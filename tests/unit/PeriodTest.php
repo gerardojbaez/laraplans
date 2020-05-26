@@ -3,6 +3,7 @@
 namespace Gerarodjbaez\Laraplans\Unit;
 
 use Gerardojbaez\Laraplans\Period;
+use Illuminate\Support\Facades\App;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
 
@@ -26,7 +27,7 @@ class PeriodTest extends TestCase
         $intervals = Period::getAllIntervals();
         $this->assertEquals('Month', $intervals['month']);
 
-        \App::setLocale('es');
+        App::setLocale('es');
         $intervals = Period::getAllIntervals();
         $this->assertEquals('Mes', $intervals['month']);
     }
