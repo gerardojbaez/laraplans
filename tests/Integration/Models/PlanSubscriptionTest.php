@@ -4,10 +4,10 @@
 
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Config;
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Period;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Config;
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Tests\Models\User;
