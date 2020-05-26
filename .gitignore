@@ -2,7 +2,6 @@
 /.phpintel
 /docs/_build
 composer.phar
-composer.lock
 *.sublime-workspace
 .phpunit.result.cache
 /.idea
