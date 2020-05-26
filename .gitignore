@@ -4,5 +4,6 @@
 composer.phar
 composer.lock
 *.sublime-workspace
+.phpunit.result.cache
 /.idea
 /.vscode
