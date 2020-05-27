@@ -291,6 +291,58 @@ class PlanSubscriptionTest extends TestCase
     }
 
     /**
+     * Exclude canceled subscription.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_exclude_canceled_subscriptions()
+    {
+        // Make sure canceled subscriptions are not included...
+        factory(PlanSubscription::class, 10)->create([
+            'canceled_at' => Carbon::now()->subDays(2)
+        ]);
+
+        // Not canceled subscriptions
+        factory(PlanSubscription::class, 5)->create([
+            'canceled_at' => null,
+        ]);
+
+        $result = PlanSubscription::excludeCanceled()->get();
+
+        $this->assertEquals(6, $result->count());
+    }
+
+    /**
+     * Exclude immediately canceled subscription.
+     *
+     * @test
+     * @return void
+     */
+    public function it_can_exclude_immediately_canceled_subscriptions()
+    {
+        // Immediately canceled subscriptions...
+        factory(PlanSubscription::class, 2)->create([
+            'canceled_at' => Carbon::now(),
+            'canceled_immediately' => 1
+        ]);
+
+        // Not immediately canceled subscriptions...
+        factory(PlanSubscription::class, 3)->create([
+            'canceled_at' => null,
+        ]);
+
+        factory(PlanSubscription::class, 2)->create([
+            'canceled_at' => null,
+            'canceled_immediately' => 0
+        ]);
+
+        $result = PlanSubscription::excludeImmediatelyCanceled()->get();
+
+        $this->assertEquals(6, $result->count());
+    }
+
+    /**
      * Can change subscription plan.
      *
      * @test

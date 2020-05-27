@@ -22,3 +22,9 @@ Eloquent Scopes
 
     // Get subscriptions with ended period:
     $subscriptions = PlanSubscription::findEndedPeriod()->get();
+
+    // Exclude subscriptions which are canceled:
+    $subscriptions = PlanSubscription::excludeCanceled()->get();
+
+    // Exclude subscriptions which are immediately canceled:
+    $subscriptions = PlanSubscription::scopeExcludeImmediatelyCanceled()->get();

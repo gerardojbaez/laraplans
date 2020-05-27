@@ -341,6 +341,29 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     }
 
     /**
+     * Scope not canceled subscriptions.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExcludeCanceled($query)
+    {
+        return $query->whereNull('canceled_at');
+    }
+
+    /**
+     * Scope not immediately canceled subscriptions.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExcludeImmediatelyCanceled($query)
+    {
+        return $query->whereNull('canceled_immediately')
+            ->orWhere('canceled_immediately', 0);
+    }
+
+    /**
      * Find ended subscriptions.
      *
      * @return \Illuminate\Database\Eloquent\Builder

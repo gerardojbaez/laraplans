@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 
 - Carbon 2
+- Method `Gerardojbaez\Laraplans\Models\PlanSubscription::scopeExcludeCanceled`
+- Method `Gerardojbaez\Laraplans\Models\PlanSubscription::scopeExcludeImmediatelyCanceled`
 
 ## [3.0.0] - 2020-05-25
 
