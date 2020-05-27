@@ -160,7 +160,7 @@ Alternatively, you can use the following methods available in the subscription m
     $user->subscription('main')->isCanceled();
     $user->subscription('main')->isCanceledImmediately();
     $user->subscription('main')->isEnded();
-    $user->subscription('main')->isOnTrial();
+    $user->subscription('main')->onTrial();
 
 .. caution::
     **Canceled** subscriptions **with** an active trial or ``ends_at`` in the future are considered active.
