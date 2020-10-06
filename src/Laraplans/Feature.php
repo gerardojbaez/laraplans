@@ -168,16 +168,23 @@ class Feature
      * Get feature's reset date.
      *
      * @param string $dateFrom
+     * @param boolean $afterNow
      * @return \Carbon\Carbon
+     * @throws Exceptions\InvalidIntervalException
      */
-    public function getResetDate($dateFrom = '')
+    public function getResetDate($dateFrom = '', $afterNow = false)
     {
         if (empty($dateFrom)) {
             $dateFrom = new Carbon;
         }
 
-        $period = new Period($this->resettable_interval, $this->resettable_count, $dateFrom);
+        // Generate end date (keep looping if we have to generate date after now)
+        do {
+            $period = new Period($this->resettable_interval, $this->resettable_count, $dateFrom);
 
-        return $period->getEndDate();
+            $endDate = $dateFrom = $period->getEndDate();
+        } while($afterNow && $endDate < Carbon::now());
+
+        return $endDate;
     }
 }

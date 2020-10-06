@@ -2,6 +2,7 @@
 
 namespace Gerarodjbaez\Laraplans\Unit;
 
+use Illuminate\Support\Carbon;
 use Gerardojbaez\Laraplans\Feature;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
@@ -50,6 +51,23 @@ class FeatureTest extends TestCase
         $feature->setResettableCount('1');
 
         $this->assertEquals('2016-09-16 17:14:16', (string)$feature->getResetDate('2016-08-16 17:14:16'));
+    }
+
+
+    /**
+     * Can generate feature reset date after now.
+     *
+     * @test
+     */
+    public function it_can_generate_feature_reset_after_now()
+    {
+        Carbon::setTestNow(Carbon::create(2016, 12, 21, 12));
+
+        $feature = new Feature('SAMPLE_DEFINED_FEATURE');
+        $feature->setResettableInterval('month');
+        $feature->setResettableCount('1');
+
+        $this->assertEquals('2017-01-16 17:14:16', (string) $feature->getResetDate('2016-08-16 17:14:16', true));
     }
 
     /**

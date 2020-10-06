@@ -45,11 +45,11 @@ class SubscriptionUsageManager
             // Set date from subscription creation date so
                 // the reset period match the period specified
                 // by the subscription's plan.
-                $usage->valid_until = $feature->getResetDate($this->subscription->created_at);
+                $usage->valid_until = $feature->getResetDate($this->subscription->created_at, true);
             } // If the usage record has been expired, let's assign
             // a new expiration date and reset the uses to zero.
             elseif ($usage->isExpired() === true) {
-                $usage->valid_until = $feature->getResetDate($usage->valid_until);
+                $usage->valid_until = $feature->getResetDate($usage->valid_until, true);
                 $usage->used = 0;
             }
         }
