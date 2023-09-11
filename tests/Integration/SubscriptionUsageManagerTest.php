@@ -3,11 +3,10 @@
 namespace Gerarodjbaez\Laraplans\Tests\Integration;
 
 use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
-use Gerardojbaez\Laraplans\SubscriptionUsageManger;
 use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Tests\TestCase;
 
 class SubscriptionUsageMangerTest extends TestCase
 {
@@ -15,6 +14,7 @@ class SubscriptionUsageMangerTest extends TestCase
      * Can subscription features usage.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_record_usage()
@@ -22,7 +22,7 @@ class SubscriptionUsageMangerTest extends TestCase
         $user = User::create([
             'email' => 'gerardo@email.dev',
             'name' => 'Gerardo',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $plan = Plan::create([
@@ -35,7 +35,7 @@ class SubscriptionUsageMangerTest extends TestCase
         ]);
 
         $plan->features()->saveMany([
-            new PlanFeature(['code' => 'SAMPLE_SIMPLE_FEATURE', 'value' => 5])
+            new PlanFeature(['code' => 'SAMPLE_SIMPLE_FEATURE', 'value' => 5]),
         ]);
 
         $user->newSubscription('main', $plan)->create();

@@ -2,9 +2,9 @@
 
 namespace Gerarodjbaez\Laraplans\Unit;
 
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\Laraplans\Feature;
 use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class FeatureTest extends TestCase
 {
@@ -12,6 +12,7 @@ class FeatureTest extends TestCase
      * Can return all configured feature codes.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_get_all_features()
@@ -20,7 +21,7 @@ class FeatureTest extends TestCase
 
         $this->assertEquals([
             'SAMPLE_SIMPLE_FEATURE',
-            'SAMPLE_DEFINED_FEATURE'
+            'SAMPLE_DEFINED_FEATURE',
         ], $features);
     }
 
@@ -28,6 +29,7 @@ class FeatureTest extends TestCase
      * Can check if feature code is valid.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_validate_feature_code()
@@ -41,6 +43,7 @@ class FeatureTest extends TestCase
      * Can generate feature reset date.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_generate_feature_reset_date()
@@ -49,11 +52,12 @@ class FeatureTest extends TestCase
         $feature->setResettableInterval('month');
         $feature->setResettableCount('1');
 
-        $this->assertEquals('2016-09-16 17:14:16', (string)$feature->getResetDate('2016-08-16 17:14:16'));
+        $this->assertEquals('2016-09-16 17:14:16', (string) $feature->getResetDate('2016-08-16 17:14:16'));
     }
 
     /**
      * @test
+     *
      * @return void
      */
     public function it_throw_exception_on_invalid_feature()

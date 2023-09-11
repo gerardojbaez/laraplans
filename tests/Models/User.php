@@ -2,12 +2,15 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
+use Gerardojbaez\Laraplans\Database\Factories\UserFactory;
 use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements PlanSubscriberInterface
 {
+    use HasFactory;
     use PlanSubscriber;
 
     /**
@@ -27,4 +30,9 @@ class User extends Authenticatable implements PlanSubscriberInterface
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected static function newFactory()
+    {
+        return new UserFactory();
+    }
 }
