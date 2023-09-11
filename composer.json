@@ -17,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Gerardojbaez\\Laraplans\\": "src/Laraplans/"
+            "Gerardojbaez\\Laraplans\\": "src/",
+            "Gerardojbaez\\Laraplans\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {

@@ -18,7 +18,7 @@ class TestCase extends Testbench
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(realpath(__DIR__.'/../src/database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../database/migrations'));
         $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
 
         // Run package migrations

@@ -2,6 +2,8 @@
 
 namespace Gerardojbaez\Laraplans\Models;
 
+use Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
 use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
@@ -9,6 +11,7 @@ use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
 class PlanFeature extends Model implements PlanFeatureInterface
 {
     use BelongsToPlan;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +34,10 @@ class PlanFeature extends Model implements PlanFeatureInterface
         'created_at', 'updated_at'
     ];
 
+    protected static function newFactory()
+    {
+        return new PlanFeatureFactory;
+    }
     /**
      * Get feature usage.
      *

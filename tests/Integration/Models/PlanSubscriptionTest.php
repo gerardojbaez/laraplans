@@ -77,10 +77,9 @@ class PlanSubscriptionTest extends TestCase
     {
         // Arrange
         Event::fake();
-
+        $this->withoutExceptionHandling();
         // Act
-        $subscription = factory(PlanSubscription::class)->create();
-
+        $subscription = PlanSubscription::factory()->create();
         // Assert
         Event::assertDispatched(SubscriptionCreated::class, function ($event) use ($subscription) {
             return (int) $event->subscription->id === (int) $subscription->id;
@@ -174,8 +173,8 @@ class PlanSubscriptionTest extends TestCase
         Event::fake();
 
         // Create a subscription with an ended period...
-        $subscription = factory(PlanSubscription::class)->create([
-            'plan_id' => factory(Plan::class)->create([
+        $subscription = PlanSubscription::factory()->create([
+            'plan_id' => Plan::factory()->create([
                 'interval' => 'month'
             ])->id,
             'trial_ends_at' => Carbon::now()->subMonth(),
@@ -204,12 +203,12 @@ class PlanSubscriptionTest extends TestCase
     {
         // For "control", these subscription shouldn't be
         // included in the result...
-        factory(PlanSubscription::class, 10)->create([
+        PlanSubscription::factory(10)->create([
             'trial_ends_at' => Carbon::now()->addDays(10) // End in ten days...
         ]);
 
         // These are the results that should be returned...
-        factory(PlanSubscription::class, 5)->create([
+        PlanSubscription::factory(5)->create([
             'trial_ends_at' => Carbon::now()->addDays(3), // Ended a day ago...
         ]);
 
@@ -228,12 +227,12 @@ class PlanSubscriptionTest extends TestCase
     {
         // For "control", these subscription shouldn't be
         // included in the result...
-        factory(PlanSubscription::class, 10)->create([
+        PlanSubscription::factory(10)->create([
             'trial_ends_at' => Carbon::now()->addDays(2) // End in two days...
         ]);
 
         // These are the results that should be returned...
-        factory(PlanSubscription::class, 5)->create([
+      PlanSubscription::factory(5)->create([
             'trial_ends_at' => Carbon::now()->subDay(), // Ended a day ago...
         ]);
 
@@ -252,12 +251,12 @@ class PlanSubscriptionTest extends TestCase
     {
         // For "control", these subscription shouldn't be
         // included in the result...
-        factory(PlanSubscription::class, 10)->create([
+        PlanSubscription::factory(10)->create([
             'ends_at' => Carbon::now()->addDays(10) // End in ten days...
         ]);
 
         // These are the results that should be returned...
-        factory(PlanSubscription::class, 5)->create([
+        PlanSubscription::factory(5)->create([
             'ends_at' => Carbon::now()->addDays(3), // Ended a day ago...
         ]);
 
@@ -276,12 +275,12 @@ class PlanSubscriptionTest extends TestCase
     {
         // For "control", these subscription shouldn't be
         // included in the result...
-        factory(PlanSubscription::class, 10)->create([
+        PlanSubscription::factory(10)->create([
             'ends_at' => Carbon::now()->addDays(2) // End in two days...
         ]);
 
         // These are the results that should be returned...
-        factory(PlanSubscription::class, 5)->create([
+       PlanSubscription::factory(5)->create([
             'ends_at' => Carbon::now()->subDay(), // Ended a day ago...
         ]);
 
@@ -299,12 +298,12 @@ class PlanSubscriptionTest extends TestCase
     public function it_can_exclude_canceled_subscriptions()
     {
         // Make sure canceled subscriptions are not included...
-        factory(PlanSubscription::class, 10)->create([
+        PlanSubscription::factory( 10)->create([
             'canceled_at' => Carbon::now()->subDays(2)
         ]);
 
         // Not canceled subscriptions
-        factory(PlanSubscription::class, 5)->create([
+        PlanSubscription::factory(5)->create([
             'canceled_at' => null,
         ]);
 
@@ -322,17 +321,17 @@ class PlanSubscriptionTest extends TestCase
     public function it_can_exclude_immediately_canceled_subscriptions()
     {
         // Immediately canceled subscriptions...
-        factory(PlanSubscription::class, 2)->create([
+      PlanSubscription::factory(2)->create([
             'canceled_at' => Carbon::now(),
             'canceled_immediately' => 1
         ]);
 
         // Not immediately canceled subscriptions...
-        factory(PlanSubscription::class, 3)->create([
+      PlanSubscription::factory( 3)->create([
             'canceled_at' => null,
         ]);
 
-        factory(PlanSubscription::class, 2)->create([
+       PlanSubscription::factory(2)->create([
             'canceled_at' => null,
             'canceled_immediately' => 0
         ]);

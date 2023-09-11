@@ -2,13 +2,19 @@
 
 namespace Gerardojbaez\Laraplans\Models;
 
+use Gerardojbaez\Laraplans\Database\Factories\PlanFactory;
+use Gerardojbaez\Laraplans\Database\Factories\UserFactory;
 use Gerardojbaez\Laraplans\Period;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
 use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class Plan extends Model implements PlanInterface
 {
+
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
@@ -33,6 +39,10 @@ class Plan extends Model implements PlanInterface
         'created_at', 'updated_at'
     ];
 
+    protected static function newFactory()
+    {
+        return new PlanFactory();
+    }
     /**
      * Boot function for using with User Events.
      *

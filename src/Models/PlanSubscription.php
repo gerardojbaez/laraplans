@@ -3,6 +3,8 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Carbon\Carbon;
+use Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use LogicException;
 use Gerardojbaez\Laraplans\Period;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +29,12 @@ use Gerardojbaez\Laraplans\Exceptions\FeatureValueFormatIncompatibleException;
 class PlanSubscription extends Model implements PlanSubscriptionInterface
 {
     use BelongsToPlan;
+    use HasFactory;
 
+    protected static function newFactory()
+    {
+        return new PlanSubscriptionFactory();
+    }
     /**
      * Subscription statuses
      */
@@ -54,10 +61,14 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      *
      * @var array
      */
-    protected $dates = [
-        'created_at', 'updated_at',
-        'canceled_at', 'trial_ends_at', 'ends_at', 'starts_at'
-    ];
+//    protected $dates = [
+//        'created_at',
+//        'updated_at',
+//        'canceled_at',
+//        'trial_ends_at',
+//        'ends_at',
+//        'starts_at'
+//    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -66,6 +77,12 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     protected $casts = [
         'canceled_immediately' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'canceled_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
+        'ends_at' => 'datetime',
+        'starts_at' => 'datetime'
     ];
 
     /**
@@ -186,7 +203,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function isEnded()
     {
-        $endsAt = Carbon::instance($this->ends_at);
+        $endsAt = Carbon::parse($this->ends_at);
 
         return Carbon::now()->gte($endsAt);
     }

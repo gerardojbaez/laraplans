@@ -2,6 +2,8 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Models;
 
+use Gerardojbaez\Laraplans\Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
 use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
@@ -9,7 +11,7 @@ use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 class User extends Authenticatable implements PlanSubscriberInterface
 {
     use PlanSubscriber;
-
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
@@ -27,4 +29,9 @@ class User extends Authenticatable implements PlanSubscriberInterface
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected static function newFactory()
+    {
+        return new UserFactory();
+    }
 }

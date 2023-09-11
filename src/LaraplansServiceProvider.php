@@ -22,18 +22,18 @@ class LaraplansServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laraplans');
+        $this->loadTranslationsFrom(__DIR__ . '/../src/lang', 'laraplans');
 
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
 
         $this->publishes([
-            __DIR__.'/../config/laraplans.php' => config_path('laraplans.php')
+            __DIR__ . '/../config/laraplans.php' => config_path('laraplans.php')
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../lang' => resource_path('lang/vendor/laraplans'),
+            __DIR__ . '/../src/lang' => resource_path('lang/vendor/laraplans'),
         ]);
     }
 
@@ -44,7 +44,7 @@ class LaraplansServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laraplans.php', 'laraplans');
+        $this->mergeConfigFrom(__DIR__ . '/../config/laraplans.php', 'laraplans');
 
         $this->app->bind(PlanInterface::class, config('laraplans.models.plan'));
         $this->app->bind(PlanFeatureInterface::class, config('laraplans.models.plan_feature'));
