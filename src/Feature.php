@@ -3,7 +3,6 @@
 namespace Gerardojbaez\Laraplans;
 
 use Carbon\Carbon;
-use Gerardojbaez\Laraplans\Period;
 use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 
 class Feature
@@ -32,13 +31,14 @@ class Feature
     /**
      * Create a new Feature instance.
      *
-     * @param string $feature_code
-     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException
+     * @param  string  $feature_code
      * @return void
+     *
+     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException
      */
     public function __construct($feature_code)
     {
-        if (!self::isValid($feature_code)) {
+        if (! self::isValid($feature_code)) {
             throw new InvalidPlanFeatureException($feature_code);
         }
 
@@ -64,7 +64,7 @@ class Feature
     {
         $features = config('laraplans.features');
 
-        if (!$features) {
+        if (! $features) {
             return [];
         }
 
@@ -84,7 +84,7 @@ class Feature
     /**
      * Check if feature code is valid.
      *
-     * @param string $code
+     * @param  string  $code
      * @return bool
      */
     public static function isValid($code)
@@ -167,7 +167,7 @@ class Feature
     /**
      * Get feature's reset date.
      *
-     * @param string $dateFrom
+     * @param  string  $dateFrom
      * @return \Carbon\Carbon
      */
     public function getResetDate($dateFrom = '')

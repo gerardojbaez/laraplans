@@ -11,8 +11,11 @@ class Period
      * The interval constants.
      */
     const DAY = 'day';
+
     const WEEK = 'week';
+
     const MONTH = 'month';
+
     const YEAR = 'year';
 
     /**
@@ -58,11 +61,12 @@ class Period
     /**
      * Create a new Period instance.
      *
-     * @param  string $interval Interval
-     * @param  int $count Interval count
-     * @param  string $start Starting point
-     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException
+     * @param  string  $interval Interval
+     * @param  int  $count Interval count
+     * @param  string  $start Starting point
      * @return  void
+     *
+     * @throws  \Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException
      */
     public function __construct($interval = 'month', $count = 1, $start = '')
     {
@@ -97,7 +101,7 @@ class Period
         $intervals = [];
 
         foreach (array_keys(self::$intervalMapping) as $interval) {
-            $intervals[$interval] =  __('laraplans::messages.'.$interval);
+            $intervals[$interval] = __('laraplans::messages.'.$interval);
         }
 
         return $intervals;
@@ -146,8 +150,8 @@ class Period
     /**
      * Check if a given interval is valid.
      *
-     * @param  string $interval
-     * @return boolean
+     * @param  string  $interval
+     * @return bool
      */
     public static function isValidInterval($interval)
     {
@@ -162,7 +166,7 @@ class Period
     protected function calculate()
     {
         $method = $this->getMethod();
-        $start = clone($this->start);
+        $start = clone $this->start;
         $this->end = $start->$method($this->interval_count);
     }
 

@@ -7,7 +7,7 @@ interface SubscriptionBuilderInterface
     /**
      * Specify the trial duration period in days.
      *
-     * @param  int $trialDays
+     * @param  int  $trialDays
      * @return $this
      */
     public function trialDays($trialDays);

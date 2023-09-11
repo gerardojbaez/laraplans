@@ -9,7 +9,6 @@ class SetPeriodWhenEmpty
     /**
      * Handle event.
      *
-     * @param SubscriptionSaving $event
      * @return void
      */
     public function handle(SubscriptionSaving $event)

@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -48,7 +47,7 @@ return [
         'SAMPLE_SIMPLE_FEATURE',
         'SAMPLE_DEFINED_FEATURE' => [
             'resettable_interval' => 'month',
-            'resettable_count' => 2
+            'resettable_count' => 2,
         ],
     ],
 ];

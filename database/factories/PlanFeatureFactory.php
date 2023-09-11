@@ -1,4 +1,5 @@
 <?php
+
 namespace Gerardojbaez\Laraplans\Database\Factories;
 
 use Gerardojbaez\Laraplans\Models\Plan;
@@ -17,7 +18,7 @@ class PlanFeatureFactory extends Factory
         return [
             'plan_id' => Plan::factory()->create()->id,
             'code' => fake()->word,
-            'value' => fake()->randomElement(['10','20','30','50','Y','N','UNLIMITED']),
+            'value' => fake()->randomElement(['10', '20', '30', '50', 'Y', 'N', 'UNLIMITED']),
         ];
     }
 }

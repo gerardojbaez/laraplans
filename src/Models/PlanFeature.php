@@ -2,11 +2,11 @@
 
 namespace Gerardojbaez\Laraplans\Models;
 
+use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
 use Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory;
+use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
-use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
 
 class PlanFeature extends Model implements PlanFeatureInterface
 {
@@ -22,7 +22,7 @@ class PlanFeature extends Model implements PlanFeatureInterface
         'plan_id',
         'code',
         'value',
-        'sort_order'
+        'sort_order',
     ];
 
     /**
@@ -31,13 +31,14 @@ class PlanFeature extends Model implements PlanFeatureInterface
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
 
     protected static function newFactory()
     {
         return new PlanFeatureFactory;
     }
+
     /**
      * Get feature usage.
      *

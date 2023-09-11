@@ -2,8 +2,6 @@
 
 namespace Gerardojbaez\Laraplans;
 
-use Gerardojbaez\Laraplans\Feature;
-
 class SubscriptionAbility
 {
     /**
@@ -27,8 +25,8 @@ class SubscriptionAbility
      * Determine if the feature is enabled and has
      * available uses.
      *
-     * @param string $feature
-     * @return boolean
+     * @param  string  $feature
+     * @return bool
      */
     public function canUse($feature)
     {
@@ -58,7 +56,7 @@ class SubscriptionAbility
     /**
      * Get how many times the feature has been used.
      *
-     * @param  string $feature
+     * @param  string  $feature
      * @return int
      */
     public function consumed($feature)
@@ -75,18 +73,18 @@ class SubscriptionAbility
     /**
      * Get the available uses.
      *
-     * @param  string $feature
+     * @param  string  $feature
      * @return int
      */
     public function remainings($feature)
     {
-        return ((int) $this->value($feature) - (int) $this->consumed($feature));
+        return (int) $this->value($feature) - (int) $this->consumed($feature);
     }
 
     /**
      * Check if subscription plan feature is enabled.
      *
-     * @param string $feature
+     * @param  string  $feature
      * @return bool
      */
     public function enabled($feature)
@@ -109,8 +107,8 @@ class SubscriptionAbility
     /**
      * Get feature value.
      *
-     * @param  string $feature
-     * @param  mixed $default
+     * @param  string  $feature
+     * @param  mixed  $default
      * @return mixed
      */
     public function value($feature, $default = null)

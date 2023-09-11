@@ -3,11 +3,11 @@
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Config;
 use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 
 class PlanSubscriptionUsageTest extends TestCase
 {
@@ -15,6 +15,7 @@ class PlanSubscriptionUsageTest extends TestCase
      * Check if usage has expired.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_check_if_usage_has_expired()
@@ -22,14 +23,14 @@ class PlanSubscriptionUsageTest extends TestCase
         Config::set('laraplans.features', [
             'listings_per_month' => [
                 'resettable_interval' => 'month',
-                'resettable_count' => 1
-            ]
+                'resettable_count' => 1,
+            ],
         ]);
 
         $plan = Plan::create([
             'name' => 'Pro',
             'description' => 'Pro plan',
-            'interval' => 'month'
+            'interval' => 'month',
         ]);
 
         $plan->features()->saveMany([
@@ -39,7 +40,7 @@ class PlanSubscriptionUsageTest extends TestCase
         $user = User::create([
             'email' => 'test@example.org',
             'name' => 'Test user',
-            'password' => '123'
+            'password' => '123',
         ]);
 
         $user->newSubscription('main', $plan)->create();

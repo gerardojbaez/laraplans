@@ -2,16 +2,17 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Models;
 
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
 use Gerardojbaez\Laraplans\Database\Factories\UserFactory;
+use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
-use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 
 class User extends Authenticatable implements PlanSubscriberInterface
 {
-    use PlanSubscriber;
     use HasFactory;
+    use PlanSubscriber;
+
     /**
      * The attributes that are mass assignable.
      *

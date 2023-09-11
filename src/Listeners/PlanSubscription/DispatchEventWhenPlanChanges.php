@@ -2,15 +2,14 @@
 
 namespace Gerardojbaez\Laraplans\Listeners\PlanSubscription;
 
-use Gerardojbaez\Laraplans\Events\SubscriptionSaving;
 use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
+use Gerardojbaez\Laraplans\Events\SubscriptionSaving;
 
 class DispatchEventWhenPlanChanges
 {
     /**
      * Handle event.
      *
-     * @param SubscriptionSaving $event
      * @return void
      */
     public function handle(SubscriptionSaving $event)

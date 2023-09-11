@@ -9,8 +9,7 @@ interface SubscriptionResolverInterface
     /**
      * Resolve the subscribable subscription.
      *
-     * @param  Model  $subscribable
-     * @param  string $name The subscription name if your site supports multiple subscriptions.
+     * @param  string  $name The subscription name if your site supports multiple subscriptions.
      * @return Model
      */
     public function resolve(Model $subscribable, $name);

@@ -14,7 +14,7 @@ class SubscriptionUsageManager
     /**
      * Create new Subscription Usage Manager instance.
      *
-     * @param \Illuminate\Database\Eloquent\Model $subscription
+     * @param  \Illuminate\Database\Eloquent\Model  $subscription
      */
     public function __construct($subscription)
     {
@@ -26,8 +26,8 @@ class SubscriptionUsageManager
      *
      * This will create or update a usage record.
      *
-     * @param string $feature
-     * @param int $uses
+     * @param  string  $feature
+     * @param  int  $uses
      * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function record($feature, $uses = 1, $incremental = true)
@@ -39,10 +39,10 @@ class SubscriptionUsageManager
         ]);
 
         if ($feature->isResettable()) {
-        // Set expiration date when the usage record is new
+            // Set expiration date when the usage record is new
             // or doesn't have one.
             if (is_null($usage->valid_until)) {
-            // Set date from subscription creation date so
+                // Set date from subscription creation date so
                 // the reset period match the period specified
                 // by the subscription's plan.
                 $usage->valid_until = $feature->getResetDate($this->subscription->created_at);
@@ -64,8 +64,8 @@ class SubscriptionUsageManager
     /**
      * Reduce usage.
      *
-     * @param string $feature
-     * @param int $uses
+     * @param  string  $feature
+     * @param  int  $uses
      * @return \Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage
      */
     public function reduce($feature, $uses = 1)

@@ -3,8 +3,8 @@
 namespace Gerardojbaez\Laraplans;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\Laraplans\Contracts\SubscriptionBuilderInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionBuilder implements SubscriptionBuilderInterface
 {
@@ -62,7 +62,7 @@ class SubscriptionBuilder implements SubscriptionBuilderInterface
     /**
      * Specify the trial duration period in days.
      *
-     * @param  int $trialDays
+     * @param  int  $trialDays
      * @return $this
      */
     public function trialDays($trialDays)
@@ -107,7 +107,7 @@ class SubscriptionBuilder implements SubscriptionBuilderInterface
         return $this->user->subscriptions()->create(array_replace([
             'plan_id' => $this->plan->id,
             'trial_ends_at' => $trialEndsAt,
-            'name' => $this->name
+            'name' => $this->name,
         ], $attributes));
     }
 }

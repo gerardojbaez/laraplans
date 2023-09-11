@@ -3,15 +3,15 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Carbon\Carbon;
+use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
 use Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionUsageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
 
 class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterface
 {
-
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,7 +21,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
         'subscription_id',
         'code',
         'valid_until',
-        'used'
+        'used',
     ];
 
     /**
@@ -32,10 +32,12 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
     protected $dates = [
         'created_at', 'updated_at', 'valid_until',
     ];
+
     protected static function newFactory()
     {
         return new PlanSubscriptionUsageFactory();
     }
+
     /**
      * Get feature.
      *

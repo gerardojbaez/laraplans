@@ -1,14 +1,14 @@
 <?php
+
 namespace Gerardojbaez\Laraplans\Database\Factories;
 
 use Gerardojbaez\Laraplans\Models\Plan;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Facade;
 
 class PlanFactory extends Factory
 {
-
     protected $model = Plan::class;
+
     /**
      * @return mixed[]
      */
@@ -18,7 +18,7 @@ class PlanFactory extends Factory
             'name' => fake()->word,
             'description' => fake()->sentence,
             'price' => rand(0, 9),
-            'interval' => fake()->randomElement(['month', 'year'])
+            'interval' => fake()->randomElement(['month', 'year']),
         ];
     }
 }

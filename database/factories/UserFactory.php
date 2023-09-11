@@ -8,8 +8,8 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    protected $model = User::class;
 
-protected $model = User::class;
     /**
      * @return mixed[]
      */
@@ -20,5 +20,6 @@ protected $model = User::class;
             'email' => fake()->safeEmail,
             'password' => bcrypt(Str::random(10)),
             'remember_token' => Str::random(10),
-        ];    }
+        ];
+    }
 }

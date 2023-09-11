@@ -18,7 +18,7 @@ trait BelongsToPlan
      * Scope by plan id.
      *
      * @param  \Illuminate\Database\Eloquent\Builder
-     * @param  int $plan_id
+     * @param  int  $plan_id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByPlan($query, $plan_id)

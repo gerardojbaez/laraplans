@@ -4,15 +4,13 @@ namespace Gerardojbaez\Laraplans\Tests;
 
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
-use Orchestra\Testbench\TestCase as Testbench;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Orchestra\Testbench\TestCase as Testbench;
 
 class TestCase extends Testbench
 {
     /**
      * Setup the test enviroment.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -35,7 +33,7 @@ class TestCase extends Testbench
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -57,7 +55,7 @@ class TestCase extends Testbench
     /**
      * Get Laraplans package service provider.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     public function getPackageProviders($app)

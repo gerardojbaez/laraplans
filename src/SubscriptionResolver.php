@@ -2,8 +2,8 @@
 
 namespace Gerardojbaez\Laraplans;
 
-use Illuminate\Database\Eloquent\Model;
 use Gerardojbaez\Laraplans\Contracts\SubscriptionResolverInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionResolver implements SubscriptionResolverInterface
 {
