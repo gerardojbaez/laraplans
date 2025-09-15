@@ -6,7 +6,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'password' => bcrypt(\Illuminate\Support\Str::random(10)),
+        'remember_token' => \Illuminate\Support\Str::random(10),
     ];
 });
