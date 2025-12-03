@@ -3,9 +3,8 @@
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Tests\Models\User;
-use Gerardojbaez\Laraplans\SubscriptionBuilder;
+use Gerardojbaez\Laraplans\Tests\TestCase;
 
 class SubscriptionBuilderTest extends TestCase
 {
@@ -13,6 +12,7 @@ class SubscriptionBuilderTest extends TestCase
      * Can create new user subscription.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_create_new_subscriptions()
@@ -20,7 +20,7 @@ class SubscriptionBuilderTest extends TestCase
         $user = User::create([
             'email' => 'gerardo@email.dev',
             'name' => 'Gerardo',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $plan = Plan::create([
@@ -35,7 +35,7 @@ class SubscriptionBuilderTest extends TestCase
         // Create Subscription
         $user->newSubscription('main', $plan)->create();
         $user->newSubscription('second', $plan)->create([
-            'name' => 'override' // test if data can be override
+            'name' => 'override', // test if data can be override
         ]);
 
         $this->assertEquals(2, $user->subscriptions->count());

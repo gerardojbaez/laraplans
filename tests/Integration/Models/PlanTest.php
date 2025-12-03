@@ -2,11 +2,11 @@
 
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
-use Gerardojbaez\Laraplans\Period;
-use Illuminate\Support\Facades\App;
 use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Period;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Illuminate\Support\Facades\App;
 
 class PlanTest extends TestCase
 {
@@ -14,6 +14,7 @@ class PlanTest extends TestCase
      * Can create a plan with features attached.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_create_a_plan_and_attach_features_to_it()
@@ -44,6 +45,7 @@ class PlanTest extends TestCase
      * Can get interval translated name.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_get_interval_translated_name()
@@ -61,13 +63,14 @@ class PlanTest extends TestCase
      * Can get interval description.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_get_interval_description()
     {
         $plan = new Plan([
             'interval' => 'month',
-            'interval_count' => 1
+            'interval_count' => 1,
         ]);
 
         App::setLocale('en');
@@ -81,16 +84,17 @@ class PlanTest extends TestCase
      * Check if plan is free or not.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_check_if_plan_is_free_or_not()
     {
         $free = new Plan([
-            'price' => 0.00
+            'price' => 0.00,
         ]);
 
         $notFree = new Plan([
-            'price' => 9.99
+            'price' => 9.99,
         ]);
 
         $this->assertTrue($free->isFree());
@@ -101,16 +105,17 @@ class PlanTest extends TestCase
      * Check if plan is has trial.
      *
      * @test
+     *
      * @return void
      */
     public function it_has_trial()
     {
         $withoutTrial = new Plan([
-            'trial_period_days' => 0
+            'trial_period_days' => 0,
         ]);
 
         $withTrial = new Plan([
-            'trial_period_days' => 5
+            'trial_period_days' => 5,
         ]);
 
         $this->assertTrue($withTrial->hasTrial());

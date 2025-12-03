@@ -3,9 +3,9 @@
 namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
 
 use Gerardojbaez\Laraplans\Models\Plan;
-use Gerardojbaez\Laraplans\Tests\TestCase;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
+use Gerardojbaez\Laraplans\Tests\Models\User;
+use Gerardojbaez\Laraplans\Tests\TestCase;
 
 class SubscriptionAbilityTest extends TestCase
 {
@@ -13,6 +13,7 @@ class SubscriptionAbilityTest extends TestCase
      * Can check subscription feature usage.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_check_feature_usage()
@@ -20,7 +21,7 @@ class SubscriptionAbilityTest extends TestCase
         $user = User::create([
             'email' => 'gerardo@email.dev',
             'name' => 'Gerardo',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $plan = Plan::create([

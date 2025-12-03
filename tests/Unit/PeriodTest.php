@@ -2,10 +2,10 @@
 
 namespace Gerarodjbaez\Laraplans\Unit;
 
-use Gerardojbaez\Laraplans\Period;
-use Illuminate\Support\Facades\App;
-use Gerardojbaez\Laraplans\Tests\TestCase;
 use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
+use Gerardojbaez\Laraplans\Period;
+use Gerardojbaez\Laraplans\Tests\TestCase;
+use Illuminate\Support\Facades\App;
 
 class PeriodTest extends TestCase
 {
@@ -20,6 +20,7 @@ class PeriodTest extends TestCase
      * Can get all intervals with translations.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_get_all_intervals_with_translations()
@@ -36,6 +37,7 @@ class PeriodTest extends TestCase
      * Can calculate a daily period.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_calculate_a_daily_period()
@@ -49,17 +51,18 @@ class PeriodTest extends TestCase
         $expected2 = new \DateTime($this->startDate);
         $expected2->add(new \DateInterval('P2D'));
 
-        $this->assertEquals($this->startDate, (string)$period1->getStartDate());
-        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string)$period1->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period1->getStartDate());
+        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string) $period1->getEndDate());
 
-        $this->assertEquals($this->startDate, (string)$period2->getStartDate());
-        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string)$period2->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period2->getStartDate());
+        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string) $period2->getEndDate());
     }
 
     /**
      * Can calculate a weekly period.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_calculate_a_weekly_period()
@@ -73,17 +76,18 @@ class PeriodTest extends TestCase
         $expected2 = new \DateTime($this->startDate);
         $expected2->add(new \DateInterval('P14D'));
 
-        $this->assertEquals($this->startDate, (string)$period1->getStartDate());
-        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string)$period1->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period1->getStartDate());
+        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string) $period1->getEndDate());
 
-        $this->assertEquals($this->startDate, (string)$period2->getStartDate());
-        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string)$period2->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period2->getStartDate());
+        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string) $period2->getEndDate());
     }
 
     /**
      * Can calculate a monthly period.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_calculate_a_monthly_period()
@@ -97,17 +101,18 @@ class PeriodTest extends TestCase
         $expected2 = new \DateTime($this->startDate);
         $expected2->add(new \DateInterval('P2M'));
 
-        $this->assertEquals($this->startDate, (string)$period1->getStartDate());
-        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string)$period1->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period1->getStartDate());
+        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string) $period1->getEndDate());
 
-        $this->assertEquals($this->startDate, (string)$period2->getStartDate());
-        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string)$period2->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period2->getStartDate());
+        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string) $period2->getEndDate());
     }
 
     /**
      * Can calculate a yearly period.
      *
      * @test
+     *
      * @return void
      */
     public function it_can_calculate_a_yearly_period()
@@ -121,11 +126,11 @@ class PeriodTest extends TestCase
         $expected2 = new \DateTime($this->startDate);
         $expected2->add(new \DateInterval('P2Y'));
 
-        $this->assertEquals($this->startDate, (string)$period1->getStartDate());
-        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string)$period1->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period1->getStartDate());
+        $this->assertEquals($expected1->format('Y-m-d H:i:s'), (string) $period1->getEndDate());
 
-        $this->assertEquals($this->startDate, (string)$period2->getStartDate());
-        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string)$period2->getEndDate());
+        $this->assertEquals($this->startDate, (string) $period2->getStartDate());
+        $this->assertEquals($expected2->format('Y-m-d H:i:s'), (string) $period2->getEndDate());
     }
 
     /**
@@ -133,6 +138,7 @@ class PeriodTest extends TestCase
      * is passed.
      *
      * @test
+     *
      * @return void
      */
     public function it_throw_exception_on_invalid_interval()
