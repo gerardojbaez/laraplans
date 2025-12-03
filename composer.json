@@ -27,5 +27,5 @@
             "Gerardojbaez\\Laraplans\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
