@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerarodjbaez\Laraplans\Unit;
+namespace Gerardojbaez\Laraplans\Tests\Unit;
 
 use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\Laraplans\Feature;

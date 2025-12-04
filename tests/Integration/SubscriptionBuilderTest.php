@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
+namespace Gerardojbaez\Laraplans\Tests\Integration;
 
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Tests\Models\User;

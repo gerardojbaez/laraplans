@@ -1,6 +1,6 @@
 <?php
 
-namespace Gerarodjbaez\Laraplans\Tests\Integration\Models;
+namespace Gerardojbaez\Laraplans\Tests\Integration\Models;
 
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Models\Plan;
