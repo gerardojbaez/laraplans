@@ -10,8 +10,6 @@ A Laravel package for SaaS style recurring plans.
 ## Compatibility
 **This package support Laravel v9 and v10.**
 
-For older version you may check https://github.com/gerardojbaez/laraplans
-
 **Documentation is available at http://laraplans.readthedocs.io**
 
 > *Payments are out of scope for this package.*

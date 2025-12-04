@@ -16,7 +16,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Require PHP 8.1 or newer.
 - Standardize package structure to Laravel conventions (moved config and migrations; updated PSR-4 autoloading).
 - Update service provider publish/translation paths and refresh phpunit configuration.
-- Migrate migration columns from timestamp to dateTime where appropriate.
 - Apply automated code formatting via Pint.
 - README updated to clarify supported Laravel versions and link to older releases.
 - Composer: set minimum-stability to stable and refresh composer.lock to resolve dependencies to tagged stable releases.
