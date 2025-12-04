@@ -3,17 +3,14 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
-use Gerardojbaez\Laraplans\Database\Factories\PlanFactory;
-use Gerardojbaez\LaraPlans\Exceptions\InvalidPlanFeatureException;
+use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\Laraplans\Period;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class Plan extends Model implements PlanInterface
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -35,13 +32,8 @@ class Plan extends Model implements PlanInterface
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at'
     ];
-
-    protected static function newFactory()
-    {
-        return new PlanFactory();
-    }
 
     /**
      * Boot function for using with User Events.
@@ -61,6 +53,16 @@ class Plan extends Model implements PlanInterface
                 $model->interval_count = 1;
             }
         });
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return \Gerardojbaez\Laraplans\Database\Factories\PlanFactory::new();
     }
 
     /**
@@ -91,8 +93,7 @@ class Plan extends Model implements PlanInterface
     public function getIntervalNameAttribute()
     {
         $intervals = Period::getAllIntervals();
-
-        return isset($intervals[$this->interval]) ? $intervals[$this->interval] : null;
+        return (isset($intervals[$this->interval]) ? $intervals[$this->interval] : null);
     }
 
     /**
@@ -108,34 +109,33 @@ class Plan extends Model implements PlanInterface
     /**
      * Check if plan is free.
      *
-     * @return bool
+     * @return boolean
      */
     public function isFree()
     {
-        return (float) $this->price <= 0.00;
+        return ((float) $this->price <= 0.00);
     }
 
     /**
      * Check if plan has trial.
      *
-     * @return bool
+     * @return boolean
      */
     public function hasTrial()
     {
-        return is_numeric($this->trial_period_days) and $this->trial_period_days > 0;
+        return (is_numeric($this->trial_period_days) and $this->trial_period_days > 0);
     }
 
     /**
      * Returns the demanded feature
      *
-     * @param  string  $code
+     * @param String $code
      * @return PlanFeature
-     *
      * @throws InvalidPlanFeatureException
      */
     public function getFeatureByCode($code)
     {
-        $feature = $this->features()->getEager()->first(function ($item) use ($code) {
+        $feature = $this->features()->getEager()->first(function($item) use ($code) {
             return $item->code === $code;
         });
 

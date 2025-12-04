@@ -10,15 +10,12 @@ class PlanFeatureFactory extends Factory
 {
     protected $model = PlanFeature::class;
 
-    /**
-     * @return mixed[]
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'plan_id' => Plan::factory()->create()->id,
-            'code' => fake()->word,
-            'value' => fake()->randomElement(['10', '20', '30', '50', 'Y', 'N', 'UNLIMITED']),
+            'plan_id' => Plan::factory(),
+            'code' => $this->faker->word(),
+            'value' => $this->faker->randomElement(['10', '20', '30', '50', 'Y', 'N', 'UNLIMITED']),
         ];
     }
 }

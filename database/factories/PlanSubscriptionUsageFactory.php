@@ -10,17 +10,14 @@ class PlanSubscriptionUsageFactory extends Factory
 {
     protected $model = PlanSubscriptionUsage::class;
 
-    /**
-     * @return mixed[]
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => fake()->word,
-            'subscription_id' => PlanSubscription::factory()->create()->id,
-            'code' => fake()->word,
-            'used' => rand(1, 50),
-            'valid_until' => fake()->dateTime(),
+            'name' => $this->faker->word(),
+            'subscription_id' => PlanSubscription::factory(),
+            'code' => $this->faker->word(),
+            'used' => $this->faker->numberBetween(1, 50),
+            'valid_until' => $this->faker->dateTime(),
         ];
     }
 }

@@ -10,14 +10,11 @@ class UserFactory extends Factory
 {
     protected $model = User::class;
 
-    /**
-     * @return mixed[]
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => fake()->name,
-            'email' => fake()->safeEmail,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->safeEmail(),
             'password' => bcrypt(Str::random(10)),
             'remember_token' => Str::random(10),
         ];

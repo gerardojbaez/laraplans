@@ -2,21 +2,21 @@
 
 namespace Gerardojbaez\Laraplans\Tests;
 
-use Faker\Factory as FakerFactory;
-use Faker\Generator as FakerGenerator;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Orchestra\Testbench\TestCase as Testbench;
+use Illuminate\Foundation\Application;
+use Orchestra\Testbench\TestCase as TestBenchCase;
 
-class TestCase extends Testbench
+class TestCase extends TestBenchCase
 {
     /**
-     * Setup the test enviroment.
+     * Set up the test environment.
+     *
+     * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(realpath(__DIR__.'/../database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../database/migrations'));
         $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
 
         // Run package migrations
@@ -33,14 +33,12 @@ class TestCase extends Testbench
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application $app
      * @return void
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
-        $this->registerEloquentFactory($app);
-
-        // Set user model
+        // Set the user model
         $app['config']->set('auth.providers.users.model', '\Gerardojbaez\Laraplans\Tests\Models\User');
 
         // set up database configuration
@@ -55,29 +53,11 @@ class TestCase extends Testbench
     /**
      * Get Laraplans package service provider.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application $app
      * @return array
      */
-    public function getPackageProviders($app)
+    public function getPackageProviders($app): array
     {
         return ['Gerardojbaez\Laraplans\LaraplansServiceProvider'];
-    }
-
-    /**
-     * Register the Eloquent factory instance in the container.
-     *
-     * @return void
-     */
-    protected function registerEloquentFactory($app)
-    {
-        $app->singleton(FakerGenerator::class, function () {
-            return FakerFactory::create();
-        });
-
-        $app->singleton(EloquentFactory::class, function ($app) {
-            $faker = $app->make(FakerGenerator::class);
-
-            return EloquentFactory::construct($faker, __DIR__.'/../src/database/factories');
-        });
     }
 }

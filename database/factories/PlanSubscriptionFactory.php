@@ -11,18 +11,27 @@ class PlanSubscriptionFactory extends Factory
 {
     protected $model = PlanSubscription::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'subscribable_id' => User::factory()->create()->id,
-            'subscribable_type' => User::class,
-            'plan_id' => Plan::factory()->create()->id,
-            'name' => fake()->word,
+            'plan_id' => Plan::factory(),
+            'name' => $this->faker->word(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (PlanSubscription $subscription) {
+            if (empty($subscription->subscribable_type) || empty($subscription->subscribable_id)) {
+                $user = User::factory()->create();
+                $subscription->subscribable()->associate($user);
+            }
+        })->afterCreating(function (PlanSubscription $subscription) {
+            if (empty($subscription->subscribable_type) || empty($subscription->subscribable_id)) {
+                $user = User::factory()->create();
+                $subscription->subscribable()->associate($user);
+                $subscription->save();
+            }
+        });
     }
 }

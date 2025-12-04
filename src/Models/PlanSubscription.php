@@ -5,7 +5,6 @@ namespace Gerardojbaez\Laraplans\Models;
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionInterface;
-use Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionFactory;
 use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
 use Gerardojbaez\Laraplans\Events\SubscriptionCreated;
 use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
@@ -19,27 +18,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use LogicException;
 
 class PlanSubscription extends Model implements PlanSubscriptionInterface
 {
-    use BelongsToPlan;
-    use HasFactory;
-
-    protected static function newFactory()
-    {
-        return new PlanSubscriptionFactory();
-    }
+    use BelongsToPlan, HasFactory;
 
     /**
      * Subscription statuses
      */
-    const STATUS_ENDED = 'ended';
-
-    const STATUS_ACTIVE = 'active';
-
-    const STATUS_CANCELED = 'canceled';
+    const STATUS_ENDED      = 'ended';
+    const STATUS_ACTIVE     = 'active';
+    const STATUS_CANCELED   = 'canceled';
 
     /**
      * The attributes that are mass assignable.
@@ -52,22 +42,8 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
         'trial_ends_at',
         'starts_at',
         'ends_at',
-        'canceled_at',
+        'canceled_at'
     ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    //    protected $dates = [
-    //        'created_at',
-    //        'updated_at',
-    //        'canceled_at',
-    //        'trial_ends_at',
-    //        'ends_at',
-    //        'starts_at'
-    //    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -76,12 +52,10 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     protected $casts = [
         'canceled_immediately' => 'boolean',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'canceled_at' => 'datetime',
-        'trial_ends_at' => 'datetime',
         'ends_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
         'starts_at' => 'datetime',
+        'plan_id' => 'integer'
     ];
 
     /**
@@ -125,6 +99,16 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
             config('laraplans.models.plan_subscription_usage'),
             'subscription_id'
         );
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return \Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionFactory::new();
     }
 
     /**
@@ -182,7 +166,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function isCanceled()
     {
-        return ! is_null($this->canceled_at);
+        return  ! is_null($this->canceled_at);
     }
 
     /**
@@ -192,7 +176,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      */
     public function isCanceledImmediately()
     {
-        return ! is_null($this->canceled_at) and $this->canceled_immediately === true;
+        return  (! is_null($this->canceled_at) and $this->canceled_immediately === true);
     }
 
     /**
@@ -210,7 +194,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Cancel subscription.
      *
-     * @param  bool  $immediately
+     * @param  bool $immediately
      * @return $this
      */
     public function cancel($immediately = false)
@@ -233,7 +217,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Change subscription plan.
      *
-     * @param  mixed  $plan Plan Id or Plan Model Instance
+     * @param mixed $plan Plan Id or Plan Model Instance
      * @return $this
      */
     public function changePlan($plan)
@@ -265,9 +249,8 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Renew subscription period.
      *
-     * @return  $this
-     *
      * @throws  \LogicException
+     * @return  $this
      */
     public function renew()
     {
@@ -313,7 +296,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
      * Find by subscribable id.
      *
      * @param  \Illuminate\Database\Eloquent\Builder
-     * @param  int  $subscribable
+     * @param  int $subscribable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByUser($query, $subscribable)
@@ -360,7 +343,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Scope not canceled subscriptions.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeExcludeCanceled($query)
@@ -371,7 +354,7 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Scope not immediately canceled subscriptions.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeExcludeImmediatelyCanceled($query)
@@ -393,9 +376,9 @@ class PlanSubscription extends Model implements PlanSubscriptionInterface
     /**
      * Set subscription period.
      *
-     * @param  string  $interval
-     * @param  int  $interval_count
-     * @param  string  $start Start date
+     * @param  string $interval
+     * @param  int $interval_count
+     * @param  string $start Start date
      * @return  $this
      */
     public function setNewPeriod($interval = '', $interval_count = '', $start = '')

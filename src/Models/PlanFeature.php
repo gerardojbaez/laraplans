@@ -3,15 +3,13 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
-use Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory;
 use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PlanFeature extends Model implements PlanFeatureInterface
 {
-    use BelongsToPlan;
-    use HasFactory;
+    use BelongsToPlan, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +20,7 @@ class PlanFeature extends Model implements PlanFeatureInterface
         'plan_id',
         'code',
         'value',
-        'sort_order',
+        'sort_order'
     ];
 
     /**
@@ -31,13 +29,8 @@ class PlanFeature extends Model implements PlanFeatureInterface
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at'
     ];
-
-    protected static function newFactory()
-    {
-        return new PlanFeatureFactory;
-    }
 
     /**
      * Get feature usage.
@@ -50,5 +43,15 @@ class PlanFeature extends Model implements PlanFeatureInterface
     public function usage()
     {
         return $this->hasMany(config('laraplans.models.plan_subscription_usage'));
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return \Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory::new();
     }
 }
