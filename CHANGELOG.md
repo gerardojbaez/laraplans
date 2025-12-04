@@ -4,12 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+### Added
+- Eloquent model factories for core models to streamline testing on Laravel 9/10.
+- Laravel Pint as a dev dependency for opinionated code formatting.
+- Composer allow-plugins configuration for Pest.
+
+### Changed
+- Upgrade codebase to support Laravel 10 while retaining Laravel 9 compatibility.
+- Require PHP 8.1 or newer.
+- Standardize package structure to Laravel conventions (moved config and migrations; updated PSR-4 autoloading).
+- Update service provider publish/translation paths and refresh phpunit configuration.
+- Migrate migration columns from timestamp to dateTime where appropriate.
+- Apply automated code formatting via Pint.
+- README updated to clarify supported Laravel versions and link to older releases.
+
+### Removed
+- Explicit dependency on nesbot/carbon.
+- Legacy Laravel 5.x constraints in composer requirements.
+
+## [4.0.0] - 2025-0-04
 
 ### Added
-
 - Carbon 2
 - Method `Gerardojbaez\Laraplans\Models\PlanSubscription::scopeExcludeCanceled`
 - Method `Gerardojbaez\Laraplans\Models\PlanSubscription::scopeExcludeImmediatelyCanceled`
+
+### Changed
+- Upgrade dependencies and update to Illuminate 9.x.
+
+### Fixed
+- Documentation: correct method reference to `onTrial()`.
 
 ## [3.0.0] - 2020-05-25
 
