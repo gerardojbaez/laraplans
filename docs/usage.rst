@@ -174,9 +174,6 @@ To renew a subscription you may use the ``renew`` method available in the subscr
 
     $user->subscription('main')->renew();
 
-.. caution::
-    Canceled subscriptions with an ended period can't be renewed.
-
 ``Gerardojbaez\Laraplans\Events\SubscriptionRenewed`` event is fired when a subscription is renewed using the ``renew`` method.
 
 Cancel a Subscription
