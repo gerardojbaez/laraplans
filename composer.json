@@ -27,10 +27,11 @@
             "tests/TestCase.php"
         ],
         "psr-4": {
-            "Gerardojbaez\\Laraplans\\Tests\\": "tests/"
+            "Gerardojbaez\\Laraplans\\Tests\\": "tests/",
+            "Gerardojbaez\\Laraplans\\Database\\Factories\\": "database/factories/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
