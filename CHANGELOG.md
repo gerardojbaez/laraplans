@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - Eloquent model factories for core models to streamline testing on Laravel 9/10.
 - Laravel Pint as a dev dependency for opinionated code formatting.
-- Composer allow-plugins configuration for Pest.
+
+### Fixed
+- Unable to renew a canceled or ended subscription, causing issues with renewal logic
 
 ### Changed
 - Upgrade codebase to support Laravel 10 while retaining Laravel 9 compatibility.
@@ -17,6 +19,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Migrate migration columns from timestamp to dateTime where appropriate.
 - Apply automated code formatting via Pint.
 - README updated to clarify supported Laravel versions and link to older releases.
+- Composer: set minimum-stability to stable and refresh composer.lock to resolve dependencies to tagged stable releases.
+- Composer: removed dev/branch dependency references in favor of stable constraints; no functional changes.
 
 ### Removed
 - Explicit dependency on nesbot/carbon.
