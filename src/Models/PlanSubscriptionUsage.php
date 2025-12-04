@@ -4,12 +4,16 @@ namespace Gerardojbaez\Laraplans\Models;
 
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriptionUsageInterface;
+use Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionUsageFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterface
 {
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,52 +26,27 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
         'used'
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at', 'updated_at', 'valid_until',
+    protected $casts = [
+        'used' => 'integer',
+        'valid_until' => 'datetime',
     ];
 
-    /**
-     * Get feature.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function feature()
+    public function feature(): BelongsTo
     {
         return $this->belongsTo(config('laraplans.models.plan_feature'));
     }
 
-    /**
-     * Get subscription.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function subscription()
+    public function subscription(): BelongsTo
     {
         return $this->belongsTo(config('laraplans.models.plan_subscription'));
     }
 
-    /**
-     * Scope by feature code.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeByFeatureCode($query, $feature_code)
+    public function scopeByFeatureCode(Builder $query, string $feature_code): Builder
     {
         return $query->whereCode($feature_code);
     }
 
-    /**
-     * Check whether usage has been expired or not.
-     *
-     * @return bool
-     */
-    public function isExpired()
+    public function isExpired(): bool
     {
         if (is_null($this->valid_until)) {
             return false;
@@ -76,13 +55,8 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageInterf
         return Carbon::now()->gte($this->valid_until);
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
+    protected static function newFactory(): PlanSubscriptionUsageFactory
     {
-        return \Gerardojbaez\Laraplans\Database\Factories\PlanSubscriptionUsageFactory::new();
+        return PlanSubscriptionUsageFactory::new();
     }
 }

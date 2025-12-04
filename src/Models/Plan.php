@@ -3,14 +3,17 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Gerardojbaez\Laraplans\Contracts\PlanInterface;
+use Gerardojbaez\Laraplans\Database\Factories\PlanFactory;
 use Gerardojbaez\Laraplans\Exceptions\InvalidPlanFeatureException;
 use Gerardojbaez\Laraplans\Period;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plan extends Model implements PlanInterface
 {
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,60 +30,36 @@ class Plan extends Model implements PlanInterface
     ];
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at', 'updated_at'
-    ];
-
-    /**
      * Boot function for using with User Events.
      *
      * @return void
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
         static::saving(function ($model) {
-            if (! $model->interval) {
+            if (!$model->interval) {
                 $model->interval = 'month';
             }
 
-            if (! $model->interval_count) {
+            if (!$model->interval_count) {
                 $model->interval_count = 1;
             }
         });
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
+    protected static function newFactory(): PlanFactory
     {
         return \Gerardojbaez\Laraplans\Database\Factories\PlanFactory::new();
     }
 
-    /**
-     * Get plan features.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function features()
+    public function features(): HasMany
     {
         return $this->hasMany(config('laraplans.models.plan_feature'));
     }
 
-    /**
-     * Get plan subscriptions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subscriptions()
+    public function subscriptions(): HasMany
     {
         return $this->hasMany(config('laraplans.models.plan_subscription'));
     }
@@ -103,25 +82,15 @@ class Plan extends Model implements PlanInterface
      */
     public function getIntervalDescriptionAttribute()
     {
-        return trans_choice('laraplans::messages.interval_description.'.$this->interval, $this->interval_count);
+        return trans_choice('laraplans::messages.interval_description.' . $this->interval, $this->interval_count);
     }
 
-    /**
-     * Check if plan is free.
-     *
-     * @return boolean
-     */
-    public function isFree()
+    public function isFree(): bool
     {
-        return ((float) $this->price <= 0.00);
+        return ((float)$this->price <= 0.00);
     }
 
-    /**
-     * Check if plan has trial.
-     *
-     * @return boolean
-     */
-    public function hasTrial()
+    public function hasTrial(): bool
     {
         return (is_numeric($this->trial_period_days) and $this->trial_period_days > 0);
     }
@@ -129,15 +98,13 @@ class Plan extends Model implements PlanInterface
     /**
      * Returns the demanded feature
      *
-     * @param String $code
+     * @param string $code
      * @return PlanFeature
      * @throws InvalidPlanFeatureException
      */
-    public function getFeatureByCode($code)
+    public function getFeatureByCode(string $code): PlanFeature
     {
-        $feature = $this->features()->getEager()->first(function($item) use ($code) {
-            return $item->code === $code;
-        });
+        $feature = $this->features()->getEager()->firstWhere('code', $code);
 
         if (is_null($feature)) {
             throw new InvalidPlanFeatureException($code);

@@ -3,9 +3,11 @@
 namespace Gerardojbaez\Laraplans\Models;
 
 use Gerardojbaez\Laraplans\Contracts\PlanFeatureInterface;
+use Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory;
 use Gerardojbaez\Laraplans\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PlanFeature extends Model implements PlanFeatureInterface
 {
@@ -23,35 +25,13 @@ class PlanFeature extends Model implements PlanFeatureInterface
         'sort_order'
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at', 'updated_at'
-    ];
-
-    /**
-     * Get feature usage.
-     *
-     * This will return all related
-     * subscriptions usages.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function usage()
+    public function usage(): HasMany
     {
         return $this->hasMany(config('laraplans.models.plan_subscription_usage'));
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
+    protected static function newFactory(): PlanFeatureFactory
     {
-        return \Gerardojbaez\Laraplans\Database\Factories\PlanFeatureFactory::new();
+        return PlanFeatureFactory::new();
     }
 }
