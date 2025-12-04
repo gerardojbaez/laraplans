@@ -8,7 +8,7 @@ use Gerardojbaez\Laraplans\Models\PlanFeature;
 use Gerardojbaez\Laraplans\Models\PlanSubscriptionUsage;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 
-class SubscriptionUsageMangerTest extends TestCase
+class SubscriptionUsageManagerTest extends TestCase
 {
     /**
      * Can subscription features usage.
