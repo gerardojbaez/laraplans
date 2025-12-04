@@ -1,7 +1,8 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Tests\Models;
+namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Gerardojbaez\Laraplans\Contracts\PlanSubscriberInterface;
 use Gerardojbaez\Laraplans\Traits\PlanSubscriber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,11 +32,9 @@ class User extends Authenticatable implements PlanSubscriberInterface
 
     /**
      * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    protected static function newFactory()
+    protected static function newFactory(): UserFactory
     {
-        return \Gerardojbaez\Laraplans\Database\Factories\UserFactory::new();
+        return UserFactory::new();
     }
 }

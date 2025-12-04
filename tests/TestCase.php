@@ -17,7 +17,7 @@ class TestCase extends TestBenchCase
         parent::setUp();
 
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../database/migrations'));
-        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../workbench/database/migrations'));
 
         // Run package migrations
         $this->artisan('migrate', [
@@ -39,7 +39,7 @@ class TestCase extends TestBenchCase
     protected function getEnvironmentSetUp($app): void
     {
         // Set the user model
-        $app['config']->set('auth.providers.users.model', '\Gerardojbaez\Laraplans\Tests\Models\User');
+        $app['config']->set('auth.providers.users.model', '\App\Models\User');
 
         // set up database configuration
         $app['config']->set('database.default', 'testbench');

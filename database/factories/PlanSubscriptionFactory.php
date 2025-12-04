@@ -2,9 +2,9 @@
 
 namespace Gerardojbaez\Laraplans\Database\Factories;
 
+use App\Models\User;
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Models\PlanSubscription;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlanSubscriptionFactory extends Factory

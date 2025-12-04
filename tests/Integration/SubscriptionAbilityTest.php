@@ -2,9 +2,9 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Integration;
 
+use App\Models\User;
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 
 class SubscriptionAbilityTest extends TestCase

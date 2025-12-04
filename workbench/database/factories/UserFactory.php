@@ -1,8 +1,8 @@
 <?php
 
-namespace Gerardojbaez\Laraplans\Database\Factories;
+namespace Database\Factories;
 
-use Gerardojbaez\Laraplans\Tests\Models\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

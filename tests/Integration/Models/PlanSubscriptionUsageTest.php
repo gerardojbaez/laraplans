@@ -2,10 +2,10 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Integration\Models;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 

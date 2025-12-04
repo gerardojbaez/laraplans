@@ -4,17 +4,16 @@
 
 namespace Gerardojbaez\Laraplans\Tests\Integration\Models;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Gerardojbaez\Laraplans\Events\SubscriptionCanceled;
 use Gerardojbaez\Laraplans\Events\SubscriptionCreated;
 use Gerardojbaez\Laraplans\Events\SubscriptionPlanChanged;
 use Gerardojbaez\Laraplans\Events\SubscriptionRenewed;
-use Gerardojbaez\Laraplans\Exceptions\InvalidIntervalException;
 use Gerardojbaez\Laraplans\Models\Plan;
 use Gerardojbaez\Laraplans\Models\PlanFeature;
 use Gerardojbaez\Laraplans\Models\PlanSubscription;
 use Gerardojbaez\Laraplans\Period;
-use Gerardojbaez\Laraplans\Tests\Models\User;
 use Gerardojbaez\Laraplans\Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
