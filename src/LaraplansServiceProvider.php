@@ -18,9 +18,9 @@ class LaraplansServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->loadTranslationsFrom(__DIR__.'/../src/lang', 'laraplans');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laraplans');
 
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations'),
@@ -31,7 +31,7 @@ class LaraplansServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../src/lang' => resource_path('lang/vendor/laraplans'),
+            __DIR__ . '/../src/lang' => resource_path('lang/vendor/laraplans'),
         ]);
     }
 
@@ -40,7 +40,7 @@ class LaraplansServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laraplans.php', 'laraplans');
 
@@ -60,15 +60,5 @@ class LaraplansServiceProvider extends ServiceProvider
             \Gerardojbaez\Laraplans\Events\SubscriptionSaving::class,
             \Gerardojbaez\Laraplans\Listeners\PlanSubscription\DispatchEventWhenPlanChanges::class
         );
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        //
     }
 }
